@@ -9,7 +9,16 @@ public class ApiUrlBuilderTest {
 
 	private static final String INSTANCE = "test";
 	private static final String MEMBER = "SOMEMEMBER";
-
+	
+	@Test
+	public void instanceUrlsAreInRestfulFormat() throws Exception {		
+		ApiUrlBuilder urlBuilder = new ApiUrlBuilder("http://api.local");
+		
+		final String url = urlBuilder.getInstanceUrl(INSTANCE);
+		
+		assertEquals("http://api.local/instances/test", url);
+	}
+	
 	@Test
 	public void canAppendFromDateToMemberAvailabilityUrl() throws Exception {		
 		ApiUrlBuilder urlBuilder = new ApiUrlBuilder("http://api.local");

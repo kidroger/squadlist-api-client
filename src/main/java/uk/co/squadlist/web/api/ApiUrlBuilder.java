@@ -39,7 +39,7 @@ public class ApiUrlBuilder {
 	}
 	
 	public String getInstanceUrl(String instance) {
-		return apiUrl + "/" + urlEncode(instance);
+		return getInstancesUrl() + "/" + urlEncode(instance);
 	}
 	
 	public String getSquadsUrl(String instance) {
