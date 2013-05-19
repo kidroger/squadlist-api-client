@@ -378,14 +378,16 @@ public class SquadlistApi {
 		}
 	}
 	
-	public Outing createOuting(String instance, String squad, LocalDateTime outingDate) {
+	public Outing createOuting(String instance, String squad, LocalDateTime outingDate, String notes) {
 		try {
 			final HttpPost post = new HttpPost(apiUrlBuilder.getOutingsUrl(instance));
 		
 			final List<NameValuePair> nameValuePairs = Lists.newArrayList();
 			nameValuePairs.add(new BasicNameValuePair("squad", squad));
 			nameValuePairs.add(new BasicNameValuePair("date", ISODateTimeFormat.dateTimeNoMillis().print(outingDate)));
-			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));			
+			nameValuePairs.add(new BasicNameValuePair("notes", notes));
+			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
 			
 		} catch (Exception e) {
