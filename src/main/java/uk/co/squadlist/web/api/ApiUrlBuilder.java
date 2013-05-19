@@ -35,7 +35,6 @@ public class ApiUrlBuilder {
 
 	public String getInstancesUrl() {
 		return apiUrl + "/instances";
-
 	}
 	
 	public String getInstanceUrl(String instance) {
@@ -43,7 +42,7 @@ public class ApiUrlBuilder {
 	}
 	
 	public String getSquadsUrl(String instance) {
-		return getInstancesUrl() + "/squads";
+		return getInstanceUrl(instance) + "/squads";
 	}
 	
 	public String getSquadUrl(String instance, String squadId) {
@@ -71,11 +70,11 @@ public class ApiUrlBuilder {
 	}
 	
 	public String getMembersUrl(String instance) {
-		return apiUrl + "/" +  urlEncode(instance) + "/members";
+		return getInstanceUrl(instance) + "/members";
 	}
 	
 	public String getMemberDetailsUrl(String instance, String memberId) {
-		return apiUrl + "/" +  urlEncode(instance) + "/members/" + urlEncode(memberId);
+		return getInstanceUrl(instance) + "/members/" + urlEncode(memberId);
 	}
 	
 	public String getOutingsUrl(String instance) {
@@ -91,7 +90,7 @@ public class ApiUrlBuilder {
 	}
 	
 	public String getAvailabilityOptionsUrl(String instance) {
-		return apiUrl + "/" +  urlEncode(instance) + "/availability/options";
+		return getInstanceUrl(instance) + "/availability/options";
 	}
 	
 	public String getAuthUrlFor(String instance, String username,String password){
