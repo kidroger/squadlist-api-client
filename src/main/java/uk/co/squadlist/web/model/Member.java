@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 
 public class Member {
 	
-	private String id, firstName, lastName, gender, dateOfBirth, emailAddress, contactNumber, rowingPoints, scullingPoints, registrationNumber;
+	private String id, firstName, lastName, gender, dateOfBirth, emailAddress, contactNumber, rowingPoints, scullingPoints, registrationNumber, password;
 	private int weight;
 	private List<Squad> squads;
 	
@@ -84,6 +84,14 @@ public class Member {
 	}
 	public void setSquads(List<Squad> squads) {
 		this.squads = squads;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public List<NameValuePair> toNameValuePairs() {
