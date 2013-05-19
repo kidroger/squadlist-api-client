@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,10 @@ public class RequestBuilder {
 		nameValuePairs.add(new BasicNameValuePair("name", name));
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		return post;
+	}
+	
+	public HttpDelete buildDeleteInstanceRequest(String id) {
+		return new HttpDelete(apiUrlBuilder.getInstanceUrl(id));
 	}
 	
 	public HttpPost buildUpdateMemberRequest(String instance, Member member) throws UnsupportedEncodingException {

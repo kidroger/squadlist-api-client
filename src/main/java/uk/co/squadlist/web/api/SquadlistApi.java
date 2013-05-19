@@ -11,10 +11,12 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -43,7 +45,7 @@ import com.google.common.collect.Lists;
 public class SquadlistApi {
 
 	@Value("#{squadlist['instance']}")
-	public static String INSTANCE = "demoinstance";
+	public String instance;
 	
 	private static Logger log = Logger.getLogger(SquadlistApi.class);
 		
@@ -85,6 +87,27 @@ public class SquadlistApi {
 			
 		} catch (HttpBadRequestException e) {
 			throw new InvalidInstanceException();
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}		
+	}
+	
+	public void deleteInstance(String id) throws InvalidInstanceException {
+		try {
+			final HttpDelete delete = requestBuilder.buildDeleteInstanceRequest(id);
+
+			final HttpClient client = new DefaultHttpClient();			
+			HttpResponse response = client.execute(delete);
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				log.info("Delete returned http ok");
+				EntityUtils.consume(response.getEntity());
+				return;
+			}
+			
+			log.error(response.getStatusLine());
+			log.error(EntityUtils.toString(response.getEntity()));			
+			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);

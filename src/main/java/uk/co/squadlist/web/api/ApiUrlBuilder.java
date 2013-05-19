@@ -38,8 +38,12 @@ public class ApiUrlBuilder {
 
 	}
 	
+	public String getInstanceUrl(String instance) {
+		return apiUrl + "/" + urlEncode(instance);
+	}
+	
 	public String getSquadsUrl(String instance) {
-		return apiUrl + "/" + instance + "/squads";
+		return getInstancesUrl() + "/squads";
 	}
 	
 	public String getSquadUrl(String instance, String squadId) {
@@ -75,7 +79,7 @@ public class ApiUrlBuilder {
 	}
 	
 	public String getOutingsUrl(String instance) {
-		return apiUrl + "/" + urlEncode(instance) + "/outings";
+		return getInstanceUrl(instance) + "/outings";
 	}
 	
 	public String getOutingUrl(String instance, String outingId) {
@@ -91,7 +95,7 @@ public class ApiUrlBuilder {
 	}
 	
 	public String getAuthUrlFor(String instance, String username,String password){
-		return apiUrl + "/" + urlEncode(instance) + "/auth?username=" + urlEncode(username) + "&password=" + urlEncode(password);
+		return getInstanceUrl(instance) + "/auth?username=" + urlEncode(username) + "&password=" + urlEncode(password);
 	}
 
 	private void appendDates(final StringBuilder url, Date fromDate, Date toDate) {
