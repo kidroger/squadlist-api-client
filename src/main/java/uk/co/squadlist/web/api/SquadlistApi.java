@@ -89,6 +89,17 @@ public class SquadlistApi {
 		}		
 	}
 	
+	public Instance getInstance(String id) {
+		try {
+			final String json = httpFetcher.get(apiUrlBuilder.getInstanceUrl(id));
+			return jsonDeserializer.deserializeInstanceDetails(json);
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public void deleteInstance(String id) throws InvalidInstanceException {
 		try {
 			final HttpDelete delete = requestBuilder.buildDeleteInstanceRequest(id);
