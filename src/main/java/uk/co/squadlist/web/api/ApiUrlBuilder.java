@@ -96,7 +96,11 @@ public class ApiUrlBuilder {
 	public String getAuthUrlFor(String instance, String username,String password){
 		return getInstanceUrl(instance) + "/auth?username=" + urlEncode(username) + "&password=" + urlEncode(password);
 	}
-
+	
+	public String getResetPasswordUrl(String instance) {
+		return getInstanceUrl(instance) + "/reset-password";
+	}
+	
 	private void appendDates(final StringBuilder url, Date fromDate, Date toDate) {
 		String joiner = "?";
 		if (fromDate != null) {

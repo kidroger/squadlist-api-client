@@ -35,6 +35,15 @@ public class RequestBuilder {
 		return post;
 	}
 	
+	public HttpPost buildResetPasswordRequest(String instance, String username) throws UnsupportedEncodingException {
+		final HttpPost post = new HttpPost(apiUrlBuilder.getResetPasswordUrl(instance));
+		
+		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
+		nameValuePairs.add(new BasicNameValuePair("username", username));
+		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		return post;
+	}
+	
 	public HttpDelete buildDeleteInstanceRequest(String id) {
 		return new HttpDelete(apiUrlBuilder.getInstanceUrl(id));
 	}
@@ -44,5 +53,5 @@ public class RequestBuilder {
 		post.setEntity(new UrlEncodedFormEntity(member.toNameValuePairs()));
 		return post;
 	}
-
+	
 }

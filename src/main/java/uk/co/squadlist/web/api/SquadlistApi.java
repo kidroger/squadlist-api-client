@@ -89,6 +89,15 @@ public class SquadlistApi {
 		}		
 	}
 	
+	public void resetPassword(String instance, String username) {
+		try {
+			httpFetcher.post(requestBuilder.buildResetPasswordRequest(instance, username));
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public Instance getInstance(String id) {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getInstanceUrl(id));
