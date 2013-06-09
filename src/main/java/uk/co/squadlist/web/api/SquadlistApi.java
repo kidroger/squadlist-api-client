@@ -22,11 +22,13 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.ISODateTimeFormat;
+import org.omg.CORBA.UnknownUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import uk.co.eelpieconsulting.common.http.HttpBadRequestException;
 import uk.co.eelpieconsulting.common.http.HttpFetchException;
+import uk.co.eelpieconsulting.common.http.HttpNotFoundException;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 import uk.co.squadlist.web.exceptions.InvalidSquadException;
 import uk.co.squadlist.web.exceptions.UnknownOutingException;
@@ -38,6 +40,7 @@ import uk.co.squadlist.web.model.OutingAvailability;
 import uk.co.squadlist.web.model.OutingWithSquadAvailability;
 import uk.co.squadlist.web.model.Squad;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 @Service("squadlistApi")
@@ -89,9 +92,12 @@ public class SquadlistApi {
 		}		
 	}
 	
-	public void resetPassword(String instance, String username) {
+	public void resetPassword(String instance, String username) throws UnknownUserException {
 		try {
 			httpFetcher.post(requestBuilder.buildResetPasswordRequest(instance, username));
+			
+		} catch (HttpNotFoundException e) {
+			throw new UnknownUserException();			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -335,7 +341,7 @@ public class SquadlistApi {
 		}		
 	}
 	
-	public Member createMember(String instance, String firstName, String lastName, Squad squad) {
+	public Member createMember(String instance, String firstName, String lastName, Squad squad, String email) {
 		try {
 			final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
 		
@@ -343,6 +349,7 @@ public class SquadlistApi {
 			nameValuePairs.add(new BasicNameValuePair("firstName", firstName));
 			nameValuePairs.add(new BasicNameValuePair("lastName", lastName));
 			nameValuePairs.add(new BasicNameValuePair("squad", squad != null ? squad.getId() : null));
+			nameValuePairs.add(new BasicNameValuePair("email", !Strings.isNullOrEmpty(email) ? email : null));
 			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));		
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
 			
