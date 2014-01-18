@@ -92,6 +92,17 @@ public class SquadlistApi {
 		}		
 	}
 	
+	public Instance updateInstance(Instance instance) {
+		try {
+			final HttpPost post = requestBuilder.buildUpdateInstanceRequest(instance);		
+			return jsonDeserializer.deserializeInstanceDetails(httpFetcher.post(post));
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}		
+	}
+	
 	public void resetPassword(String instance, String username) throws UnknownUserException {
 		try {
 			httpFetcher.post(requestBuilder.buildResetPasswordRequest(instance, username));
@@ -349,7 +360,7 @@ public class SquadlistApi {
 			nameValuePairs.add(new BasicNameValuePair("firstName", firstName));
 			nameValuePairs.add(new BasicNameValuePair("lastName", lastName));
 			nameValuePairs.add(new BasicNameValuePair("squad", squad != null ? squad.getId() : null));
-			nameValuePairs.add(new BasicNameValuePair("email", !Strings.isNullOrEmpty(email) ? email : null));
+			nameValuePairs.add(new BasicNameValuePair("emailAddress", !Strings.isNullOrEmpty(email) ? email : null));
 			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));		
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
 			

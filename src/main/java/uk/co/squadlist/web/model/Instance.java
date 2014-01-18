@@ -1,9 +1,21 @@
 package uk.co.squadlist.web.model;
 
+import java.util.Date;
+
 public class Instance {
 	
 	private String id;
 	private String name;
+	private Date lastUsed;
+	
+	public Instance() {
+	}
+	
+	public Instance(String id, String name, Date lastUsed) {
+		this.id = id;
+		this.name = name;
+		this.lastUsed = lastUsed;
+	}
 	
 	public String getId() {
 		return id;
@@ -17,10 +29,19 @@ public class Instance {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	public Date getLastUsed() {
+		return lastUsed;
+	}
+
+	public void setLastUsed(Date lastUsed) {
+		this.lastUsed = lastUsed;
+	}
+
 	@Override
 	public String toString() {
-		return "Instance [id=" + id + ", name=" + name + "]";
+		return "Instance [id=" + id + ", lastUsed=" + lastUsed + ", name="
+				+ name + "]";
 	}
 	
 }
