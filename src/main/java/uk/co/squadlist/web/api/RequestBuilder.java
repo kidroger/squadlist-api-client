@@ -34,8 +34,8 @@ public class RequestBuilder {
 	}
 	
 	public HttpPost buildCreateInstanceRequest(String id, String name) throws JsonGenerationException, JsonMappingException, IOException {
-		final HttpPost post = new HttpPost(apiUrlBuilder.getInstancesUrl());
 		HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(new Instance(id, name, DateTime.now().toDate())));
+		final HttpPost post = new HttpPost(apiUrlBuilder.getInstancesUrl());
 		post.setEntity(entity);
 		return post;
 	}
