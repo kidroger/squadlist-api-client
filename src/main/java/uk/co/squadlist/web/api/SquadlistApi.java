@@ -95,8 +95,8 @@ public class SquadlistApi {
 	
 	public Instance updateInstance(Instance instance) {
 		try {
-			final HttpPost post = requestBuilder.buildUpdateInstanceRequest(instance);		
-			return jsonDeserializer.deserializeInstanceDetails(httpFetcher.post(post));
+			final HttpPut put = requestBuilder.buildUpdateInstanceRequest(instance);		
+			return jsonDeserializer.deserializeInstanceDetails(httpFetcher.put(put));
 			
 		} catch (Exception e) {
 			log.error(e);

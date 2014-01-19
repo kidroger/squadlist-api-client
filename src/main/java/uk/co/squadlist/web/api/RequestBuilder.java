@@ -9,6 +9,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.codehaus.jackson.JsonGenerationException;
@@ -40,11 +41,11 @@ public class RequestBuilder {
 		return post;
 	}
 	
-	public HttpPost buildUpdateInstanceRequest(Instance instance) throws JsonGenerationException, JsonMappingException, IOException {
-		final HttpPost post = new HttpPost(apiUrlBuilder.getInstancesUrl() + "/" + instance.getId());
+	public HttpPut buildUpdateInstanceRequest(Instance instance) throws JsonGenerationException, JsonMappingException, IOException {
+		final HttpPut put = new HttpPut(apiUrlBuilder.getInstancesUrl() + "/" + instance.getId());
 		HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(instance));
-		post.setEntity(entity);
-		return post;
+		put.setEntity(entity);
+		return put;
 	}
 	
 	public HttpPost buildResetPasswordRequest(String instance, String username) throws UnsupportedEncodingException {
