@@ -13,6 +13,20 @@ public class Member {
 	private int weight;
 	private List<Squad> squads;
 	
+	public Member() {
+	}
+	
+	public Member(String firstName, String lastName, Squad squad, String emailAddress, String password) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.emailAddress = emailAddress;
+		this.password = password;
+		this.squads = Lists.newArrayList();
+		if (squad != null) {
+			squads.add(squad);
+		}
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -85,15 +99,14 @@ public class Member {
 	public void setSquads(List<Squad> squads) {
 		this.squads = squads;
 	}
-	
 	public String getPassword() {
 		return password;
-	}
-	
+	}	
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	
+	@Deprecated	// TODO should be a RESTful POST
 	public List<NameValuePair> toNameValuePairs() {
 		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
 		nameValuePairs.add(new BasicNameValuePair("firstName", this.getFirstName()));
@@ -104,6 +117,8 @@ public class Member {
 		nameValuePairs.add(new BasicNameValuePair("registrationNumber", this.getRegistrationNumber()));
 		nameValuePairs.add(new BasicNameValuePair("rowingPoints", this.getRowingPoints()));
 		nameValuePairs.add(new BasicNameValuePair("scullingPoints", this.getScullingPoints()));
+		nameValuePairs.add(new BasicNameValuePair("scullingPoints", this.getScullingPoints()));
+
 		return nameValuePairs;
 	}
 	

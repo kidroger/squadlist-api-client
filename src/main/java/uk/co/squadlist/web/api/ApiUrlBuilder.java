@@ -93,7 +93,7 @@ public class ApiUrlBuilder {
 		return getInstanceUrl(instance) + "/availability/options";
 	}
 	
-	public String getAuthUrlFor(String instance, String username,String password){
+	public String getAuthUrlFor(String instance, String username, String password){
 		return getInstanceUrl(instance) + "/auth?username=" + urlEncode(username) + "&password=" + urlEncode(password);
 	}
 	

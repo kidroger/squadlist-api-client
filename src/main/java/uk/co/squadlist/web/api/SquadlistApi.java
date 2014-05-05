@@ -41,7 +41,6 @@ import uk.co.squadlist.web.model.OutingAvailability;
 import uk.co.squadlist.web.model.OutingWithSquadAvailability;
 import uk.co.squadlist.web.model.Squad;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 @Service("squadlistApi")
@@ -104,18 +103,6 @@ public class SquadlistApi {
 		}		
 	}
 	
-	public void resetPassword(String instance, String username) throws UnknownUserException {
-		try {
-			httpFetcher.post(requestBuilder.buildResetPasswordRequest(instance, username));
-			
-		} catch (HttpNotFoundException e) {
-			throw new UnknownUserException();			
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
-	
 	public Instance getInstance(String id) {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getInstanceUrl(id));
@@ -150,7 +137,7 @@ public class SquadlistApi {
 	
 	public boolean auth(String instance, String username, String password) {
 		try {
-			final HttpClient client = new DefaultHttpClient();
+			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
 			final HttpGet get = new HttpGet(apiUrlBuilder.getAuthUrlFor(instance, username, password)); 	// TODO should be a post
 			final HttpResponse execute = client.execute(get);
 			
@@ -158,6 +145,18 @@ public class SquadlistApi {
 			log.info("Auth attempt status code was: " + statusCode);
 			return statusCode == HttpStatus.SC_OK;
 			
+		} catch (Exception e) {
+			log.error("Error while attempting to make auth call", e);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void resetPassword(String instance, String username) throws UnknownUserException {
+		try {
+			httpFetcher.post(requestBuilder.buildResetPasswordRequest(instance, username));
+			
+		} catch (HttpNotFoundException e) {
+			throw new UnknownUserException();			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -353,16 +352,9 @@ public class SquadlistApi {
 		}		
 	}
 	
-	public Member createMember(String instance, String firstName, String lastName, Squad squad, String email) {
+	public Member createMember(String instance, String firstName, String lastName, Squad squad, String email, String password) {
 		try {
-			final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
-		
-			final List<NameValuePair> nameValuePairs = Lists.newArrayList();
-			nameValuePairs.add(new BasicNameValuePair("firstName", firstName));
-			nameValuePairs.add(new BasicNameValuePair("lastName", lastName));
-			nameValuePairs.add(new BasicNameValuePair("squad", squad != null ? squad.getId() : null));
-			nameValuePairs.add(new BasicNameValuePair("emailAddress", !Strings.isNullOrEmpty(email) ? email : null));
-			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));		
+			final HttpPost post = requestBuilder.buildCreateMemberRequest(instance, firstName, lastName, squad, email, password);
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
 			
 		} catch (Exception e) {

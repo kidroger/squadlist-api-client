@@ -21,17 +21,21 @@ import org.springframework.stereotype.Component;
 
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
+import uk.co.squadlist.web.model.Squad;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 @Component
 public class RequestBuilder {
 
 	private final ApiUrlBuilder apiUrlBuilder;
+	private final ObjectMapper objectMapper;
 
 	@Autowired
 	public RequestBuilder(ApiUrlBuilder apiUrlBuilder) {
 		this.apiUrlBuilder = apiUrlBuilder;
+		this.objectMapper = new ObjectMapper();
 	}
 	
 	public HttpPost buildCreateInstanceRequest(String id, String name) throws JsonGenerationException, JsonMappingException, IOException {
@@ -43,9 +47,16 @@ public class RequestBuilder {
 	
 	public HttpPut buildUpdateInstanceRequest(Instance instance) throws JsonGenerationException, JsonMappingException, IOException {
 		final HttpPut put = new HttpPut(apiUrlBuilder.getInstancesUrl() + "/" + instance.getId());
-		HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(instance));
+		HttpEntity entity = new ByteArrayEntity(objectMapper.writeValueAsBytes(instance));
 		put.setEntity(entity);
 		return put;
+	}
+	
+	public HttpPost buildCreateMemberRequest(String instance, String firstName, String lastName, Squad squad, String email, String password) throws JsonGenerationException, JsonMappingException, IOException {
+		HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(new Member(firstName, lastName, squad, email, password)));
+		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
+		post.setEntity(entity);
+		return post;
 	}
 	
 	public HttpPost buildResetPasswordRequest(String instance, String username) throws UnsupportedEncodingException {
