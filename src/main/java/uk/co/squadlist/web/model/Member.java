@@ -106,22 +106,6 @@ public class Member {
 		this.password = password;
 	}
 	
-	@Deprecated	// TODO should be a RESTful POST
-	public List<NameValuePair> toNameValuePairs() {
-		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
-		nameValuePairs.add(new BasicNameValuePair("firstName", this.getFirstName()));
-		nameValuePairs.add(new BasicNameValuePair("lastName", this.getLastName()));
-		nameValuePairs.add(new BasicNameValuePair("emailAddress", this.getEmailAddress()));
-		nameValuePairs.add(new BasicNameValuePair("contactNumber", this.getContactNumber()));
-		nameValuePairs.add(new BasicNameValuePair("weight", Integer.toString(this.getWeight())));
-		nameValuePairs.add(new BasicNameValuePair("registrationNumber", this.getRegistrationNumber()));
-		nameValuePairs.add(new BasicNameValuePair("rowingPoints", this.getRowingPoints()));
-		nameValuePairs.add(new BasicNameValuePair("scullingPoints", this.getScullingPoints()));
-		nameValuePairs.add(new BasicNameValuePair("scullingPoints", this.getScullingPoints()));
-
-		return nameValuePairs;
-	}
-	
 	@Override
 	public String toString() {
 		return "Member [contactNumber=" + contactNumber + ", dateOfBirth="

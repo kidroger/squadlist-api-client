@@ -23,7 +23,6 @@ import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
 import uk.co.squadlist.web.model.Squad;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 @Component
@@ -53,8 +52,15 @@ public class RequestBuilder {
 	}
 	
 	public HttpPost buildCreateMemberRequest(String instance, String firstName, String lastName, Squad squad, String email, String password) throws JsonGenerationException, JsonMappingException, IOException {
-		HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(new Member(firstName, lastName, squad, email, password)));
+		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(new Member(firstName, lastName, squad, email, password)));
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
+		post.setEntity(entity);
+		return post;
+	}
+	
+	public HttpPost buildUpdateMemberRequest(String instance, Member member) throws JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(member));		
+		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()));
 		post.setEntity(entity);
 		return post;
 	}
@@ -70,12 +76,6 @@ public class RequestBuilder {
 	
 	public HttpDelete buildDeleteInstanceRequest(String id) {
 		return new HttpDelete(apiUrlBuilder.getInstanceUrl(id));
-	}
-	
-	public HttpPost buildUpdateMemberRequest(String instance, Member member) throws UnsupportedEncodingException {
-		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()));
-		post.setEntity(new UrlEncodedFormEntity(member.toNameValuePairs()));
-		return post;
 	}
 	
 }
