@@ -30,9 +30,10 @@ import uk.co.eelpieconsulting.common.http.HttpBadRequestException;
 import uk.co.eelpieconsulting.common.http.HttpFetchException;
 import uk.co.eelpieconsulting.common.http.HttpNotFoundException;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
+import uk.co.squadlist.web.exceptions.InvalidMemberException;
 import uk.co.squadlist.web.exceptions.InvalidSquadException;
 import uk.co.squadlist.web.exceptions.UnknownOutingException;
-import uk.co.squadlist.web.exceptions.UnknownUserException;
+import uk.co.squadlist.web.exceptions.UnknownMemberException;
 import uk.co.squadlist.web.model.AvailabilityOption;
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
@@ -151,12 +152,12 @@ public class SquadlistApi {
 		}
 	}
 	
-	public void resetPassword(String instance, String username) throws UnknownUserException {
+	public void resetPassword(String instance, String username) throws UnknownMemberException {
 		try {
 			httpFetcher.post(requestBuilder.buildResetPasswordRequest(instance, username));
 			
 		} catch (HttpNotFoundException e) {
-			throw new UnknownUserException();			
+			throw new UnknownMemberException();			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -352,11 +353,13 @@ public class SquadlistApi {
 		}		
 	}
 	
-	public Member createMember(String instance, String firstName, String lastName, Squad squad, String email, String password) {
+	public Member createMember(String instance, String firstName, String lastName, Squad squad, String email, String password) throws InvalidMemberException {
 		try {
 			final HttpPost post = requestBuilder.buildCreateMemberRequest(instance, firstName, lastName, squad, email, password);
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
 			
+		} catch (HttpBadRequestException e) {
+			throw new InvalidMemberException();			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
