@@ -23,7 +23,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.ISODateTimeFormat;
-import org.omg.CORBA.UnknownUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +32,7 @@ import uk.co.eelpieconsulting.common.http.HttpNotFoundException;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 import uk.co.squadlist.web.exceptions.InvalidSquadException;
 import uk.co.squadlist.web.exceptions.UnknownOutingException;
+import uk.co.squadlist.web.exceptions.UnknownUserException;
 import uk.co.squadlist.web.model.AvailabilityOption;
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
@@ -46,7 +46,7 @@ import com.google.common.collect.Lists;
 @Service("squadlistApi")
 public class SquadlistApi {
 	
-	private static Logger log = Logger.getLogger(SquadlistApi.class);
+	private final static Logger log = Logger.getLogger(SquadlistApi.class);
 		
 	private final ApiUrlBuilder apiUrlBuilder;
 	private final RequestBuilder requestBuilder;
