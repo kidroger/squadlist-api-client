@@ -2,14 +2,11 @@ package uk.co.squadlist.web.model;
 
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import com.google.common.collect.Lists;
 
 public class Member {
 	
-	private String id, firstName, lastName, gender, dateOfBirth, emailAddress, contactNumber, rowingPoints, scullingPoints, registrationNumber, password;
+	private String id, username, firstName, lastName, gender, dateOfBirth, emailAddress, contactNumber, rowingPoints, scullingPoints, registrationNumber, password;
 	private int weight;
 	private List<Squad> squads;
 	
@@ -32,6 +29,12 @@ public class Member {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -105,16 +108,17 @@ public class Member {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Member [contactNumber=" + contactNumber + ", dateOfBirth="
 				+ dateOfBirth + ", emailAddress=" + emailAddress
 				+ ", firstName=" + firstName + ", gender=" + gender + ", id="
-				+ id + ", lastName=" + lastName + ", registrationNumber="
-				+ registrationNumber + ", rowingPoints=" + rowingPoints
-				+ ", scullingPoints=" + scullingPoints + ", squads=" + squads
-				+ ", weight=" + weight + "]";
+				+ id + ", lastName=" + lastName + ", password=" + password
+				+ ", registrationNumber=" + registrationNumber
+				+ ", rowingPoints=" + rowingPoints + ", scullingPoints="
+				+ scullingPoints + ", squads=" + squads + ", username="
+				+ username + ", weight=" + weight + "]";
 	}
 	
 }
