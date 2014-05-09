@@ -1,6 +1,7 @@
 package uk.co.squadlist.web.api;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -32,8 +32,8 @@ import uk.co.eelpieconsulting.common.http.HttpNotFoundException;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 import uk.co.squadlist.web.exceptions.InvalidMemberException;
 import uk.co.squadlist.web.exceptions.InvalidSquadException;
-import uk.co.squadlist.web.exceptions.UnknownOutingException;
 import uk.co.squadlist.web.exceptions.UnknownMemberException;
+import uk.co.squadlist.web.exceptions.UnknownOutingException;
 import uk.co.squadlist.web.model.AvailabilityOption;
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
@@ -44,7 +44,7 @@ import uk.co.squadlist.web.model.Squad;
 
 import com.google.common.collect.Lists;
 
-@Service("squadlistApi")
+@Service("squadlistApi")	// TODO shouldn't be Spring dependant
 public class SquadlistApi {
 	
 	private final static Logger log = Logger.getLogger(SquadlistApi.class);
@@ -136,20 +136,33 @@ public class SquadlistApi {
 		}		
 	}
 	
-	public boolean auth(String instance, String username, String password) {
+	public Member auth(String instance, String username, String password) {
 		try {
 			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
-			final HttpGet get = new HttpGet(apiUrlBuilder.getAuthUrlFor(instance, username, password)); 	// TODO should be a post
-			final HttpResponse execute = client.execute(get);
+			final HttpPost post = buildAuthPost(instance, username, password);
 			
-			final int statusCode = execute.getStatusLine().getStatusCode();
+			final HttpResponse response = client.execute(post);			
+			final int statusCode = response.getStatusLine().getStatusCode();
 			log.info("Auth attempt status code was: " + statusCode);
-			return statusCode == HttpStatus.SC_OK;
+			if (statusCode == HttpStatus.SC_OK) {				
+				return jsonDeserializer.deserializeMemberDetails(EntityUtils.toString(response.getEntity()));
+			}
+			return null;
 			
 		} catch (Exception e) {
 			log.error("Error while attempting to make auth call", e);
 			throw new RuntimeException(e);
 		}
+	}
+
+	private HttpPost buildAuthPost(String instance, String username,
+			String password) throws UnsupportedEncodingException {
+		final HttpPost post = new HttpPost(apiUrlBuilder.getAuthUrlFor(instance));			
+		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
+		nameValuePairs.add(new BasicNameValuePair("username", username));
+		nameValuePairs.add(new BasicNameValuePair("password", password));
+		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		return post;
 	}
 	
 	public void resetPassword(String instance, String username) throws UnknownMemberException {
@@ -345,6 +358,7 @@ public class SquadlistApi {
 			nameValuePairs.add(new BasicNameValuePair("member", memberId));
 			nameValuePairs.add(new BasicNameValuePair("availability", availability));
 			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			
 			return jsonDeserializer.deserializeOutingAvailability(httpFetcher.post(post));
 			
 		} catch (Exception e) {
