@@ -31,6 +31,7 @@ import uk.co.eelpieconsulting.common.http.HttpFetchException;
 import uk.co.eelpieconsulting.common.http.HttpNotFoundException;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 import uk.co.squadlist.web.exceptions.InvalidMemberException;
+import uk.co.squadlist.web.exceptions.InvalidOutingException;
 import uk.co.squadlist.web.exceptions.InvalidSquadException;
 import uk.co.squadlist.web.exceptions.UnknownMemberException;
 import uk.co.squadlist.web.exceptions.UnknownOutingException;
@@ -425,7 +426,7 @@ public class SquadlistApi {
 		}
 	}
 	
-	public Outing createOuting(String instance, String squad, LocalDateTime outingDate, String notes) {
+	public Outing createOuting(String instance, String squad, LocalDateTime outingDate, String notes) throws InvalidOutingException {
 		try {
 			final HttpPost post = new HttpPost(apiUrlBuilder.getOutingsUrl(instance));
 		
@@ -436,6 +437,9 @@ public class SquadlistApi {
 			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
+						
+		} catch (HttpBadRequestException e) {
+			throw new InvalidOutingException();
 			
 		} catch (Exception e) {
 			log.error(e);
