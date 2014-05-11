@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -23,10 +24,11 @@ import uk.co.squadlist.web.model.Squad;
 @Component
 public class JsonDeserializer {
 
-	private ObjectMapper mapper;
+	private final ObjectMapper mapper;
 	
 	public JsonDeserializer() {
 		mapper = new ObjectMapper();
+		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	}
 	
 	@SuppressWarnings("unchecked")
