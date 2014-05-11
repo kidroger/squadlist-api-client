@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 public class Member {
 	
 	private String id, username, firstName, lastName, gender, emailAddress, contactNumber, rowingPoints, scullingPoints, registrationNumber, password;
-	private int weight;
+	private Integer weight;
 	private List<Squad> squads;
 	private Date dateOfBirth;
 	
@@ -94,7 +94,7 @@ public class Member {
 	public void setRegistrationNumber(String registrationNumber) {
 		this.registrationNumber = registrationNumber;
 	}
-	public int getWeight() {
+	public Integer getWeight() {
 		return weight;
 	}
 	public void setWeight(int weight) {
