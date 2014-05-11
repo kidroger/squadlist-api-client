@@ -2,6 +2,7 @@ package uk.co.squadlist.web.api;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -51,8 +52,8 @@ public class RequestBuilder {
 		return put;
 	}
 	
-	public HttpPost buildCreateMemberRequest(String instance, String firstName, String lastName, Squad squad, String email, String password) throws JsonGenerationException, JsonMappingException, IOException {
-		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(new Member(firstName, lastName, squad, email, password)));
+	public HttpPost buildCreateMemberRequest(String instance, String firstName, String lastName, Squad squad, String email, String password, Date dateOfBirth) throws JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(new Member(firstName, lastName, squad, email, password, dateOfBirth)));
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
 		post.setEntity(entity);
 		return post;

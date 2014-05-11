@@ -1,23 +1,27 @@
 package uk.co.squadlist.web.model;
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
 public class Member {
 	
-	private String id, username, firstName, lastName, gender, dateOfBirth, emailAddress, contactNumber, rowingPoints, scullingPoints, registrationNumber, password;
+	private String id, username, firstName, lastName, gender, emailAddress, contactNumber, rowingPoints, scullingPoints, registrationNumber, password;
 	private int weight;
 	private List<Squad> squads;
+	private Date dateOfBirth;
 	
 	public Member() {
 	}
 	
-	public Member(String firstName, String lastName, Squad squad, String emailAddress, String password) {
+	public Member(String firstName, String lastName, Squad squad, String emailAddress, String password, Date dateOfBirth) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAddress = emailAddress;
 		this.password = password;
+		this.dateOfBirth = dateOfBirth;
+		
 		this.squads = Lists.newArrayList();
 		if (squad != null) {
 			squads.add(squad);
@@ -54,10 +58,10 @@ public class Member {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getDateOfBirth() {
+	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
-	public void setDateOfBirth(String dateOfBirth) {
+	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 	public String getEmailAddress() {
