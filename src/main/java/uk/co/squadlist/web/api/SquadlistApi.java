@@ -34,6 +34,7 @@ import uk.co.squadlist.web.exceptions.InvalidMemberException;
 import uk.co.squadlist.web.exceptions.InvalidSquadException;
 import uk.co.squadlist.web.exceptions.UnknownMemberException;
 import uk.co.squadlist.web.exceptions.UnknownOutingException;
+import uk.co.squadlist.web.exceptions.UnknownSquadException;
 import uk.co.squadlist.web.model.AvailabilityOption;
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
@@ -80,9 +81,9 @@ public class SquadlistApi {
 		}
 	}
 	
-	public Instance createInstance(String id, String name) throws InvalidInstanceException {
+	public Instance createInstance(String id, String name, String timeZone) throws InvalidInstanceException {
 		try {
-			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name);		
+			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name, timeZone);		
 			return jsonDeserializer.deserializeInstanceDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {
@@ -170,7 +171,8 @@ public class SquadlistApi {
 			httpFetcher.post(requestBuilder.buildResetPasswordRequest(instance, username));
 			
 		} catch (HttpNotFoundException e) {
-			throw new UnknownMemberException();			
+			throw new UnknownMemberException();
+			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -247,21 +249,13 @@ public class SquadlistApi {
 		}	
 	}
 		
-	public Map<String, String> getOutingAvailability(String instance, String outingId) {
+	public Map<String, String> getOutingAvailability(String instance, String outingId) throws UnknownOutingException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getOutingAvailabilityUrl(instance, outingId));
 			return jsonDeserializer.deserializeListOfOutingAvailabilityMap(json);
 
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
-	
-	public Member getMemberDetails(String instance, String memberId) {
-		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getMemberDetailsUrl(instance, memberId));
-			return jsonDeserializer.deserializeMemberDetails(json);
+		} catch (HttpNotFoundException e) {
+			throw new UnknownOutingException();
 			
 		} catch (Exception e) {
 			log.error(e);
@@ -269,11 +263,28 @@ public class SquadlistApi {
 		}
 	}
 	
-	public Squad getSquad(String instance, String squadId) {
+	public Member getMemberDetails(String instance, String memberId) throws UnknownMemberException {
+		try {
+			final String json = httpFetcher.get(apiUrlBuilder.getMemberDetailsUrl(instance, memberId));
+			return jsonDeserializer.deserializeMemberDetails(json);
+			
+		} catch (HttpNotFoundException e) {
+			throw new UnknownMemberException();
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public Squad getSquad(String instance, String squadId) throws UnknownSquadException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getSquadUrl(instance, squadId));
 			return jsonDeserializer.deserializeSquad(json);
 
+		} catch (HttpNotFoundException e) {
+			throw new UnknownSquadException();
+			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -291,14 +302,13 @@ public class SquadlistApi {
 		}
 	}
 	
-	public Outing getOuting(String instance, String outingId) {
+	public Outing getOuting(String instance, String outingId) throws UnknownOutingException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getOutingUrl(instance, outingId));
-			final Outing outing = jsonDeserializer.deserializeOuting(json);
-			if (outing == null) {
-				throw new UnknownOutingException();
-			}
-			return outing;	
+			return jsonDeserializer.deserializeOuting(json);
+						
+		} catch (HttpNotFoundException e) {
+			throw new UnknownOutingException();
 			
 		} catch (Exception e) {
 			log.error(e);
