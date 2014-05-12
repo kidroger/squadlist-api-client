@@ -157,8 +157,7 @@ public class SquadlistApi {
 		}
 	}
 
-	private HttpPost buildAuthPost(String instance, String username,
-			String password) throws UnsupportedEncodingException {
+	private HttpPost buildAuthPost(String instance, String username, String password) throws UnsupportedEncodingException {
 		final HttpPost post = new HttpPost(apiUrlBuilder.getAuthUrlFor(instance));			
 		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
 		nameValuePairs.add(new BasicNameValuePair("username", username));
@@ -173,6 +172,17 @@ public class SquadlistApi {
 			
 		} catch (HttpNotFoundException e) {
 			throw new UnknownMemberException();
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public String confirmResetPassword(String instance, String token) {
+		try {
+			return jsonDeserializer.deserializeString(httpFetcher.post(requestBuilder.buildConfirmPasswordRequest(instance, token)));
+			// TODO catch invalid token
 			
 		} catch (Exception e) {
 			log.error(e);

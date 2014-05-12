@@ -116,5 +116,9 @@ public class JsonDeserializer {
 	public List<AvailabilityOption> deserializeAvailabilityOptions(String json) throws JsonParseException, JsonMappingException, IOException {
 		return (List<AvailabilityOption>) mapper.readValue(json, new TypeReference<Collection<AvailabilityOption>>() {});
 	}
+
+	public String deserializeString(String json) throws JsonParseException, JsonMappingException, IOException {
+		return mapper.readValue(json, String.class);
+	}
 	
 }

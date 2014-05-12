@@ -101,6 +101,10 @@ public class ApiUrlBuilder {
 		return getInstanceUrl(instance) + "/reset-password";
 	}
 	
+	public String getConfirmResetPasswordUrl(String instance) {
+		return getResetPasswordUrl(instance) + "/confirm";
+	}
+	
 	private void appendDates(final StringBuilder url, Date fromDate, Date toDate) {
 		String joiner = "?";
 		if (fromDate != null) {
