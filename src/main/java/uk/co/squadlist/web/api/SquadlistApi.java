@@ -428,8 +428,7 @@ public class SquadlistApi {
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
-		}		
-		
+		}	
 	}
 	
 	public Member updateMemberDetails(String instance, Member member) {
@@ -446,6 +445,20 @@ public class SquadlistApi {
 	public Outing createOuting(String instance, Outing outing) throws InvalidOutingException {
 		try {
 			final HttpPost post = requestBuilder.buildCreateOutingPost(instance, outing);			
+			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
+			
+		} catch (HttpBadRequestException e) {
+			throw new InvalidOutingException();
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}		
+	}
+	
+	public Outing upodateOuting(String instance, Outing outing) throws InvalidOutingException {
+		try {
+			final HttpPost post = requestBuilder.buildUpdateOutingPost(instance, outing);			
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {

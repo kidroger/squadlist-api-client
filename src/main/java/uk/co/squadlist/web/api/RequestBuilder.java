@@ -68,10 +68,11 @@ public class RequestBuilder {
 	}
 	
 	public HttpPost buildCreateOutingPost(String instance, Outing outing) throws JsonGenerationException, JsonMappingException, IOException {
-		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(outing));		
-		final HttpPost post = new HttpPost(apiUrlBuilder.getOutingsUrl(instance));
-		post.setEntity(entity);
-		return post;
+		return buildOutingPostTo(outing, apiUrlBuilder.getOutingsUrl(instance));
+	}
+
+	public HttpPost buildUpdateOutingPost(String instance, Outing outing) throws JsonGenerationException, JsonMappingException, IOException {
+		return buildOutingPostTo(outing, apiUrlBuilder.getOutingUrl(instance, outing.getId()));
 	}
 	
 	public HttpPost buildResetPasswordRequest(String instance, String username) throws UnsupportedEncodingException {
@@ -111,6 +112,12 @@ public class RequestBuilder {
 		nameValuePairs.add(new BasicNameValuePair("currentPassword", currentPassword));
 		nameValuePairs.add(new BasicNameValuePair("newPassword", newPassword));
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		return post;
+	}
+	
+	private HttpPost buildOutingPostTo(Outing outing, String url) throws IOException, JsonGenerationException, JsonMappingException {
+		final HttpPost post = new HttpPost(url);
+		post.setEntity(new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(outing)));
 		return post;
 	}
 	
