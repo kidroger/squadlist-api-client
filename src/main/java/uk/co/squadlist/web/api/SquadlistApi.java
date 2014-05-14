@@ -1,7 +1,6 @@
 package uk.co.squadlist.web.api;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -191,6 +190,7 @@ public class SquadlistApi {
 			if (statusCode == HttpStatus.SC_OK) {				
 				return true;
 			}
+			log.warn("Change password response status was: " + statusCode);
 			return false;
 			
 		} catch (Exception e) {
