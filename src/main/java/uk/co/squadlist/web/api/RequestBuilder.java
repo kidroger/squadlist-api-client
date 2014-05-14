@@ -17,6 +17,8 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -102,6 +104,16 @@ public class RequestBuilder {
 		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
 		nameValuePairs.add(new BasicNameValuePair("currentPassword", currentPassword));
 		nameValuePairs.add(new BasicNameValuePair("newPassword", newPassword));
+		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		return post;
+	}
+	
+	public HttpPost buildCreateOutingPost(String instance, String squad, LocalDateTime outingDate, String notes) throws UnsupportedEncodingException {
+		final HttpPost post = new HttpPost(apiUrlBuilder.getOutingsUrl(instance));		
+		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
+		nameValuePairs.add(new BasicNameValuePair("squad", squad));
+		nameValuePairs.add(new BasicNameValuePair("date", ISODateTimeFormat.dateTimeNoMillis().print(outingDate)));
+		nameValuePairs.add(new BasicNameValuePair("notes", notes));
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		return post;
 	}

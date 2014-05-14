@@ -21,7 +21,6 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.joda.time.LocalDateTime;
-import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -447,16 +446,9 @@ public class SquadlistApi {
 	
 	public Outing createOuting(String instance, String squad, LocalDateTime outingDate, String notes) throws InvalidOutingException {
 		try {
-			final HttpPost post = new HttpPost(apiUrlBuilder.getOutingsUrl(instance));
-		
-			final List<NameValuePair> nameValuePairs = Lists.newArrayList();
-			nameValuePairs.add(new BasicNameValuePair("squad", squad));
-			nameValuePairs.add(new BasicNameValuePair("date", ISODateTimeFormat.dateTimeNoMillis().print(outingDate)));
-			nameValuePairs.add(new BasicNameValuePair("notes", notes));
-			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			
+			final HttpPost post = requestBuilder.buildCreateOutingPost(instance, squad, outingDate, notes);			
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
-						
+			
 		} catch (HttpBadRequestException e) {
 			throw new InvalidOutingException();
 			
@@ -465,7 +457,7 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}		
 	}
-
+	
 	public AvailabilityOption createAvailabilityOption(String instance, String label) {
 		try {
 			final HttpPost post = new HttpPost(apiUrlBuilder.getAvailabilityOptionsUrl(instance));
