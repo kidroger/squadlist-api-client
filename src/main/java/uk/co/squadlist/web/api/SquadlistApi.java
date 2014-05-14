@@ -20,7 +20,6 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -444,9 +443,9 @@ public class SquadlistApi {
 		}
 	}
 	
-	public Outing createOuting(String instance, String squad, LocalDateTime outingDate, String notes) throws InvalidOutingException {
+	public Outing createOuting(String instance, Outing outing) throws InvalidOutingException {
 		try {
-			final HttpPost post = requestBuilder.buildCreateOutingPost(instance, squad, outingDate, notes);			
+			final HttpPost post = requestBuilder.buildCreateOutingPost(instance, outing);			
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {
