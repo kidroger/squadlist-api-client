@@ -88,4 +88,22 @@ public class RequestBuilder {
 		return post;
 	}
 	
+	public HttpPost buildAuthPost(String instance, String username, String password) throws UnsupportedEncodingException {
+		final HttpPost post = new HttpPost(apiUrlBuilder.getAuthUrlFor(instance));			
+		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
+		nameValuePairs.add(new BasicNameValuePair("username", username));
+		nameValuePairs.add(new BasicNameValuePair("password", password));
+		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		return post;
+	}
+	
+	public HttpPost buildChangePasswordPost(String instance, String memberId, String currentPassword, String newPassword) throws UnsupportedEncodingException {
+		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberDetailsUrl(instance, memberId) + "/password");
+		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
+		nameValuePairs.add(new BasicNameValuePair("currentPassword", currentPassword));
+		nameValuePairs.add(new BasicNameValuePair("newPassword", newPassword));
+		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		return post;
+	}
+	
 }

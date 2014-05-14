@@ -141,7 +141,7 @@ public class SquadlistApi {
 	public Member auth(String instance, String username, String password) {
 		try {
 			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
-			final HttpPost post = buildAuthPost(instance, username, password);
+			final HttpPost post = requestBuilder.buildAuthPost(instance, username, password);
 			
 			final HttpResponse response = client.execute(post);			
 			final int statusCode = response.getStatusLine().getStatusCode();
@@ -155,15 +155,6 @@ public class SquadlistApi {
 			log.error("Error while attempting to make auth call", e);
 			throw new RuntimeException(e);
 		}
-	}
-
-	private HttpPost buildAuthPost(String instance, String username, String password) throws UnsupportedEncodingException {
-		final HttpPost post = new HttpPost(apiUrlBuilder.getAuthUrlFor(instance));			
-		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
-		nameValuePairs.add(new BasicNameValuePair("username", username));
-		nameValuePairs.add(new BasicNameValuePair("password", password));
-		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-		return post;
 	}
 	
 	public void resetPassword(String instance, String username) throws UnknownMemberException {
@@ -186,6 +177,24 @@ public class SquadlistApi {
 			
 		} catch (Exception e) {
 			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public boolean changePassword(String instance, String memberId, String currentPassword, String newPassword) {
+		try {
+			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
+			final HttpPost post = requestBuilder.buildChangePasswordPost(instance, memberId, currentPassword, newPassword);
+			
+			final HttpResponse response = client.execute(post);			
+			final int statusCode = response.getStatusLine().getStatusCode();
+			if (statusCode == HttpStatus.SC_OK) {				
+				return true;
+			}
+			return false;
+			
+		} catch (Exception e) {
+			log.error("Error while attempting to make auth call", e);
 			throw new RuntimeException(e);
 		}
 	}
