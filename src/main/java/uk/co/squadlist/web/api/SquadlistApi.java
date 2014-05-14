@@ -456,7 +456,7 @@ public class SquadlistApi {
 		}		
 	}
 	
-	public Outing upodateOuting(String instance, Outing outing) throws InvalidOutingException {
+	public Outing updateOuting(String instance, Outing outing) throws InvalidOutingException {
 		try {
 			final HttpPost post = requestBuilder.buildUpdateOutingPost(instance, outing);			
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
