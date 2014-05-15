@@ -309,17 +309,6 @@ public class SquadlistApi {
 		}
 	}
 	
-	public List<Outing> getOutings(String instance) {
-		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getOutingsUrl(instance));
-			return jsonDeserializer.deserializeListOfOutings(json);
-			
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
-	
 	public Outing getOuting(String instance, String outingId) throws UnknownOutingException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getOutingUrl(instance, outingId));
