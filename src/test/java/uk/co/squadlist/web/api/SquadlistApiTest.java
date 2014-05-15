@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import uk.co.eelpieconsulting.common.http.HttpBadRequestException;
+import uk.co.eelpieconsulting.common.http.HttpFetcher;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 
 public class SquadlistApiTest {

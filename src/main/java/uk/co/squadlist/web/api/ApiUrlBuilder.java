@@ -7,21 +7,14 @@ import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ApiUrlBuilder {
 	
 	private static final String UTF_8 = "UTF-8";
 	
 	private static DateTimeFormatter dateHourMinute = ISODateTimeFormat.dateHourMinute();
 	
-	@Value("#{squadlist['apiUrl']}")
-	private String apiUrl;
-	
-	public ApiUrlBuilder() {
-	}
+	private final String apiUrl;
 	
 	public ApiUrlBuilder(String apiUrl) {
 		this.apiUrl = apiUrl;

@@ -20,11 +20,10 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import uk.co.eelpieconsulting.common.http.HttpBadRequestException;
 import uk.co.eelpieconsulting.common.http.HttpFetchException;
+import uk.co.eelpieconsulting.common.http.HttpFetcher;
 import uk.co.eelpieconsulting.common.http.HttpNotFoundException;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 import uk.co.squadlist.web.exceptions.InvalidMemberException;
@@ -43,7 +42,6 @@ import uk.co.squadlist.web.model.Squad;
 
 import com.google.common.collect.Lists;
 
-@Service("squadlistApi")	// TODO shouldn't be Spring dependant
 public class SquadlistApi {
 	
 	private final static Logger log = Logger.getLogger(SquadlistApi.class);
@@ -53,10 +51,9 @@ public class SquadlistApi {
 	private final HttpFetcher httpFetcher;
 	private final JsonDeserializer jsonDeserializer;
 	
-	@Autowired
 	public SquadlistApi(RequestBuilder requestBuilder, ApiUrlBuilder urlBuilder, HttpFetcher httpFetcher, JsonDeserializer jsonDeserializer) {
-		this.requestBuilder = requestBuilder;
 		this.apiUrlBuilder = urlBuilder;
+		this.requestBuilder = requestBuilder;
 		this.httpFetcher = httpFetcher;
 		this.jsonDeserializer = jsonDeserializer;
 	}

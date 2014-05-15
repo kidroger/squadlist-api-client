@@ -10,7 +10,6 @@ import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.springframework.stereotype.Component;
 
 import uk.co.squadlist.web.model.Availability;
 import uk.co.squadlist.web.model.AvailabilityOption;
@@ -21,7 +20,6 @@ import uk.co.squadlist.web.model.OutingAvailability;
 import uk.co.squadlist.web.model.OutingWithSquadAvailability;
 import uk.co.squadlist.web.model.Squad;
 
-@Component
 public class JsonDeserializer {
 
 	private final ObjectMapper mapper;

@@ -17,8 +17,6 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
@@ -27,13 +25,11 @@ import uk.co.squadlist.web.model.Squad;
 
 import com.google.common.collect.Lists;
 
-@Component
 public class RequestBuilder {
 
 	private final ApiUrlBuilder apiUrlBuilder;
 	private final ObjectMapper objectMapper;
 
-	@Autowired
 	public RequestBuilder(ApiUrlBuilder apiUrlBuilder) {
 		this.apiUrlBuilder = apiUrlBuilder;
 		this.objectMapper = new ObjectMapper();
