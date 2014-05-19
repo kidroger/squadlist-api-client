@@ -3,8 +3,6 @@ package uk.co.squadlist.web.model;
 import java.util.Date;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 public class Member {
 	
 	private String id, username, firstName, lastName, gender, emailAddress, contactNumber, rowingPoints, scullingPoints, registrationNumber, password;
@@ -15,17 +13,13 @@ public class Member {
 	public Member() {
 	}
 	
-	public Member(String firstName, String lastName, Squad squad, String emailAddress, String password, Date dateOfBirth) {
+	public Member(String firstName, String lastName, List<Squad> squads, String emailAddress, String password, Date dateOfBirth) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAddress = emailAddress;
 		this.password = password;
-		this.dateOfBirth = dateOfBirth;
-		
-		this.squads = Lists.newArrayList();
-		if (squad != null) {
-			squads.add(squad);
-		}
+		this.dateOfBirth = dateOfBirth;		
+		this.squads = squads;
 	}
 	
 	public String getId() {

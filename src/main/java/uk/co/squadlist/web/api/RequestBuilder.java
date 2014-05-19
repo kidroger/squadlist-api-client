@@ -49,8 +49,8 @@ public class RequestBuilder {
 		return put;
 	}
 	
-	public HttpPost buildCreateMemberRequest(String instance, String firstName, String lastName, Squad squad, String email, String password, Date dateOfBirth) throws JsonGenerationException, JsonMappingException, IOException {
-		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(new Member(firstName, lastName, squad, email, password, dateOfBirth)));
+	public HttpPost buildCreateMemberRequest(String instance, String firstName, String lastName, List<Squad> squads, String email, String password, Date dateOfBirth) throws JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(new Member(firstName, lastName, squads, email, password, dateOfBirth)));
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
 		post.setEntity(entity);
 		return post;
