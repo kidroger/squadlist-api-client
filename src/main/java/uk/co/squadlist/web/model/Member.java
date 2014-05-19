@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Member {
 	
-	private String id, username, firstName, lastName, gender, emailAddress, contactNumber, rowingPoints, scullingPoints, registrationNumber, password;
+	private String id, username, firstName, lastName, gender, emailAddress, contactNumber, emergencyContactName, emergencyContactNumber, rowingPoints, scullingPoints, sweepOarSide, registrationNumber, password;
 	private Integer weight;
 	private List<Squad> squads;
 	private Date dateOfBirth;
@@ -91,7 +91,7 @@ public class Member {
 	public Integer getWeight() {
 		return weight;
 	}
-	public void setWeight(int weight) {
+	public void setWeight(Integer weight) {
 		this.weight = weight;
 	}
 	public List<Squad> getSquads() {
@@ -107,16 +107,41 @@ public class Member {
 		this.password = password;
 	}
 
+	public String getEmergencyContactName() {
+		return emergencyContactName;
+	}
+
+	public void setEmergencyContactName(String emergencyContactName) {
+		this.emergencyContactName = emergencyContactName;
+	}
+
+	public String getEmergencyContactNumber() {
+		return emergencyContactNumber;
+	}
+	public void setEmergencyContactNumber(String emergencyContactNumber) {
+		this.emergencyContactNumber = emergencyContactNumber;
+	}
+
+	public String getSweepOarSide() {
+		return sweepOarSide;
+	}
+	public void setSweepOarSide(String sweepOarSide) {
+		this.sweepOarSide = sweepOarSide;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [contactNumber=" + contactNumber + ", dateOfBirth="
 				+ dateOfBirth + ", emailAddress=" + emailAddress
+				+ ", emergencyContactName=" + emergencyContactName
+				+ ", emergencyContactNumber=" + emergencyContactNumber
 				+ ", firstName=" + firstName + ", gender=" + gender + ", id="
 				+ id + ", lastName=" + lastName + ", password=" + password
 				+ ", registrationNumber=" + registrationNumber
 				+ ", rowingPoints=" + rowingPoints + ", scullingPoints="
-				+ scullingPoints + ", squads=" + squads + ", username="
-				+ username + ", weight=" + weight + "]";
+				+ scullingPoints + ", squads=" + squads + ", sweepOarSide="
+				+ sweepOarSide + ", username=" + username + ", weight="
+				+ weight + "]";
 	}
 	
 }
