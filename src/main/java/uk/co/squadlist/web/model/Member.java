@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Member {
 	
-	private String id, username, firstName, lastName, gender, emailAddress, contactNumber, emergencyContactName, emergencyContactNumber, rowingPoints, scullingPoints, sweepOarSide, registrationNumber, password;
+	private String id, username, role, firstName, lastName, gender, emailAddress, contactNumber, emergencyContactName, emergencyContactNumber, rowingPoints, scullingPoints, sweepOarSide, registrationNumber, password;
 	private Integer weight;
 	private List<Squad> squads;
 	private Date dateOfBirth;
@@ -128,6 +128,13 @@ public class Member {
 	public void setSweepOarSide(String sweepOarSide) {
 		this.sweepOarSide = sweepOarSide;
 	}
+	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	@Override
 	public String toString() {
@@ -137,8 +144,8 @@ public class Member {
 				+ ", emergencyContactNumber=" + emergencyContactNumber
 				+ ", firstName=" + firstName + ", gender=" + gender + ", id="
 				+ id + ", lastName=" + lastName + ", password=" + password
-				+ ", registrationNumber=" + registrationNumber
-				+ ", rowingPoints=" + rowingPoints + ", scullingPoints="
+				+ ", registrationNumber=" + registrationNumber + ", role="
+				+ role + ", rowingPoints=" + rowingPoints + ", scullingPoints="
 				+ scullingPoints + ", squads=" + squads + ", sweepOarSide="
 				+ sweepOarSide + ", username=" + username + ", weight="
 				+ weight + "]";
