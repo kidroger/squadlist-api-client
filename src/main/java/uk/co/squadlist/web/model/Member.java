@@ -9,6 +9,7 @@ public class Member {
 	private Integer weight;
 	private List<Squad> squads;
 	private Date dateOfBirth;
+	private Boolean admin;
 	
 	public Member() {
 	}
@@ -19,7 +20,7 @@ public class Member {
 		this.emailAddress = emailAddress;
 		this.password = password;
 		this.dateOfBirth = dateOfBirth;		
-		this.squads = squads;
+		this.squads = squads;		
 	}
 	
 	public String getId() {
@@ -135,20 +136,27 @@ public class Member {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	public Boolean getAdmin() {
+		return admin;
+	}
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
 
 	@Override
 	public String toString() {
-		return "Member [contactNumber=" + contactNumber + ", dateOfBirth="
-				+ dateOfBirth + ", emailAddress=" + emailAddress
-				+ ", emergencyContactName=" + emergencyContactName
-				+ ", emergencyContactNumber=" + emergencyContactNumber
-				+ ", firstName=" + firstName + ", gender=" + gender + ", id="
-				+ id + ", lastName=" + lastName + ", password=" + password
-				+ ", registrationNumber=" + registrationNumber + ", role="
-				+ role + ", rowingPoints=" + rowingPoints + ", scullingPoints="
-				+ scullingPoints + ", squads=" + squads + ", sweepOarSide="
-				+ sweepOarSide + ", username=" + username + ", weight="
-				+ weight + "]";
+		return "Member [admin=" + admin + ", contactNumber=" + contactNumber
+				+ ", dateOfBirth=" + dateOfBirth + ", emailAddress="
+				+ emailAddress + ", emergencyContactName="
+				+ emergencyContactName + ", emergencyContactNumber="
+				+ emergencyContactNumber + ", firstName=" + firstName
+				+ ", gender=" + gender + ", id=" + id + ", lastName="
+				+ lastName + ", password=" + password + ", registrationNumber="
+				+ registrationNumber + ", role=" + role + ", rowingPoints="
+				+ rowingPoints + ", scullingPoints=" + scullingPoints
+				+ ", squads=" + squads + ", sweepOarSide=" + sweepOarSide
+				+ ", username=" + username + ", weight=" + weight + "]";
 	}
 	
 }
