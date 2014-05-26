@@ -9,12 +9,12 @@ public class OutingWithSquadAvailability {
 	private Outing outing;
 	
 	@JsonProperty("availability")
-	private Map<String, String> availability;
+	private Map<String, AvailabilityOption> availability;
 
 	public OutingWithSquadAvailability() {
 	}
 
-	public OutingWithSquadAvailability(Outing outing, Map<String, String> availability) {
+	public OutingWithSquadAvailability(Outing outing, Map<String, AvailabilityOption> availability) {
 		this.outing = outing;
 		this.availability = availability;
 	}
@@ -27,11 +27,11 @@ public class OutingWithSquadAvailability {
 		this.outing = outing;
 	}
 
-	public Map<String, String> getAvailability() {
+	public Map<String, AvailabilityOption> getAvailability() {
 		return availability;
 	}
 
-	public void setAvailability(Map<String, String> availability) {
+	public void setAvailability(Map<String, AvailabilityOption> availability) {
 		this.availability = availability;
 	}
 
