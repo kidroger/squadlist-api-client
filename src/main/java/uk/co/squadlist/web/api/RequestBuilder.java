@@ -63,6 +63,13 @@ public class RequestBuilder {
 		return post;
 	}
 	
+	public HttpPost buildUpdateSquadRequest(String instance, Squad squad) throws JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(squad));		
+		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(instance, squad.getId()));
+		post.setEntity(entity);
+		return post;
+	}
+	
 	public HttpPost buildCreateOutingPost(String instance, Outing outing) throws JsonGenerationException, JsonMappingException, IOException {
 		return buildOutingPostTo(outing, apiUrlBuilder.getOutingsUrl(instance));
 	}

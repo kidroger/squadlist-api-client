@@ -428,6 +428,17 @@ public class SquadlistApi {
 		}
 	}
 	
+	public Squad updateSquad(String instance, Squad squad) {
+		try {
+			final HttpPost post = requestBuilder.buildUpdateSquadRequest(instance, squad);
+			return jsonDeserializer.deserializeSquad(httpFetcher.post(post));
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public Outing createOuting(String instance, Outing outing) throws InvalidOutingException {
 		try {
 			final HttpPost post = requestBuilder.buildCreateOutingPost(instance, outing);			
