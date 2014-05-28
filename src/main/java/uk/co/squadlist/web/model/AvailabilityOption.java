@@ -2,19 +2,25 @@ package uk.co.squadlist.web.model;
 
 public class AvailabilityOption {
 	
-	private String label;
+	private String label, colour;
 
 	public String getLabel() {
 		return label;
 	}
-
 	public void setLabel(String label) {
 		this.label = label;
 	}
 	
+	public String getColour() {
+		return colour;
+	}
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+	
 	@Override
 	public String toString() {
-		return "AvailabilityOption [label=" + label + "]";
+		return "AvailabilityOption [colour=" + colour + ", label=" + label + "]";
 	}
 	
 }
