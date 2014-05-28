@@ -264,7 +264,7 @@ public class SquadlistApi {
 		}	
 	}
 		
-	public Map<String, String> getOutingAvailability(String instance, String outingId) throws UnknownOutingException {
+	public Map<String, AvailabilityOption> getOutingAvailability(String instance, String outingId) throws UnknownOutingException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getOutingAvailabilityUrl(instance, outingId));
 			return jsonDeserializer.deserializeListOfOutingAvailabilityMap(json);

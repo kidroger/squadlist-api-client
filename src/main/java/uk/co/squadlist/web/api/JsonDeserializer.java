@@ -45,8 +45,8 @@ public class JsonDeserializer {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Map<String, String> deserializeListOfOutingAvailabilityMap(String json) throws JsonParseException, JsonMappingException, IOException {
-		return (Map<String, String>) mapper.readValue(json, new TypeReference<Map<String, String>>() {});
+	public Map<String, AvailabilityOption> deserializeListOfOutingAvailabilityMap(String json) throws JsonParseException, JsonMappingException, IOException {
+		return (Map<String, AvailabilityOption>) mapper.readValue(json, new TypeReference<Map<String, AvailabilityOption>>() {});
 	}
 	
 	@SuppressWarnings("unchecked")

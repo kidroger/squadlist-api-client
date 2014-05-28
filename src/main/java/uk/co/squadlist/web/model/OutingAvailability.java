@@ -3,7 +3,7 @@ package uk.co.squadlist.web.model;
 public class OutingAvailability {
 
 	private Outing outing;
-	private String availability;
+	private AvailabilityOption availability;
 	
 	public Outing getOuting() {
 		return outing;
@@ -11,10 +11,10 @@ public class OutingAvailability {
 	public void setOuting(Outing outing) {
 		this.outing = outing;
 	}
-	public String getAvailability() {
+	public AvailabilityOption getAvailability() {
 		return availability;
 	}
-	public void setAvailability(String availability) {
+	public void setAvailability(AvailabilityOption availability) {
 		this.availability = availability;
 	}
 	

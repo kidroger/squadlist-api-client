@@ -9,10 +9,10 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
+import uk.co.squadlist.web.model.AvailabilityOption;
 import uk.co.squadlist.web.model.Member;
 import uk.co.squadlist.web.model.Outing;
 import uk.co.squadlist.web.model.OutingAvailability;
-import uk.co.squadlist.web.model.OutingWithSquadAvailability;
 
 public class JsonDeserializerTest {
 
@@ -53,7 +53,7 @@ public class JsonDeserializerTest {
 		JsonDeserializer deserializer = new JsonDeserializer();
 		List<OutingAvailability> availability = deserializer.deserializeListOfOutingAvailability(json);
 		
-		assertEquals(106, availability.size());
+		assertEquals(2, availability.size());
 	}
 	
 	@Test
@@ -61,9 +61,9 @@ public class JsonDeserializerTest {
 		final String json = IOUtils.toString(this.getClass().getClassLoader().getResource("outingAvailability.json"));
 		
 		JsonDeserializer deserializer = new JsonDeserializer();
-		Map<String, String> availability = deserializer.deserializeListOfOutingAvailabilityMap(json);
+		Map<String, AvailabilityOption> availability = deserializer.deserializeListOfOutingAvailabilityMap(json);
 		
-		assertEquals("Available", availability.get("KELLEYJ"));
+		assertEquals("Available", availability.get("38").getLabel());
 	}
 	
 	@Test
