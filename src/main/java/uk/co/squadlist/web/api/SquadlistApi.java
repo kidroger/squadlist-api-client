@@ -445,7 +445,7 @@ public class SquadlistApi {
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {
-			throw new InvalidOutingException();
+			throw new InvalidOutingException(e.getResponseBody());
 			
 		} catch (Exception e) {
 			log.error(e);
@@ -459,7 +459,7 @@ public class SquadlistApi {
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {
-			throw new InvalidOutingException();
+			throw new InvalidOutingException(e.getResponseBody());
 			
 		} catch (Exception e) {
 			log.error(e);
