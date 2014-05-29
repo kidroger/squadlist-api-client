@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -12,7 +13,10 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -70,12 +74,12 @@ public class RequestBuilder {
 		return post;
 	}
 	
-	public HttpPost buildCreateOutingPost(String instance, Outing outing) throws JsonGenerationException, JsonMappingException, IOException {
-		return buildOutingPostTo(outing, apiUrlBuilder.getOutingsUrl(instance));
+	public HttpPost buildCreateOutingPost(String instance, Outing outing, int repeats) throws JsonGenerationException, JsonMappingException, IOException {
+		return buildOutingPostTo(outing, apiUrlBuilder.getOutingsUrl(instance), repeats);
 	}
 
 	public HttpPost buildUpdateOutingPost(String instance, Outing outing) throws JsonGenerationException, JsonMappingException, IOException {
-		return buildOutingPostTo(outing, apiUrlBuilder.getOutingUrl(instance, outing.getId()));
+		return buildOutingPostTo(outing, apiUrlBuilder.getOutingUrl(instance, outing.getId()), null);
 	}
 	
 	public HttpPost buildResetPasswordRequest(String instance, String username) throws UnsupportedEncodingException {
@@ -118,9 +122,13 @@ public class RequestBuilder {
 		return post;
 	}
 	
-	private HttpPost buildOutingPostTo(Outing outing, String url) throws IOException, JsonGenerationException, JsonMappingException {
+	private HttpPost buildOutingPostTo(Outing outing, String url, Integer repeats) throws IOException, JsonGenerationException, JsonMappingException {
 		final HttpPost post = new HttpPost(url);
 		post.setEntity(new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(outing)));
+		if (repeats != null) {
+			Header header = new BasicHeader("repeats", Integer.toString(repeats));
+			post.addHeader(header);
+		}
 		return post;
 	}
 	

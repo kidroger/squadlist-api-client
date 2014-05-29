@@ -440,9 +440,13 @@ public class SquadlistApi {
 	}
 	
 	public Outing createOuting(String instance, Outing outing) throws InvalidOutingException {
+		return createOuting(instance, outing, 0);	
+	}
+	
+	public Outing createOuting(String instance, Outing outing, int repeats) throws InvalidOutingException {
 		try {
-			final HttpPost post = requestBuilder.buildCreateOutingPost(instance, outing);			
-			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
+			final HttpPost post = requestBuilder.buildCreateOutingPost(instance, outing, repeats);			
+			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));	// TODO might need to be a list of outings?
 			
 		} catch (HttpBadRequestException e) {
 			throw new InvalidOutingException(e.getResponseBody());
