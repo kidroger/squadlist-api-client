@@ -8,6 +8,7 @@ public class Outing {
 	private Squad squad;
 	private Date date;
 	private String notes;
+	private boolean closed;
 	
 	public Outing() {
 	}
@@ -37,6 +38,13 @@ public class Outing {
 		this.notes = notes;
 	}
 	
+	public boolean isClosed() {
+		return closed;
+	}
+	public void setClosed(boolean closed) {
+		this.closed = closed;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -61,10 +69,10 @@ public class Outing {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Outing [id=" + id + ", squad=" + squad + ", date=" + date + ", notes=" + notes + "]";
+		return "Outing [closed=" + closed + ", date=" + date + ", id=" + id + ", notes=" + notes + ", squad=" + squad + "]";
 	}
-	
+		
 }
