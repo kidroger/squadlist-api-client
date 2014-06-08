@@ -52,7 +52,10 @@ public class RequestBuilder {
 	}
 	
 	public HttpPost buildCreateMemberRequest(String instance, String firstName, String lastName, List<Squad> squads, String email, String password, Date dateOfBirth) throws JsonGenerationException, JsonMappingException, IOException {
-		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(new Member(firstName, lastName, squads, email, password, dateOfBirth)));
+		Member member = new Member(firstName, lastName, squads, email, password, dateOfBirth);	// TODO this should be the argument
+		member.setRole("Rower");
+		
+		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(member));
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
 		post.setEntity(entity);
 		return post;
