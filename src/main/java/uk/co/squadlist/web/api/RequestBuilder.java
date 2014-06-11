@@ -115,7 +115,7 @@ public class RequestBuilder {
 	}
 	
 	public HttpPost buildAuthFacebookPost(String instance, String token) throws UnsupportedEncodingException {
-		final HttpPost post = new HttpPost(apiUrlBuilder.getAuthUrlFor(instance));			
+		final HttpPost post = new HttpPost(apiUrlBuilder.getAuthUrlFor(instance) + "/facebook");
 		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
 		nameValuePairs.add(new BasicNameValuePair("token", token));
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
