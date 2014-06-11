@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Member {
 	
-	private String id, username, role, firstName, lastName, gender, emailAddress, contactNumber, emergencyContactName, emergencyContactNumber, rowingPoints, scullingPoints, sweepOarSide, registrationNumber, password;
+	private String id, username, facebookId, role, firstName, lastName, gender, emailAddress, contactNumber, emergencyContactName, emergencyContactNumber, rowingPoints, scullingPoints, sweepOarSide, registrationNumber, password;
 	private Integer weight;
 	private List<Squad> squads;
 	private Date dateOfBirth;
@@ -142,8 +142,14 @@ public class Member {
 	}
 	public void setAdmin(Boolean admin) {
 		this.admin = admin;
+	}	
+	public String getFacebookId() {
+		return facebookId;
 	}
-	
+	public void setFacebookId(String facebookId) {
+		this.facebookId = facebookId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -175,13 +181,14 @@ public class Member {
 				+ ", dateOfBirth=" + dateOfBirth + ", emailAddress="
 				+ emailAddress + ", emergencyContactName="
 				+ emergencyContactName + ", emergencyContactNumber="
-				+ emergencyContactNumber + ", firstName=" + firstName
-				+ ", gender=" + gender + ", id=" + id + ", lastName="
-				+ lastName + ", password=" + password + ", registrationNumber="
-				+ registrationNumber + ", role=" + role + ", rowingPoints="
-				+ rowingPoints + ", scullingPoints=" + scullingPoints
-				+ ", squads=" + squads + ", sweepOarSide=" + sweepOarSide
-				+ ", username=" + username + ", weight=" + weight + "]";
+				+ emergencyContactNumber + ", facebookId=" + facebookId
+				+ ", firstName=" + firstName + ", gender=" + gender + ", id="
+				+ id + ", lastName=" + lastName + ", password=" + password
+				+ ", registrationNumber=" + registrationNumber + ", role="
+				+ role + ", rowingPoints=" + rowingPoints + ", scullingPoints="
+				+ scullingPoints + ", squads=" + squads + ", sweepOarSide="
+				+ sweepOarSide + ", username=" + username + ", weight="
+				+ weight + "]";
 	}
 	
 }

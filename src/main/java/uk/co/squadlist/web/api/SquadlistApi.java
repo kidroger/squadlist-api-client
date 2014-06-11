@@ -151,6 +151,25 @@ public class SquadlistApi {
 		}
 	}
 	
+	public Member authFacebook(String instance, String token) {
+		try {
+			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
+			final HttpPost post = requestBuilder.buildAuthFacebookPost(instance, token);
+			
+			final HttpResponse response = client.execute(post);			
+			final int statusCode = response.getStatusLine().getStatusCode();
+			log.info("Auth attempt status code was: " + statusCode);
+			if (statusCode == HttpStatus.SC_OK) {				
+				return jsonDeserializer.deserializeMemberDetails(EntityUtils.toString(response.getEntity()));
+			}
+			return null;
+			
+		} catch (Exception e) {
+			log.error("Error while attempting to make auth call", e);
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public void resetPassword(String instance, String username) throws UnknownMemberException {
 		try {
 			httpFetcher.post(requestBuilder.buildResetPasswordRequest(instance, username));
