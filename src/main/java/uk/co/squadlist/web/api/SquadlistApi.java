@@ -64,7 +64,7 @@ public class SquadlistApi {
 		this.httpFetcher = new HttpFetcher();
 		this.jsonDeserializer = new JsonDeserializer();
 	}
-
+	
 	public List<Instance> getInstances() {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getInstancesUrl());
@@ -400,9 +400,9 @@ public class SquadlistApi {
 		}		
 	}
 	
-	public Member createMember(String instance, String firstName, String lastName, List<Squad> squads, String email, String password, Date dateOfBirth) throws InvalidMemberException {
+	public Member createMember(String instance, String firstName, String lastName, List<Squad> squads, String email, String password, Date dateOfBirth, String role) throws InvalidMemberException {
 		try {
-			final HttpPost post = requestBuilder.buildCreateMemberRequest(instance, firstName, lastName, squads, email, password, dateOfBirth);
+			final HttpPost post = requestBuilder.buildCreateMemberRequest(instance, firstName, lastName, squads, email, password, dateOfBirth, role);
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {
