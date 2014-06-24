@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -71,6 +72,13 @@ public class RequestBuilder {
 	public HttpPost buildUpdateSquadRequest(String instance, Squad squad) throws JsonGenerationException, JsonMappingException, IOException {
 		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(squad));		
 		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(instance, squad.getId()));
+		post.setEntity(entity);
+		return post;
+	}
+	
+	public HttpPost buildSetSquadMembersRequest(String instance, String squadId, Set<String> members) throws JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(members));
+		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(instance, squadId) + "/members");
 		post.setEntity(entity);
 		return post;
 	}
