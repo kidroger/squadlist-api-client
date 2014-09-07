@@ -33,7 +33,7 @@ public class SquadlistApiTest {
 	
 	@Test(expected=InvalidInstanceException.class)
 	public void shouldReturnInvalidInstanceExceptionInResponseToNewInstance400Response() throws Exception {
-		SquadlistApi api = new SquadlistApi(requestBuilder, urlBuilder, httpFetcher, jsonDeserializer);
+		SquadlistApi api = new SquadlistApi(requestBuilder, urlBuilder, httpFetcher, jsonDeserializer, "access-token");
 		
 		when(requestBuilder.buildCreateInstanceRequest("invalid", "Invalid", "Europe/London")).thenReturn(request);
 		when(httpFetcher.post(request)).thenThrow(new HttpBadRequestException("Invalid instance resposne body"));

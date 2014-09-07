@@ -53,19 +53,23 @@ public class SquadlistApi {
 	private final RequestBuilder requestBuilder;
 	private final HttpFetcher httpFetcher;
 	private final JsonDeserializer jsonDeserializer;
+
+	private final String accessToken;
 	
-	public SquadlistApi(RequestBuilder requestBuilder, ApiUrlBuilder urlBuilder, HttpFetcher httpFetcher, JsonDeserializer jsonDeserializer) {
+	public SquadlistApi(RequestBuilder requestBuilder, ApiUrlBuilder urlBuilder, HttpFetcher httpFetcher, JsonDeserializer jsonDeserializer, String accessToken) {
 		this.apiUrlBuilder = urlBuilder;
 		this.requestBuilder = requestBuilder;
 		this.httpFetcher = httpFetcher;
 		this.jsonDeserializer = jsonDeserializer;
+		this.accessToken = accessToken;
 	}
 	
-	public SquadlistApi(String apiUrl) {
+	public SquadlistApi(String apiUrl, String accessToken) {
 		this.apiUrlBuilder  = new ApiUrlBuilder(apiUrl);
 		this.requestBuilder = new RequestBuilder(apiUrlBuilder);
 		this.httpFetcher = new HttpFetcher();
 		this.jsonDeserializer = new JsonDeserializer();
+		this.accessToken = accessToken;
 	}
 	
 	public List<Instance> getInstances() {
@@ -81,7 +85,8 @@ public class SquadlistApi {
 	
 	public Instance createInstance(String id, String name, String timeZone) throws InvalidInstanceException {
 		try {
-			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name, timeZone);		
+			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name, timeZone);
+			post.addHeader("Authorization", "Bearer " + accessToken);			
 			return jsonDeserializer.deserializeInstanceDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {
