@@ -15,6 +15,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -44,6 +45,7 @@ import uk.co.squadlist.web.model.OutingWithSquadAvailability;
 import uk.co.squadlist.web.model.Squad;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public class SquadlistApi {
 	
@@ -74,7 +76,7 @@ public class SquadlistApi {
 	
 	public List<Instance> getInstances() {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getInstancesUrl());
+			final String json = httpFetcher.get(apiUrlBuilder.getInstancesUrl(), accessTokenHeaders());
 			return jsonDeserializer.deserializeListOfInstances(json);
 		
 		} catch (Exception e) {
@@ -86,7 +88,7 @@ public class SquadlistApi {
 	public Instance createInstance(String id, String name, String timeZone) throws InvalidInstanceException {
 		try {
 			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name, timeZone);
-			post.addHeader("Authorization", "Bearer " + accessToken);			
+			addAccessToken(post);			
 			return jsonDeserializer.deserializeInstanceDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {
@@ -96,10 +98,11 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}		
 	}
-	
+
 	public Instance updateInstance(Instance instance) {
 		try {
-			final HttpPut put = requestBuilder.buildUpdateInstanceRequest(instance);		
+			final HttpPut put = requestBuilder.buildUpdateInstanceRequest(instance);
+			addAccessToken(put);
 			return jsonDeserializer.deserializeInstanceDetails(httpFetcher.put(put));
 			
 		} catch (Exception e) {
@@ -110,7 +113,7 @@ public class SquadlistApi {
 	
 	public Instance getInstance(String id) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getInstanceUrl(id));
+			final String json = httpFetcher.get(apiUrlBuilder.getInstanceUrl(id), accessTokenHeaders());
 			return jsonDeserializer.deserializeInstanceDetails(json);
 			
 		} catch (Exception e) {
@@ -122,7 +125,8 @@ public class SquadlistApi {
 	public void deleteInstance(String id) throws InvalidInstanceException {
 		try {
 			final HttpDelete delete = requestBuilder.buildDeleteInstanceRequest(id);
-
+			addAccessToken(delete);
+			
 			final HttpClient client = new DefaultHttpClient();			
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -144,6 +148,7 @@ public class SquadlistApi {
 		try {
 			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
 			final HttpPost post = requestBuilder.buildAuthPost(instance, username, password);
+			addAccessToken(post);
 			
 			final HttpResponse response = client.execute(post);			
 			final int statusCode = response.getStatusLine().getStatusCode();
@@ -163,7 +168,8 @@ public class SquadlistApi {
 		try {
 			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
 			final HttpPost post = requestBuilder.buildAuthFacebookPost(instance, token);
-			
+			addAccessToken(post);
+
 			final HttpResponse response = client.execute(post);			
 			final int statusCode = response.getStatusLine().getStatusCode();
 			log.info("Auth attempt status code was: " + statusCode);
@@ -206,7 +212,8 @@ public class SquadlistApi {
 		try {
 			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
 			final HttpPost post = requestBuilder.buildChangePasswordPost(instance, memberId, currentPassword, newPassword);
-			
+			addAccessToken(post);
+
 			final HttpResponse response = client.execute(post);			
 			final int statusCode = response.getStatusLine().getStatusCode();
 			if (statusCode == HttpStatus.SC_OK) {				
@@ -224,7 +231,7 @@ public class SquadlistApi {
 	public List<OutingAvailability> getAvailabilityFor(String instance, String memberId, Date fromDate, Date toDate) {
 		try {
 			log.info("getAvailabilityFor: " + memberId + ", " + fromDate);
-			final String json = httpFetcher.get(apiUrlBuilder.getMembersAvailabilityUrl(instance, memberId, fromDate, toDate));
+			final String json = httpFetcher.get(apiUrlBuilder.getMembersAvailabilityUrl(instance, memberId, fromDate, toDate), accessTokenHeaders());
 			return jsonDeserializer.deserializeListOfOutingAvailability(json);
 			
 		} catch (Exception e) {
@@ -235,7 +242,7 @@ public class SquadlistApi {
 	
 	public List<Squad> getSquads(String instance) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadsUrl(instance));		
+			final String json = httpFetcher.get(apiUrlBuilder.getSquadsUrl(instance), accessTokenHeaders());		
 			return jsonDeserializer.deserializeListOfSquads(json);
 		
 		} catch (Exception e) {
@@ -260,7 +267,7 @@ public class SquadlistApi {
 	
 	public List<Outing> getSquadOutings(String instance, String squadId, Date fromDate, Date toDate) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadOutingsUrl(instance, squadId, fromDate, toDate));
+			final String json = httpFetcher.get(apiUrlBuilder.getSquadOutingsUrl(instance, squadId, fromDate, toDate), accessTokenHeaders());
 			return jsonDeserializer.deserializeListOfOutings(json);
 		
 		} catch (Exception e) {
@@ -271,7 +278,7 @@ public class SquadlistApi {
 	
 	public Map<String, Integer> getSquadOutingMonths(String instance, String squadId) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadOutingsMonthsUrl(instance, squadId));
+			final String json = httpFetcher.get(apiUrlBuilder.getSquadOutingsMonthsUrl(instance, squadId), accessTokenHeaders());
 			return jsonDeserializer.deserializeOutingsMonthsMap(json);
 		
 		} catch (Exception e) {
@@ -282,7 +289,7 @@ public class SquadlistApi {
 	
 	public Map<String, Integer> getMemberOutingMonths(String instance, String memberId) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getMemberDetailsUrl(instance, memberId) + "/outings/months");
+			final String json = httpFetcher.get(apiUrlBuilder.getMemberDetailsUrl(instance, memberId) + "/outings/months", accessTokenHeaders());
 			return jsonDeserializer.deserializeOutingsMonthsMap(json);
 			
 		} catch (Exception e) {
@@ -293,7 +300,7 @@ public class SquadlistApi {
 		
 	public Map<String, AvailabilityOption> getOutingAvailability(String instance, String outingId) throws UnknownOutingException {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getOutingAvailabilityUrl(instance, outingId));
+			final String json = httpFetcher.get(apiUrlBuilder.getOutingAvailabilityUrl(instance, outingId), accessTokenHeaders());
 			return jsonDeserializer.deserializeListOfOutingAvailabilityMap(json);
 
 		} catch (HttpNotFoundException e) {
@@ -307,7 +314,7 @@ public class SquadlistApi {
 	
 	public Member getMemberDetails(String instance, String memberId) throws UnknownMemberException {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getMemberDetailsUrl(instance, memberId));
+			final String json = httpFetcher.get(apiUrlBuilder.getMemberDetailsUrl(instance, memberId), accessTokenHeaders());
 			return jsonDeserializer.deserializeMemberDetails(json);
 			
 		} catch (HttpNotFoundException e) {
@@ -321,7 +328,7 @@ public class SquadlistApi {
 	
 	public Squad getSquad(String instance, String squadId) throws UnknownSquadException {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadUrl(instance, squadId));
+			final String json = httpFetcher.get(apiUrlBuilder.getSquadUrl(instance, squadId), accessTokenHeaders());
 			return jsonDeserializer.deserializeSquad(json);
 
 		} catch (HttpNotFoundException e) {
@@ -340,7 +347,7 @@ public class SquadlistApi {
 	
 	public Outing getOuting(String instance, String outingId) throws UnknownOutingException {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getOutingUrl(instance, outingId));
+			final String json = httpFetcher.get(apiUrlBuilder.getOutingUrl(instance, outingId), accessTokenHeaders());
 			return jsonDeserializer.deserializeOuting(json);
 						
 		} catch (HttpNotFoundException e) {
@@ -354,7 +361,7 @@ public class SquadlistApi {
 	
 	public List<Member> getMembers(String instance) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getMembersUrl(instance));
+			final String json = httpFetcher.get(apiUrlBuilder.getMembersUrl(instance), accessTokenHeaders());
 			return jsonDeserializer.deserializeListOfMembers(json);
 			
 		} catch (Exception e) {
@@ -365,7 +372,7 @@ public class SquadlistApi {
 	
 	public List<Member> getSquadMembers(String instance, String squadId) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadMembersUrl(instance, squadId));
+			final String json = httpFetcher.get(apiUrlBuilder.getSquadMembersUrl(instance, squadId), accessTokenHeaders());
 			return jsonDeserializer.deserializeListOfMembers(json);
 
 		} catch (Exception e) {
@@ -376,7 +383,7 @@ public class SquadlistApi {
 	
 	public List<OutingWithSquadAvailability> getSquadAvailability(String instance, String squadId, Date fromDate, Date toDate) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadAvailabilityUrl(instance, squadId, fromDate, toDate));
+			final String json = httpFetcher.get(apiUrlBuilder.getSquadAvailabilityUrl(instance, squadId, fromDate, toDate), accessTokenHeaders());
 			return jsonDeserializer.deserializeSquadAvailability(json);
 			
 		} catch (Exception e) {
@@ -387,7 +394,7 @@ public class SquadlistApi {
 
 	public List<AvailabilityOption> getAvailabilityOptions(String instance) throws HttpFetchException, JsonParseException, JsonMappingException, IOException {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getAvailabilityOptionsUrl(instance));
+			final String json = httpFetcher.get(apiUrlBuilder.getAvailabilityOptionsUrl(instance), accessTokenHeaders());
 			return jsonDeserializer.deserializeAvailabilityOptions(json);
 			
 		} catch (Exception e) {
@@ -399,7 +406,8 @@ public class SquadlistApi {
 	public OutingAvailability setOutingAvailability(String instance, String memberId, String outingId, String availability) {
 		try {
 			final HttpPost post = new HttpPost(apiUrlBuilder.getOutingAvailabilityUrl(instance, outingId));
-		
+			addAccessToken(post);
+			
 			final List<NameValuePair> nameValuePairs = Lists.newArrayList();
 			nameValuePairs.add(new BasicNameValuePair("member", memberId));
 			nameValuePairs.add(new BasicNameValuePair("availability", availability));
@@ -429,7 +437,8 @@ public class SquadlistApi {
 	public Squad createSquad(String instance, String name) throws InvalidSquadException {
 		try {
 			final HttpPost post = new HttpPost(apiUrlBuilder.getSquadsUrl(instance));
-		
+			addAccessToken(post);
+
 			final List<NameValuePair> nameValuePairs = Lists.newArrayList();
 			nameValuePairs.add(new BasicNameValuePair("name", name));
 			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
@@ -477,7 +486,9 @@ public class SquadlistApi {
 	
 	public Outing createOuting(String instance, Outing outing, int repeats) throws InvalidOutingException {
 		try {
-			final HttpPost post = requestBuilder.buildCreateOutingPost(instance, outing, repeats);			
+			final HttpPost post = requestBuilder.buildCreateOutingPost(instance, outing, repeats);
+			addAccessToken(post);
+
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));	// TODO might need to be a list of outings?
 			
 		} catch (HttpBadRequestException e) {
@@ -491,7 +502,9 @@ public class SquadlistApi {
 	
 	public Outing updateOuting(String instance, Outing outing) throws InvalidOutingException {
 		try {
-			final HttpPost post = requestBuilder.buildUpdateOutingPost(instance, outing);			
+			final HttpPost post = requestBuilder.buildUpdateOutingPost(instance, outing);
+			addAccessToken(post);
+
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {
@@ -506,7 +519,8 @@ public class SquadlistApi {
 	public AvailabilityOption createAvailabilityOption(String instance, String label) {
 		try {
 			final HttpPost post = new HttpPost(apiUrlBuilder.getAvailabilityOptionsUrl(instance));
-		
+			addAccessToken(post);
+
 			final List<NameValuePair> nameValuePairs = Lists.newArrayList();
 			nameValuePairs.add(new BasicNameValuePair("label", label));
 			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));			
@@ -516,6 +530,19 @@ public class SquadlistApi {
 			log.error(e);
 			throw new RuntimeException(e);
 		}		
+	}
+	
+	private void addAccessToken(final HttpRequestBase request) {
+		final Map<String, String> authHeaders = accessTokenHeaders();
+		for (String header : authHeaders.keySet()) {
+			request.addHeader(header, authHeaders.get(header));			
+		}
+	}
+	
+	private Map<String, String> accessTokenHeaders() {
+		final Map<String, String> authHeaders = Maps.newHashMap();
+		authHeaders.put("Authorization", "Bearer " + accessToken);
+		return authHeaders;
 	}
 	
 }
