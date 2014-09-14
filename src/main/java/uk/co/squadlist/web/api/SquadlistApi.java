@@ -186,7 +186,9 @@ public class SquadlistApi {
 	
 	public void resetPassword(String instance, String username) throws UnknownMemberException {
 		try {
-			httpFetcher.post(requestBuilder.buildResetPasswordRequest(instance, username));
+			final HttpPost post = requestBuilder.buildResetPasswordRequest(instance, username);
+			addAccessToken(post);
+			httpFetcher.post(post);
 			
 		} catch (HttpNotFoundException e) {
 			throw new UnknownMemberException();
