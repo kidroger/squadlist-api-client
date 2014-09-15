@@ -13,7 +13,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.codehaus.jackson.JsonGenerationException;
@@ -30,6 +30,8 @@ import com.google.common.collect.Lists;
 
 public class RequestBuilder {
 
+	private static final String UTF8 = "UTF8";
+	
 	private final ApiUrlBuilder apiUrlBuilder;
 	private final ObjectMapper objectMapper;
 
@@ -39,7 +41,7 @@ public class RequestBuilder {
 	}
 	
 	public HttpPost buildCreateInstanceRequest(String id, String name, String timeZone) throws JsonGenerationException, JsonMappingException, IOException {
-		HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(new Instance(id, name, DateTime.now().toDate(), timeZone)));
+		HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Instance(id, name, DateTime.now().toDate(), timeZone)), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getInstancesUrl());
 		post.setEntity(entity);
 		return post;
@@ -47,7 +49,7 @@ public class RequestBuilder {
 	
 	public HttpPut buildUpdateInstanceRequest(Instance instance) throws JsonGenerationException, JsonMappingException, IOException {
 		final HttpPut put = new HttpPut(apiUrlBuilder.getInstancesUrl() + "/" + instance.getId());
-		HttpEntity entity = new ByteArrayEntity(objectMapper.writeValueAsBytes(instance));
+		HttpEntity entity = new StringEntity(objectMapper.writeValueAsString(instance), UTF8);
 		put.setEntity(entity);
 		return put;
 	}
@@ -56,28 +58,28 @@ public class RequestBuilder {
 		Member member = new Member(firstName, lastName, squads, email, password, dateOfBirth);	// TODO this should be the argument
 		member.setRole(role);
 		
-		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(member));
+		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(member), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
 		post.setEntity(entity);
 		return post;
 	}
 		
 	public HttpPost buildUpdateMemberRequest(String instance, Member member) throws JsonGenerationException, JsonMappingException, IOException {
-		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(member));		
+		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(member), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()));
 		post.setEntity(entity);
 		return post;
 	}
 	
 	public HttpPost buildUpdateSquadRequest(String instance, Squad squad) throws JsonGenerationException, JsonMappingException, IOException {
-		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(squad));		
+		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(squad), UTF8);		
 		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(instance, squad.getId()));
 		post.setEntity(entity);
 		return post;
 	}
 	
 	public HttpPost buildSetSquadMembersRequest(String instance, String squadId, Set<String> members) throws JsonGenerationException, JsonMappingException, IOException {
-		final HttpEntity entity = new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(members));
+		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(members), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(instance, squadId) + "/members");
 		post.setEntity(entity);
 		return post;
@@ -141,7 +143,7 @@ public class RequestBuilder {
 	
 	private HttpPost buildOutingPostTo(Outing outing, String url, Integer repeats) throws IOException, JsonGenerationException, JsonMappingException {
 		final HttpPost post = new HttpPost(url);
-		post.setEntity(new ByteArrayEntity(new ObjectMapper().writeValueAsBytes(outing)));
+		post.setEntity(new StringEntity(new ObjectMapper().writeValueAsString(outing), UTF8));
 		if (repeats != null) {
 			Header header = new BasicHeader("repeats", Integer.toString(repeats));
 			post.addHeader(header);
