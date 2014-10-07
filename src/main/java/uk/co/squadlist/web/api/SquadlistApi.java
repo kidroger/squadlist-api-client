@@ -426,6 +426,8 @@ public class SquadlistApi {
 	public Member createMember(String instance, String firstName, String lastName, List<Squad> squads, String email, String password, Date dateOfBirth, String role) throws InvalidMemberException {
 		try {
 			final HttpPost post = requestBuilder.buildCreateMemberRequest(instance, firstName, lastName, squads, email, password, dateOfBirth, role);
+			addAccessToken(post);
+
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {
@@ -463,6 +465,8 @@ public class SquadlistApi {
 	public Member updateMemberDetails(String instance, Member member) {
 		try {
 			final HttpPost post = requestBuilder.buildUpdateMemberRequest(instance, member);
+			addAccessToken(post);
+
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
 			
 		} catch (Exception e) {
@@ -474,6 +478,8 @@ public class SquadlistApi {
 	public Squad updateSquad(String instance, Squad squad) {
 		try {
 			final HttpPost post = requestBuilder.buildUpdateSquadRequest(instance, squad);
+			addAccessToken(post);
+
 			return jsonDeserializer.deserializeSquad(httpFetcher.post(post));
 			
 		} catch (Exception e) {
@@ -495,6 +501,10 @@ public class SquadlistApi {
 			
 		} catch (HttpBadRequestException e) {
 			throw new InvalidOutingException(e.getResponseBody());
+			
+		} catch (HttpFetchException e) {
+			log.error("Unexpected HTTP exception: " + e.getResponseBody());
+			throw new RuntimeException(e);
 			
 		} catch (Exception e) {
 			log.error(e);
