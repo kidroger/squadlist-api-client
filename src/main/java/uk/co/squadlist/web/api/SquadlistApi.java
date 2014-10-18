@@ -57,6 +57,7 @@ public class SquadlistApi {
 	private final JsonDeserializer jsonDeserializer;
 
 	private final String accessToken;
+	private final HttpClient client;		// TODO why is this in use - operations which HttpFetcher does not support?
 	
 	public SquadlistApi(RequestBuilder requestBuilder, ApiUrlBuilder urlBuilder, HttpFetcher httpFetcher, JsonDeserializer jsonDeserializer, String accessToken) {
 		this.apiUrlBuilder = urlBuilder;
@@ -64,6 +65,7 @@ public class SquadlistApi {
 		this.httpFetcher = httpFetcher;
 		this.jsonDeserializer = jsonDeserializer;
 		this.accessToken = accessToken;
+		this.client = new DefaultHttpClient();
 	}
 	
 	public SquadlistApi(String apiUrl, String accessToken) {
@@ -72,6 +74,7 @@ public class SquadlistApi {
 		this.httpFetcher = new HttpFetcher();
 		this.jsonDeserializer = new JsonDeserializer();
 		this.accessToken = accessToken;
+		this.client = new DefaultHttpClient();
 	}
 	
 	public List<Instance> getInstances() {
@@ -166,7 +169,6 @@ public class SquadlistApi {
 	
 	public Member authFacebook(String instance, String token) {
 		try {
-			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
 			final HttpPost post = requestBuilder.buildAuthFacebookPost(instance, token);
 			addAccessToken(post);
 
