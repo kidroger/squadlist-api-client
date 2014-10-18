@@ -3,6 +3,8 @@ package uk.co.squadlist.web.model;
 import java.util.Date;
 import java.util.List;
 
+import com.google.common.base.Strings;
+
 public class Member {
 	
 	private String id, username, facebookId, role, firstName, lastName, knownAs, 
@@ -167,7 +169,10 @@ public class Member {
 	}
 	
 	public String getDisplayName() {
-		return firstName + " " + lastName;
+		if (!Strings.isNullOrEmpty(firstName) && !Strings.isNullOrEmpty(lastName)) {
+			return firstName + " " + lastName;			
+		}
+		return username;
 	}
 	
 	@Override
