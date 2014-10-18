@@ -165,7 +165,11 @@ public class Member {
 	public void setSculling(String sculling) {
 		this.sculling = sculling;
 	}
-
+	
+	public String getDisplayName() {
+		return firstName + " " + lastName;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
