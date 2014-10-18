@@ -201,7 +201,9 @@ public class SquadlistApi {
 	
 	public String confirmResetPassword(String instance, String token) {
 		try {
-			return jsonDeserializer.deserializeString(httpFetcher.post(requestBuilder.buildConfirmPasswordRequest(instance, token)));
+			final HttpPost post = requestBuilder.buildConfirmPasswordRequest(instance, token);
+			addAccessToken(post);
+			return jsonDeserializer.deserializeString(httpFetcher.post(post));
 			// TODO catch invalid token
 			
 		} catch (Exception e) {
