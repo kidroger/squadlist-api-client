@@ -14,6 +14,7 @@ public class Member {
 	private List<Squad> squads;
 	private Date dateOfBirth;
 	private Boolean admin;
+	private String profileImage;
 	
 	public Member() {
 	}
@@ -24,7 +25,7 @@ public class Member {
 		this.emailAddress = emailAddress;
 		this.password = password;
 		this.dateOfBirth = dateOfBirth;		
-		this.squads = squads;		
+		this.squads = squads;
 	}
 	
 	public String getId() {
@@ -168,6 +169,13 @@ public class Member {
 		this.sculling = sculling;
 	}
 	
+	public String getProfileImage() {
+		return profileImage;
+	}
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+
 	public String getDisplayName() {
 		if (!Strings.isNullOrEmpty(firstName) && !Strings.isNullOrEmpty(lastName)) {
 			return firstName + " " + lastName;			
@@ -202,18 +210,19 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member [admin=" + admin + ", contactNumber=" + contactNumber
-				+ ", dateOfBirth=" + dateOfBirth + ", emailAddress="
-				+ emailAddress + ", emergencyContactName="
-				+ emergencyContactName + ", emergencyContactNumber="
-				+ emergencyContactNumber + ", facebookId=" + facebookId
-				+ ", firstName=" + firstName + ", gender=" + gender + ", id="
-				+ id + ", knownAs=" + knownAs + ", lastName=" + lastName
-				+ ", password=" + password + ", registrationNumber="
-				+ registrationNumber + ", role=" + role + ", rowingPoints="
-				+ rowingPoints + ", scullingPoints=" + scullingPoints
-				+ ", squads=" + squads + ", sweepOarSide=" + sweepOarSide
-				+ ", username=" + username + ", weight=" + weight + "]";
+		return "Member [id=" + id + ", username=" + username + ", facebookId="
+				+ facebookId + ", role=" + role + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", knownAs=" + knownAs
+				+ ", gender=" + gender + ", emailAddress=" + emailAddress
+				+ ", contactNumber=" + contactNumber
+				+ ", emergencyContactName=" + emergencyContactName
+				+ ", emergencyContactNumber=" + emergencyContactNumber
+				+ ", rowingPoints=" + rowingPoints + ", sculling=" + sculling
+				+ ", scullingPoints=" + scullingPoints + ", sweepOarSide="
+				+ sweepOarSide + ", registrationNumber=" + registrationNumber
+				+ ", password=" + password + ", weight=" + weight + ", squads="
+				+ squads + ", dateOfBirth=" + dateOfBirth + ", admin=" + admin
+				+ ", profileImage=" + profileImage + "]";
 	}
 	
 }

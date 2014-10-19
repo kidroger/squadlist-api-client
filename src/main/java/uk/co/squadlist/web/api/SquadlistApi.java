@@ -479,6 +479,18 @@ public class SquadlistApi {
 		}
 	}
 	
+	public Member updateMemberProfileImage(String instance, Member member, byte[] image) {
+		try {
+			final HttpPost post = requestBuilder.buildUpdateMemberProfileImageRequest(instance, member, image);
+			addAccessToken(post);
+			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
+		
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public Squad updateSquad(String instance, Squad squad) {
 		try {
 			final HttpPost post = requestBuilder.buildUpdateSquadRequest(instance, squad);
