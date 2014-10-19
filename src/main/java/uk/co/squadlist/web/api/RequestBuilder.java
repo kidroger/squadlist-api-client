@@ -78,10 +78,10 @@ public class RequestBuilder {
 	}
 	
 	public HttpPost buildUpdateMemberProfileImageRequest(String instance, Member member, byte[] image) {	
-		final MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-		builder.addPart("image", new ByteArrayBody(image, "image"));
-		HttpEntity entity = builder.build();
+		final HttpEntity entity = MultipartEntityBuilder.create().
+				setMode(HttpMultipartMode.BROWSER_COMPATIBLE).
+				addPart("image", new ByteArrayBody(image, "image")).
+				build();
 		
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()) + "/profileimage");
 		post.setEntity(entity);
