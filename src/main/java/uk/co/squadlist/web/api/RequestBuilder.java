@@ -25,7 +25,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.joda.time.DateTime;
 
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
@@ -46,8 +45,8 @@ public class RequestBuilder {
 		this.objectMapper = new ObjectMapper();
 	}
 	
-	public HttpPost buildCreateInstanceRequest(String id, String name, String timeZone) throws JsonGenerationException, JsonMappingException, IOException {
-		HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Instance(id, name, DateTime.now().toDate(), timeZone)), UTF8);
+	public HttpPost buildCreateInstanceRequest(String id, String name, String timeZone, boolean availabilityVisible) throws JsonGenerationException, JsonMappingException, IOException {
+		HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Instance(id, name, timeZone, availabilityVisible)), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getInstancesUrl());
 		post.setEntity(entity);
 		return post;

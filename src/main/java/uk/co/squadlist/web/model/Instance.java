@@ -1,22 +1,21 @@
 package uk.co.squadlist.web.model;
 
-import java.util.Date;
 
 public class Instance {
 	
 	private String id;
 	private String name;
-	private Date lastUsed;
 	private String timeZone;
+	private boolean availabilityVisible;
 	
 	public Instance() {
 	}
 	
-	public Instance(String id, String name, Date lastUsed, String timeZone) {
+	public Instance(String id, String name, String timeZone, boolean availabilityVisible) {
 		this.id = id;
 		this.name = name;
-		this.lastUsed = lastUsed;
 		this.timeZone = timeZone;
+		this.availabilityVisible = availabilityVisible;
 	}
 	
 	public String getId() {
@@ -33,24 +32,23 @@ public class Instance {
 		this.name = name;
 	}
 
-	public Date getLastUsed() {
-		return lastUsed;
-	}
-	public void setLastUsed(Date lastUsed) {
-		this.lastUsed = lastUsed;
-	}
-	
 	public String getTimeZone() {
 		return timeZone;
 	}
 	public void setTimeZone(String timeZone) {
 		this.timeZone = timeZone;
 	}
+	
+	public boolean isAvailabilityVisible() {
+		return availabilityVisible;
+	}
+	public void setAvailabilityVisible(boolean availabilityVisible) {
+		this.availabilityVisible = availabilityVisible;
+	}
 
 	@Override
 	public String toString() {
-		return "Instance [id=" + id + ", lastUsed=" + lastUsed + ", name="
-				+ name + ", timeZone=" + timeZone + "]";
+		return "Instance [availabilityVisible=" + availabilityVisible + ", id=" + id + ", name=" + name + ", timeZone=" + timeZone + "]";
 	}
 	
 }
