@@ -33,6 +33,7 @@ import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 import uk.co.squadlist.web.exceptions.InvalidMemberException;
 import uk.co.squadlist.web.exceptions.InvalidOutingException;
 import uk.co.squadlist.web.exceptions.InvalidSquadException;
+import uk.co.squadlist.web.exceptions.UnknownInstanceException;
 import uk.co.squadlist.web.exceptions.UnknownMemberException;
 import uk.co.squadlist.web.exceptions.UnknownOutingException;
 import uk.co.squadlist.web.exceptions.UnknownSquadException;
@@ -81,7 +82,7 @@ public class SquadlistApi {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getInstancesUrl(), accessTokenHeaders());
 			return jsonDeserializer.deserializeListOfInstances(json);
-		
+			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -114,10 +115,13 @@ public class SquadlistApi {
 		}		
 	}
 	
-	public Instance getInstance(String id) {
+	public Instance getInstance(String id) throws UnknownInstanceException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getInstanceUrl(id), accessTokenHeaders());
 			return jsonDeserializer.deserializeInstanceDetails(json);
+		
+		} catch (HttpNotFoundException e) {	
+			throw new UnknownInstanceException();
 			
 		} catch (Exception e) {
 			log.error(e);
