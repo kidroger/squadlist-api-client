@@ -12,7 +12,7 @@ public class Member {
 		rowingPoints, sculling, scullingPoints, sweepOarSide, registrationNumber, password;
 	private Integer weight;
 	private List<Squad> squads;
-	private Date dateOfBirth;
+	private Date dateOfBirth, availabilityLastUpdated;
 	private Boolean admin;
 	private String profileImage;
 	
@@ -175,7 +175,14 @@ public class Member {
 	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
 	}
-
+	
+	public Date getAvailabilityLastUpdated() {
+		return availabilityLastUpdated;
+	}
+	public void setAvailabilityLastUpdated(Date availabilityLastUpdated) {
+		this.availabilityLastUpdated = availabilityLastUpdated;
+	}
+	
 	public String getDisplayName() {
 		if (!Strings.isNullOrEmpty(firstName) && !Strings.isNullOrEmpty(lastName)) {
 			return firstName + " " + lastName;			
@@ -221,8 +228,9 @@ public class Member {
 				+ ", scullingPoints=" + scullingPoints + ", sweepOarSide="
 				+ sweepOarSide + ", registrationNumber=" + registrationNumber
 				+ ", password=" + password + ", weight=" + weight + ", squads="
-				+ squads + ", dateOfBirth=" + dateOfBirth + ", admin=" + admin
-				+ ", profileImage=" + profileImage + "]";
+				+ squads + ", dateOfBirth=" + dateOfBirth
+				+ ", availabilityLastUpdated=" + availabilityLastUpdated
+				+ ", admin=" + admin + ", profileImage=" + profileImage + "]";
 	}
 	
 }
