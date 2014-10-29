@@ -119,4 +119,8 @@ public class JsonDeserializer {
 		return mapper.readValue(json, String.class);
 	}
 	
+	public Map<String, Object> deserializeMap(String json) throws JsonParseException, JsonMappingException, IOException {
+		return mapper.readValue(json, Map.class);
+	}
+	
 }

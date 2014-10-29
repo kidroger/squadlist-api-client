@@ -129,6 +129,20 @@ public class SquadlistApi {
 		}
 	}
 	
+	public Map<String, Object> getInstanceStatistics(String instance) throws UnknownInstanceException {
+		try {
+			final String json = httpFetcher.get(apiUrlBuilder.getInstanceStatisticsUrl(instance), accessTokenHeaders());
+			return jsonDeserializer.deserializeMap(json);
+		
+		} catch (HttpNotFoundException e) {	
+			throw new UnknownInstanceException();
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public void deleteInstance(String id) throws InvalidInstanceException {
 		try {
 			final HttpDelete delete = requestBuilder.buildDeleteInstanceRequest(id);

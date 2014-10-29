@@ -8,6 +8,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
+import uk.co.squadlist.web.model.Instance;
+
 public class ApiUrlBuilder {
 	
 	private static final String UTF_8 = "UTF-8";
@@ -96,6 +98,10 @@ public class ApiUrlBuilder {
 	
 	public String getConfirmResetPasswordUrl(String instance) {
 		return getResetPasswordUrl(instance) + "/confirm";
+	}
+	
+	public String getInstanceStatisticsUrl(String instance) {
+		return getInstanceUrl(instance) + "/statistics";
 	}
 	
 	private void appendDates(final StringBuilder url, Date fromDate, Date toDate) {
