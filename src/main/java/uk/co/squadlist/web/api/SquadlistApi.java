@@ -1,6 +1,7 @@
 package uk.co.squadlist.web.api;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -427,16 +428,10 @@ public class SquadlistApi {
 		}
 	}
 	
-	public OutingAvailability setOutingAvailability(String instance, String memberId, String outingId, String availability) {
+	public OutingAvailability setOutingAvailability(String instance, Member member, Outing outing, AvailabilityOption availabilityOption) {
 		try {
-			final HttpPost post = new HttpPost(apiUrlBuilder.getOutingAvailabilityUrl(instance, outingId));
+			final HttpPost post = requestBuilder.buildSetAvailabilityRequest(instance, member, outing, availabilityOption);			
 			addAccessToken(post);
-			
-			final List<NameValuePair> nameValuePairs = Lists.newArrayList();
-			nameValuePairs.add(new BasicNameValuePair("member", memberId));
-			nameValuePairs.add(new BasicNameValuePair("availability", availability));
-			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			
 			return jsonDeserializer.deserializeOutingAvailability(httpFetcher.post(post));
 			
 		} catch (Exception e) {

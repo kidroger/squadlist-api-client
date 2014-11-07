@@ -16,16 +16,15 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.AbstractContentBody;
 import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.ContentBody;
-import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import uk.co.squadlist.web.model.Availability;
+import uk.co.squadlist.web.model.AvailabilityOption;
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
 import uk.co.squadlist.web.model.Outing;
@@ -101,6 +100,13 @@ public class RequestBuilder {
 		return post;
 	}
 	
+	public HttpPost buildSetAvailabilityRequest(String instance, Member member, Outing outing, AvailabilityOption availabilityOption) throws JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Availability(member, outing, availabilityOption)), UTF8);		
+		final HttpPost post = new HttpPost(apiUrlBuilder.getOutingAvailabilityUrl(instance, outing.getId()));
+		post.setEntity(entity);
+		return post;
+	}
+		
 	public HttpPost buildCreateOutingPost(String instance, Outing outing, int repeats) throws JsonGenerationException, JsonMappingException, IOException {
 		return buildOutingPostTo(outing, apiUrlBuilder.getOutingsUrl(instance), repeats);
 	}
