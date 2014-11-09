@@ -2,7 +2,7 @@ package uk.co.squadlist.web.model;
 
 public class AvailabilityOption {
 	
-	private String label, colour;
+	private String id, label, colour;
 	
 	public AvailabilityOption() {
 	}
@@ -10,6 +10,14 @@ public class AvailabilityOption {
 	public AvailabilityOption(String label) {
 		this.label = label;
 	}
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getLabel() {
 		return label;
 	}
@@ -23,10 +31,11 @@ public class AvailabilityOption {
 	public void setColour(String colour) {
 		this.colour = colour;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "AvailabilityOption [colour=" + colour + ", label=" + label + "]";
+		return "AvailabilityOption [id=" + id + ", label=" + label
+				+ ", colour=" + colour + "]";
 	}
-	
+		
 }

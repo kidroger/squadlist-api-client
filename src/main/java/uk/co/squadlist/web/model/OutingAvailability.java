@@ -3,7 +3,7 @@ package uk.co.squadlist.web.model;
 public class OutingAvailability {
 
 	private Outing outing;
-	private AvailabilityOption availability;
+	private AvailabilityOption availabilityOption;
 	
 	public Outing getOuting() {
 		return outing;
@@ -11,16 +11,17 @@ public class OutingAvailability {
 	public void setOuting(Outing outing) {
 		this.outing = outing;
 	}
-	public AvailabilityOption getAvailability() {
-		return availability;
+	public AvailabilityOption getAvailabilityOption() {
+		return availabilityOption;
 	}
-	public void setAvailability(AvailabilityOption availability) {
-		this.availability = availability;
+	public void setAvailabilityOption(AvailabilityOption availability) {
+		this.availabilityOption = availability;
 	}
 	
 	@Override
 	public String toString() {
-		return "OutingAvailability [outing=" + outing + ", availability=" + availability + "]";
+		return "OutingAvailability [outing=" + outing + ", availabilityOption="
+				+ availabilityOption + "]";
 	}
-
+	
 }
