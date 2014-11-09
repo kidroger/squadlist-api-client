@@ -67,10 +67,25 @@ public class RequestBuilder {
 		post.setEntity(entity);
 		return post;
 	}
-		
+	
+	public HttpPost buildCreateAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption) throws JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(availabilityOption), UTF8);
+		String availabilityOptionsUrl = apiUrlBuilder.getAvailabilityOptionsUrl(instance);		
+		final HttpPost post = new HttpPost(availabilityOptionsUrl);
+		post.setEntity(entity);
+		return post;
+	}
+	
 	public HttpPost buildUpdateMemberRequest(String instance, Member member) throws JsonGenerationException, JsonMappingException, IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(member), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()));
+		post.setEntity(entity);
+		return post;
+	}
+	
+	public HttpPost buildCreateSquadRequest(String instance, Squad squad) throws JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(squad), UTF8);
+		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadsUrl(instance));
 		post.setEntity(entity);
 		return post;
 	}

@@ -4,6 +4,13 @@ public class Squad {
 
 	private String id, name;
 	
+	public Squad() {
+	}
+	
+	public Squad(String name) {
+		this.name = name;
+	}
+
 	public String getId() {
 		return id;
 	}

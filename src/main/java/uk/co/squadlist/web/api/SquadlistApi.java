@@ -1,7 +1,6 @@
 package uk.co.squadlist.web.api;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -457,12 +456,9 @@ public class SquadlistApi {
 	
 	public Squad createSquad(String instance, String name) throws InvalidSquadException {
 		try {
-			final HttpPost post = new HttpPost(apiUrlBuilder.getSquadsUrl(instance));
+			final HttpPost post = requestBuilder.buildCreateSquadRequest(instance, new Squad(name));
 			addAccessToken(post);
-
-			final List<NameValuePair> nameValuePairs = Lists.newArrayList();
-			nameValuePairs.add(new BasicNameValuePair("name", name));
-			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));	
+			
 			return jsonDeserializer.deserializeSquadDetails(httpFetcher.post(post));
 			
 		} catch (HttpBadRequestException e) {
@@ -559,12 +555,9 @@ public class SquadlistApi {
 	
 	public AvailabilityOption createAvailabilityOption(String instance, String label) {
 		try {
-			final HttpPost post = new HttpPost(apiUrlBuilder.getAvailabilityOptionsUrl(instance));
+			final HttpPost post = requestBuilder.buildCreateAvailabilityOptionRequest(instance, new AvailabilityOption(label));
 			addAccessToken(post);
-
-			final List<NameValuePair> nameValuePairs = Lists.newArrayList();
-			nameValuePairs.add(new BasicNameValuePair("label", label));
-			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));			
+			
 			return jsonDeserializer.deserializeAvailabilityOption(httpFetcher.post(post));
 			
 		} catch (Exception e) {
