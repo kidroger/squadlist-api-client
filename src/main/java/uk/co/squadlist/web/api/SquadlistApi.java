@@ -364,11 +364,6 @@ public class SquadlistApi {
 		}
 	}
 	
-	public Squad setSquadMembers(String instance, String squadId, Set<String> members) throws JsonGenerationException, JsonMappingException, IOException, HttpNotFoundException, HttpBadRequestException, HttpForbiddenException, HttpFetchException {
-		final HttpPost post = requestBuilder.buildSetSquadMembersRequest(instance, squadId, members);		
-		return jsonDeserializer.deserializeSquadDetails(httpFetcher.post(post));
-	}
-	
 	public Outing getOuting(String instance, String outingId) throws UnknownOutingException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getOutingUrl(instance, outingId), accessTokenHeaders());
@@ -552,6 +547,14 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}		
 	}
+	
+	public Squad setSquadMembers(String instance, String squadId, Set<String> members) throws JsonGenerationException, JsonMappingException, IOException, HttpNotFoundException, HttpBadRequestException, HttpForbiddenException, HttpFetchException {
+		final HttpPost post = requestBuilder.buildSetSquadMembersRequest(instance, squadId, members);	
+		addAccessToken(post);
+
+		return jsonDeserializer.deserializeSquadDetails(httpFetcher.post(post));
+	}
+	
 	
 	public AvailabilityOption createAvailabilityOption(String instance, String label) {
 		try {
