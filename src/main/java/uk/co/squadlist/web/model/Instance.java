@@ -7,7 +7,8 @@ public class Instance {
 	private String name;
 	private String timeZone;
 	private boolean availabilityVisible;
-	
+	private Boolean beta;
+		
 	public Instance() {
 	}
 	
@@ -46,9 +47,18 @@ public class Instance {
 		this.availabilityVisible = availabilityVisible;
 	}
 
+	public Boolean getBeta() {
+		return beta;
+	}
+	public void setBeta(Boolean beta) {
+		this.beta = beta;
+	}
+
 	@Override
 	public String toString() {
-		return "Instance [availabilityVisible=" + availabilityVisible + ", id=" + id + ", name=" + name + ", timeZone=" + timeZone + "]";
+		return "Instance [id=" + id + ", name=" + name + ", timeZone="
+				+ timeZone + ", availabilityVisible=" + availabilityVisible
+				+ ", beta=" + beta + "]";
 	}
-	
+
 }
