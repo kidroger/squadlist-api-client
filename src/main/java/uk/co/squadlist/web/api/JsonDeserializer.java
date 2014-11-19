@@ -19,6 +19,7 @@ import uk.co.squadlist.web.model.Outing;
 import uk.co.squadlist.web.model.OutingAvailability;
 import uk.co.squadlist.web.model.OutingWithSquadAvailability;
 import uk.co.squadlist.web.model.Squad;
+import uk.co.squadlist.web.model.SubscriptionRequest;
 
 public class JsonDeserializer {
 
@@ -93,7 +94,12 @@ public class JsonDeserializer {
 	public List<Instance> deserializeListOfInstances(String json) throws JsonParseException, JsonMappingException, IOException {
 		return (List<Instance>) mapper.readValue(json, new TypeReference<Collection<Instance>>() {});
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public List<SubscriptionRequest> deserializeListOfSubscriptionRequests(String json) throws JsonParseException, JsonMappingException, IOException {
+		return (List<SubscriptionRequest>) mapper.readValue(json, new TypeReference<Collection<SubscriptionRequest>>() {});
+	}
+	
 	public Instance deserializeInstanceDetails(String json) throws JsonParseException, JsonMappingException, IOException {
 		return mapper.readValue(json, Instance.class);
 	}

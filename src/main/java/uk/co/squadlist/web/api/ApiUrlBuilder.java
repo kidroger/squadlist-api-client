@@ -8,8 +8,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
-import uk.co.squadlist.web.model.Instance;
-
 public class ApiUrlBuilder {
 	
 	private static final String UTF_8 = "UTF-8";
@@ -32,6 +30,10 @@ public class ApiUrlBuilder {
 		return apiUrl + "/instances";
 	}
 	
+	public String getSubscriptionRequestsUrl() {
+		return apiUrl + "/subscription-requests";
+	}
+		
 	public String getInstanceUrl(String instance) {
 		return getInstancesUrl() + "/" + urlEncode(instance);
 	}

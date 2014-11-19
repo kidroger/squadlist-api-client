@@ -9,15 +9,12 @@ import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
@@ -44,8 +41,8 @@ import uk.co.squadlist.web.model.Outing;
 import uk.co.squadlist.web.model.OutingAvailability;
 import uk.co.squadlist.web.model.OutingWithSquadAvailability;
 import uk.co.squadlist.web.model.Squad;
+import uk.co.squadlist.web.model.SubscriptionRequest;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class SquadlistApi {
@@ -82,6 +79,17 @@ public class SquadlistApi {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getInstancesUrl(), accessTokenHeaders());
 			return jsonDeserializer.deserializeListOfInstances(json);
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public List<SubscriptionRequest> getSubscriptionRequests() {
+		try {
+			final String json = httpFetcher.get(apiUrlBuilder.getSubscriptionRequestsUrl(), accessTokenHeaders());
+			return jsonDeserializer.deserializeListOfSubscriptionRequests(json);
 			
 		} catch (Exception e) {
 			log.error(e);
