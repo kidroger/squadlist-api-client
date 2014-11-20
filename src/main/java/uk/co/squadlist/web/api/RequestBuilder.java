@@ -3,7 +3,6 @@ package uk.co.squadlist.web.api;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.UnsupportedCharsetException;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -60,10 +59,7 @@ public class RequestBuilder {
 		return put;
 	}
 	
-	public HttpPost buildCreateMemberRequest(String instance, String firstName, String lastName, List<Squad> squads, String email, String password, Date dateOfBirth, String role) throws JsonGenerationException, JsonMappingException, IOException {
-		Member member = new Member(firstName, lastName, squads, email, password, dateOfBirth);	// TODO this should be the argument
-		member.setRole(role);
-		
+	public HttpPost buildCreateMemberRequest(String instance, Member member) throws JsonGenerationException, JsonMappingException, IOException {		
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(member), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
 		post.setEntity(entity);
