@@ -11,6 +11,11 @@ public class AvailabilityOption {
 		this.label = label;
 	}
 	
+	public AvailabilityOption(String label, String colour) {
+		this.label = label;
+		this.colour = colour;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -34,8 +39,7 @@ public class AvailabilityOption {
 
 	@Override
 	public String toString() {
-		return "AvailabilityOption [id=" + id + ", label=" + label
-				+ ", colour=" + colour + "]";
+		return "AvailabilityOption [id=" + id + ", label=" + label + ", colour=" + colour + "]";
 	}
 		
 }

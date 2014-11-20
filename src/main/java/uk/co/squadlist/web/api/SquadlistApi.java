@@ -621,10 +621,15 @@ public class SquadlistApi {
 		return jsonDeserializer.deserializeSquadDetails(httpFetcher.post(post));
 	}
 	
-	
+	@Deprecated
 	public AvailabilityOption createAvailabilityOption(String instance, String label) {
+		final AvailabilityOption availabilityOption = new AvailabilityOption(label);
+		return createAvailabilityOption(instance, availabilityOption);		
+	}
+	
+	public AvailabilityOption createAvailabilityOption(String instance, final AvailabilityOption availabilityOption) {
 		try {
-			final HttpPost post = requestBuilder.buildCreateAvailabilityOptionRequest(instance, new AvailabilityOption(label));
+			final HttpPost post = requestBuilder.buildCreateAvailabilityOptionRequest(instance, availabilityOption);
 			addAccessToken(post);
 			
 			return jsonDeserializer.deserializeAvailabilityOption(httpFetcher.post(post));
@@ -632,7 +637,7 @@ public class SquadlistApi {
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
-		}		
+		}
 	}
 	
 	private void addAccessToken(final HttpRequestBase request) {
