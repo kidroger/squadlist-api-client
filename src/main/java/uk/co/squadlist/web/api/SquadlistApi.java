@@ -30,6 +30,7 @@ import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 import uk.co.squadlist.web.exceptions.InvalidMemberException;
 import uk.co.squadlist.web.exceptions.InvalidOutingException;
 import uk.co.squadlist.web.exceptions.InvalidSquadException;
+import uk.co.squadlist.web.exceptions.InvalidSubscriptionRequestException;
 import uk.co.squadlist.web.exceptions.UnknownInstanceException;
 import uk.co.squadlist.web.exceptions.UnknownMemberException;
 import uk.co.squadlist.web.exceptions.UnknownOutingException;
@@ -100,7 +101,7 @@ public class SquadlistApi {
 	public SubscriptionRequest getSubscriptionRequest(String id) {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getSubscriptionRequestUrl(id), accessTokenHeaders());
-			return jsonDeserializer.deserializeListOfSubscriptionRequest(json);
+			return jsonDeserializer.deserializeSubscriptionRequest(json);
 			
 		} catch (Exception e) {
 			log.error(e);
@@ -130,6 +131,20 @@ public class SquadlistApi {
 		}		
 	}
 	
+	public SubscriptionRequest createSubscriptionRequest(SubscriptionRequest subscriptionRequest) throws InvalidSubscriptionRequestException {
+		try {
+			final HttpPost post = requestBuilder.buildCreateSubscriptionRequestRequest(subscriptionRequest);
+			addAccessToken(post);			
+			return jsonDeserializer.deserializeSubscriptionRequest(httpFetcher.post(post));
+			
+		} catch (HttpBadRequestException e) {
+			throw new InvalidSubscriptionRequestException();
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}		
+	}
 	
 	public Instance createInstance(String id, String name, String timeZone, boolean availabilityVisible) throws InvalidInstanceException {
 		try {

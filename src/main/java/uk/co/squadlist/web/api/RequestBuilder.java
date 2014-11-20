@@ -2,6 +2,7 @@ package uk.co.squadlist.web.api;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +30,7 @@ import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
 import uk.co.squadlist.web.model.Outing;
 import uk.co.squadlist.web.model.Squad;
+import uk.co.squadlist.web.model.SubscriptionRequest;
 
 import com.google.common.collect.Lists;
 
@@ -182,6 +184,12 @@ public class RequestBuilder {
 		return post;
 	}
 	
+	public HttpPost buildCreateSubscriptionRequestRequest(SubscriptionRequest subscriptionRequest) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
+		final HttpPost post = new HttpPost(apiUrlBuilder.getSubscriptionRequestsUrl());
+		post.setEntity(new StringEntity(new ObjectMapper().writeValueAsString(subscriptionRequest), UTF8));
+		return post;
+	}
+		
 	private HttpPost buildOutingPostTo(Outing outing, String url, Integer repeats) throws IOException, JsonGenerationException, JsonMappingException {
 		final HttpPost post = new HttpPost(url);
 		post.setEntity(new StringEntity(new ObjectMapper().writeValueAsString(outing), UTF8));
@@ -191,5 +199,5 @@ public class RequestBuilder {
 		}
 		return post;
 	}
-	
+
 }
