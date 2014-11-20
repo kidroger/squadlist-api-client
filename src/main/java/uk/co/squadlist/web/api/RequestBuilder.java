@@ -59,6 +59,13 @@ public class RequestBuilder {
 		return put;
 	}
 	
+	public HttpPost buildUpdateSubscriptionRequestRequest(SubscriptionRequest subscriptonRequest) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
+		final HttpPost post = new HttpPost(apiUrlBuilder.getSubscriptionRequestUrl(subscriptonRequest.getId()));
+		HttpEntity entity = new StringEntity(objectMapper.writeValueAsString(subscriptonRequest), UTF8);
+		post.setEntity(entity);
+		return post;
+	}
+	
 	public HttpPost buildCreateMemberRequest(String instance, Member member) throws JsonGenerationException, JsonMappingException, IOException {		
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(member), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));

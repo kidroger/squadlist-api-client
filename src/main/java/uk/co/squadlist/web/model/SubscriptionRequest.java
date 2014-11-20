@@ -6,7 +6,8 @@ public class SubscriptionRequest {
 	
 	private String id, club, location, firstName, lastName, email, reason;	
 	private Date received;
-			
+	private String status, notes, accessDetails;
+
 	public SubscriptionRequest() {
 	}
 
@@ -74,12 +75,37 @@ public class SubscriptionRequest {
 		this.received = received;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public String getAccessDetails() {
+		return accessDetails;
+	}
+
+	public void setAccessDetails(String accessDetails) {
+		this.accessDetails = accessDetails;
+	}
+
 	@Override
 	public String toString() {
-		return "SubscriptionRequest [club=" + club + ", email=" + email
-				+ ", firstName=" + firstName + ", id=" + id + ", lastName="
-				+ lastName + ", location=" + location + ", reason=" + reason
-				+ ", received=" + received + "]";
+		return "SubscriptionRequest [id=" + id + ", club=" + club
+				+ ", location=" + location + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", email=" + email + ", reason="
+				+ reason + ", received=" + received + ", status=" + status
+				+ ", notes=" + notes + ", accessDetails=" + accessDetails + "]";
 	}
 	
 }

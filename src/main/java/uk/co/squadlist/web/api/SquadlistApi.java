@@ -172,6 +172,18 @@ public class SquadlistApi {
 		}		
 	}
 	
+	public SubscriptionRequest updateSubscriptionRequest(SubscriptionRequest subscriptonRequest) {
+		try {
+			final HttpPost post = requestBuilder.buildUpdateSubscriptionRequestRequest(subscriptonRequest);
+			addAccessToken(post);
+			return jsonDeserializer.deserializeSubscriptionRequest(httpFetcher.post(post));
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+		
 	public Instance getInstance(String id) throws UnknownInstanceException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getInstanceUrl(id), accessTokenHeaders());
