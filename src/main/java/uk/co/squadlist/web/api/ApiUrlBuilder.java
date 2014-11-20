@@ -106,6 +106,10 @@ public class ApiUrlBuilder {
 		return getInstanceUrl(instance) + "/statistics";
 	}
 	
+	public String getSubscriptionRequestUrl(String id) {
+		return getSubscriptionRequestsUrl() + "/" + id;
+	}
+		
 	private void appendDates(final StringBuilder url, Date fromDate, Date toDate) {
 		String joiner = "?";
 		if (fromDate != null) {
@@ -125,5 +129,5 @@ public class ApiUrlBuilder {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 }

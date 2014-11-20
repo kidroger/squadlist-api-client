@@ -97,6 +97,40 @@ public class SquadlistApi {
 		}
 	}
 	
+	public SubscriptionRequest getSubscriptionRequest(String id) {
+		try {
+			final String json = httpFetcher.get(apiUrlBuilder.getSubscriptionRequestUrl(id), accessTokenHeaders());
+			return jsonDeserializer.deserializeListOfSubscriptionRequest(json);
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void deleteSubscriptionRequest(String id) throws InvalidInstanceException {
+		try {
+			final HttpDelete delete = requestBuilder.buildDeleteSubscriptionRequestRequest(id);
+			addAccessToken(delete);
+			
+			final HttpClient client = new DefaultHttpClient();			
+			HttpResponse response = client.execute(delete);
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				log.info("Delete returned http ok");
+				EntityUtils.consume(response.getEntity());
+				return;
+			}
+			
+			log.error(response.getStatusLine());
+			log.error(EntityUtils.toString(response.getEntity()));			
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}		
+	}
+	
+	
 	public Instance createInstance(String id, String name, String timeZone, boolean availabilityVisible) throws InvalidInstanceException {
 		try {
 			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name, timeZone, availabilityVisible);

@@ -142,7 +142,11 @@ public class RequestBuilder {
 	public HttpDelete buildDeleteInstanceRequest(String id) {
 		return new HttpDelete(apiUrlBuilder.getInstanceUrl(id));
 	}
-
+	
+	public HttpDelete buildDeleteSubscriptionRequestRequest(String id) {
+		return new HttpDelete(apiUrlBuilder.getSubscriptionRequestUrl(id));
+	}
+	
 	public HttpPost buildConfirmPasswordRequest(String instance, String token) throws UnsupportedEncodingException {
 		final HttpPost post = new HttpPost(apiUrlBuilder.getConfirmResetPasswordUrl(instance));
 		

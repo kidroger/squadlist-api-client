@@ -100,6 +100,10 @@ public class JsonDeserializer {
 		return (List<SubscriptionRequest>) mapper.readValue(json, new TypeReference<Collection<SubscriptionRequest>>() {});
 	}
 	
+	public SubscriptionRequest deserializeListOfSubscriptionRequest(String json) throws JsonParseException, JsonMappingException, IOException {
+		return mapper.readValue(json, SubscriptionRequest.class);
+	}
+	
 	public Instance deserializeInstanceDetails(String json) throws JsonParseException, JsonMappingException, IOException {
 		return mapper.readValue(json, Instance.class);
 	}
@@ -128,5 +132,5 @@ public class JsonDeserializer {
 	public Map<String, Object> deserializeMap(String json) throws JsonParseException, JsonMappingException, IOException {
 		return mapper.readValue(json, Map.class);
 	}
-	
+
 }
