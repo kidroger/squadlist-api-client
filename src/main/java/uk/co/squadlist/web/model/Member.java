@@ -15,6 +15,7 @@ public class Member {
 	private Date dateOfBirth, availabilityLastUpdated;
 	private Boolean admin;
 	private String profileImage;
+	private Boolean inactive;
 	
 	public Member() {
 	}
@@ -190,6 +191,13 @@ public class Member {
 		return username;
 	}
 	
+	public Boolean getInactive() {
+		return inactive;
+	}
+	public void setInactive(Boolean inactive) {
+		this.inactive = inactive;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -230,7 +238,8 @@ public class Member {
 				+ ", password=" + password + ", weight=" + weight + ", squads="
 				+ squads + ", dateOfBirth=" + dateOfBirth
 				+ ", availabilityLastUpdated=" + availabilityLastUpdated
-				+ ", admin=" + admin + ", profileImage=" + profileImage + "]";
+				+ ", admin=" + admin + ", profileImage=" + profileImage
+				+ ", inactive=" + inactive + "]";
 	}
-	
+
 }
