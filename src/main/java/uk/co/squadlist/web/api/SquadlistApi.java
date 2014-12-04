@@ -234,9 +234,9 @@ public class SquadlistApi {
 		}
 	}
 	
-	public void deleteOuting(String id) throws InvalidInstanceException {
+	public void deleteOuting(String instance, String id) throws InvalidInstanceException {
 		try {
-			final HttpDelete delete = requestBuilder.buildDeleteOutingeRequest(id);
+			final HttpDelete delete = requestBuilder.buildDeleteOutingRequest(instance, id);
 			addAccessToken(delete);
 			
 			final HttpClient client = new DefaultHttpClient();

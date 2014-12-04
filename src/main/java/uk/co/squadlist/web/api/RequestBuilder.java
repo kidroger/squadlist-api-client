@@ -157,8 +157,8 @@ public class RequestBuilder {
 		return new HttpDelete(apiUrlBuilder.getInstanceUrl(id));
 	}
 
-	public HttpDelete buildDeleteOutingeRequest(String id) {
-		return new HttpDelete(apiUrlBuilder.getOutingsUrl(id));
+	public HttpDelete buildDeleteOutingRequest(String instance, String id) {
+		return new HttpDelete(apiUrlBuilder.getOutingUrl(instance, id));
 	}
 	
 	public HttpDelete buildDeleteSubscriptionRequestRequest(String id) {
