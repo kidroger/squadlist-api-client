@@ -233,6 +233,28 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public void deleteOuting(String id) throws InvalidInstanceException {
+		try {
+			final HttpDelete delete = requestBuilder.buildDeleteOutingeRequest(id);
+			addAccessToken(delete);
+			
+			final HttpClient client = new DefaultHttpClient();
+			HttpResponse response = client.execute(delete);
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				log.info("Delete returned http ok");
+				EntityUtils.consume(response.getEntity());
+				return;
+			}
+			
+			log.error(response.getStatusLine());
+			log.error(EntityUtils.toString(response.getEntity()));
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
 
 	public Member auth(String instance, String username, String password) {
 		try {
