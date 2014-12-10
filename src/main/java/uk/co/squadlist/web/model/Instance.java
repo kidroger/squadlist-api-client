@@ -8,6 +8,7 @@ public class Instance {
 	private String timeZone;
 	private boolean availabilityVisible;
 	private Boolean beta;
+	private String memberOrdering;
 		
 	public Instance() {
 	}
@@ -53,12 +54,20 @@ public class Instance {
 	public void setBeta(Boolean beta) {
 		this.beta = beta;
 	}
+	
+	public String getMemberOrdering() {
+		return memberOrdering;
+	}
+	public void setMemberOrdering(String memberOrdering) {
+		this.memberOrdering = memberOrdering;
+	}
 
 	@Override
 	public String toString() {
-		return "Instance [id=" + id + ", name=" + name + ", timeZone="
-				+ timeZone + ", availabilityVisible=" + availabilityVisible
-				+ ", beta=" + beta + "]";
+		return "Instance [availabilityVisible=" + availabilityVisible
+				+ ", beta=" + beta + ", id=" + id + ", memberOrdering="
+				+ memberOrdering + ", name=" + name + ", timeZone=" + timeZone
+				+ "]";
 	}
-
+	
 }
