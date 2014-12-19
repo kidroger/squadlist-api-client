@@ -1,7 +1,6 @@
 package uk.co.squadlist.web.api;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URLEncoder;
 import java.util.Date;
 
@@ -90,7 +89,11 @@ public class ApiUrlBuilder {
 	public String getAvailabilityOptionsUrl(String instance) {
 		return getInstanceUrl(instance) + "/availability/options";
 	}
-
+	
+	public String getAvailabilityOptionUrl(String instance, String id) {
+		return getAvailabilityOptionsUrl(instance) + "/" + id;
+	}
+	
 	public String getAuthUrlFor(String instance){
 		return getInstanceUrl(instance) + "/auth";
 	}

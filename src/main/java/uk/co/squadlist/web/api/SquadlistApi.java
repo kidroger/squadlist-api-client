@@ -696,6 +696,28 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public void deleteAvailablityOption(String instance, AvailabilityOption availabilityOption) {
+		try {
+			final HttpDelete delete = requestBuilder.buildDeleteAvailablityOptionRequest(instance, availabilityOption.getId());
+			addAccessToken(delete);
+
+			final HttpClient client = new DefaultHttpClient();
+			HttpResponse response = client.execute(delete);
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				log.info("Delete returned http ok");
+				EntityUtils.consume(response.getEntity());
+				return;
+			}
+
+			log.error(response.getStatusLine());
+			log.error(EntityUtils.toString(response.getEntity()));
+
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
 
 	private void addAccessToken(final HttpRequestBase request) {
 		final Map<String, String> authHeaders = accessTokenHeaders();
