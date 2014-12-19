@@ -26,6 +26,7 @@ import uk.co.eelpieconsulting.common.http.HttpFetchException;
 import uk.co.eelpieconsulting.common.http.HttpFetcher;
 import uk.co.eelpieconsulting.common.http.HttpForbiddenException;
 import uk.co.eelpieconsulting.common.http.HttpNotFoundException;
+import uk.co.squadlist.web.exceptions.InvalidAvailabilityOptionException;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 import uk.co.squadlist.web.exceptions.InvalidMemberException;
 import uk.co.squadlist.web.exceptions.InvalidOutingException;
@@ -675,18 +676,21 @@ public class SquadlistApi {
 	}
 
 	@Deprecated
-	public AvailabilityOption createAvailabilityOption(String instance, String label) {
+	public AvailabilityOption createAvailabilityOption(String instance, String label) throws InvalidAvailabilityOptionException {
 		final AvailabilityOption availabilityOption = new AvailabilityOption(label);
 		return createAvailabilityOption(instance, availabilityOption);
 	}
 
-	public AvailabilityOption createAvailabilityOption(String instance, final AvailabilityOption availabilityOption) {
+	public AvailabilityOption createAvailabilityOption(String instance, final AvailabilityOption availabilityOption) throws InvalidAvailabilityOptionException {
 		try {
 			final HttpPost post = requestBuilder.buildCreateAvailabilityOptionRequest(instance, availabilityOption);
 			addAccessToken(post);
 
 			return jsonDeserializer.deserializeAvailabilityOption(httpFetcher.post(post));
 
+		} catch (HttpBadRequestException e) {
+			throw new InvalidAvailabilityOptionException(e.getResponseBody());
+			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
