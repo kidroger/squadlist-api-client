@@ -184,7 +184,19 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
+	public AvailabilityOption updateAvailabilityOption(String instance, AvailabilityOption availabilityOption) {
+		try {
+			final HttpPost post = requestBuilder.buildUpdateAvailabilityOptionRequest(instance, availabilityOption);
+			addAccessToken(post);
+			return jsonDeserializer.deserializeAvailabilityOption(httpFetcher.post(post));
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public Instance getInstance(String id) throws UnknownInstanceException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getInstanceUrl(id), accessTokenHeaders());

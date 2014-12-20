@@ -94,7 +94,14 @@ public class RequestBuilder {
 		post.setEntity(entity);
 		return post;
 	}
-
+	
+	public HttpPost buildUpdateAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(availabilityOption), UTF8);
+		final HttpPost post = new HttpPost(apiUrlBuilder.getAvailabilityOptionUrl(instance, availabilityOption.getId()));
+		post.setEntity(entity);
+		return post;
+	}
+	
 	public HttpPost buildUpdateMemberProfileImageRequest(String instance, Member member, byte[] image) {
 		final HttpEntity entity = MultipartEntityBuilder.create().
 				setMode(HttpMultipartMode.BROWSER_COMPATIBLE).
