@@ -14,7 +14,7 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
@@ -65,7 +65,7 @@ public class SquadlistApi {
 		this.httpFetcher = httpFetcher;
 		this.jsonDeserializer = jsonDeserializer;
 		this.accessToken = accessToken;
-		this.client = new DefaultHttpClient();
+		this.client = HttpClients.createDefault();
 	}
 
 	public SquadlistApi(String apiUrl, String accessToken) {
@@ -74,7 +74,7 @@ public class SquadlistApi {
 		this.httpFetcher = new HttpFetcher();
 		this.jsonDeserializer = new JsonDeserializer();
 		this.accessToken = accessToken;
-		this.client = new DefaultHttpClient();
+		this.client = HttpClients.createDefault();
 	}
 
 	public List<Instance> getInstances() {
