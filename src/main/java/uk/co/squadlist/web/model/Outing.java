@@ -12,7 +12,13 @@ public class Outing {
 	
 	public Outing() {
 	}
-
+	
+	public Outing(Squad squad, Date date, String notes) {
+		this.squad = squad;
+		this.date = date;
+		this.notes = notes;
+	}
+	
 	public String getId() {
 		return id;
 	}
