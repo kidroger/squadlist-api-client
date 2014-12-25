@@ -114,8 +114,7 @@ public class SquadlistApi {
 		try {
 			final HttpDelete delete = requestBuilder.buildDeleteSubscriptionRequestRequest(id);
 			addAccessToken(delete);
-
-			final HttpClient client = new DefaultHttpClient();
+			
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				log.info("Delete returned http ok");
@@ -230,7 +229,6 @@ public class SquadlistApi {
 			final HttpDelete delete = requestBuilder.buildDeleteInstanceRequest(id);
 			addAccessToken(delete);
 
-			final HttpClient client = new DefaultHttpClient();
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				log.info("Delete returned http ok");
@@ -252,7 +250,6 @@ public class SquadlistApi {
 			final HttpDelete delete = requestBuilder.buildDeleteOutingRequest(instance, id);
 			addAccessToken(delete);
 			
-			final HttpClient client = new DefaultHttpClient();
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				log.info("Delete returned http ok");
@@ -271,7 +268,6 @@ public class SquadlistApi {
 
 	public Member auth(String instance, String username, String password) {
 		try {
-			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
 			final HttpPost post = requestBuilder.buildAuthPost(instance, username, password);
 			addAccessToken(post);
 
@@ -357,7 +353,6 @@ public class SquadlistApi {
 
 	public boolean changePassword(String instance, String memberId, String currentPassword, String newPassword) {
 		try {
-			final HttpClient client = new DefaultHttpClient();	// TODO should be a field?
 			final HttpPost post = requestBuilder.buildChangePasswordPost(instance, memberId, currentPassword, newPassword);
 			addAccessToken(post);
 
@@ -714,7 +709,6 @@ public class SquadlistApi {
 			final HttpDelete delete = requestBuilder.buildDeleteAvailablityOptionRequest(instance, availabilityOption.getId());
 			addAccessToken(delete);
 
-			final HttpClient client = new DefaultHttpClient();
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				log.info("Delete returned http ok");
