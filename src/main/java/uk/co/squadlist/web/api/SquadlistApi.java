@@ -184,11 +184,14 @@ public class SquadlistApi {
 		}
 	}
 	
-	public AvailabilityOption updateAvailabilityOption(String instance, AvailabilityOption availabilityOption) {
+	public AvailabilityOption updateAvailabilityOption(String instance, AvailabilityOption availabilityOption) throws InvalidAvailabilityOptionException {
 		try {
 			final HttpPost post = requestBuilder.buildUpdateAvailabilityOptionRequest(instance, availabilityOption);
 			addAccessToken(post);
 			return jsonDeserializer.deserializeAvailabilityOption(httpFetcher.post(post));
+			
+		} catch (HttpBadRequestException e) {
+			throw new InvalidAvailabilityOptionException(e.getResponseBody());
 			
 		} catch (Exception e) {
 			log.error(e);
