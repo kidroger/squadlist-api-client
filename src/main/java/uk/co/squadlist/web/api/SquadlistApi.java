@@ -14,7 +14,6 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
@@ -123,8 +122,7 @@ public class SquadlistApi {
 				return;
 			}
 
-			log.error(response.getStatusLine());
-			log.error(EntityUtils.toString(response.getEntity()));
+			consumeAndLogErrorResponse(response);
 
 		} catch (Exception e) {
 			log.error(e);
@@ -240,8 +238,7 @@ public class SquadlistApi {
 				return;
 			}
 
-			log.error(response.getStatusLine());
-			log.error(EntityUtils.toString(response.getEntity()));
+			consumeAndLogErrorResponse(response);
 
 		} catch (Exception e) {
 			log.error(e);
@@ -261,15 +258,14 @@ public class SquadlistApi {
 				return;
 			}
 			
-			log.error(response.getStatusLine());
-			log.error(EntityUtils.toString(response.getEntity()));
+			consumeAndLogErrorResponse(response);
 			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public Member auth(String instance, String username, String password) {
 		try {
 			final HttpPost post = requestBuilder.buildAuthPost(instance, username, password);
@@ -281,6 +277,8 @@ public class SquadlistApi {
 			if (statusCode == HttpStatus.SC_OK) {
 				return jsonDeserializer.deserializeMemberDetails(EntityUtils.toString(response.getEntity()));
 			}
+			
+			consumeAndLogErrorResponse(response);
 			return null;
 
 		} catch (Exception e) {
@@ -300,6 +298,8 @@ public class SquadlistApi {
 			if (statusCode == HttpStatus.SC_OK) {
 				return jsonDeserializer.deserializeMemberDetails(EntityUtils.toString(response.getEntity()));
 			}
+			
+			consumeAndLogErrorResponse(response);
 			return null;
 
 		} catch (Exception e) {
@@ -334,8 +334,11 @@ public class SquadlistApi {
 			if (statusCode == HttpStatus.SC_OK) {
 				return jsonDeserializer.deserializeString(EntityUtils.toString(response.getEntity()));
 			}
+			
+			consumeAndLogErrorResponse(response);
 			return null;
 			// TODO 404
+			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -365,7 +368,10 @@ public class SquadlistApi {
 			if (statusCode == HttpStatus.SC_OK) {
 				return true;
 			}
+			
 			log.warn("Change password response status was: " + statusCode);
+			consumeAndLogErrorResponse(response);
+
 			return false;
 
 		} catch (Exception e) {
@@ -720,8 +726,7 @@ public class SquadlistApi {
 				return;
 			}
 
-			log.error(response.getStatusLine());
-			log.error(EntityUtils.toString(response.getEntity()));
+			consumeAndLogErrorResponse(response);
 
 		} catch (Exception e) {
 			log.error(e);
@@ -740,6 +745,11 @@ public class SquadlistApi {
 		final Map<String, String> authHeaders = Maps.newHashMap();
 		authHeaders.put("Authorization", "Bearer " + accessToken);
 		return authHeaders;
+	}
+	
+	private void consumeAndLogErrorResponse(HttpResponse response) throws IOException {
+		log.error(response.getStatusLine());
+		log.error(EntityUtils.toString(response.getEntity()));
 	}
 
 }
