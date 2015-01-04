@@ -117,6 +117,10 @@ public class ApiUrlBuilder {
 	public String getSubscriptionRequestUrl(String id) {
 		return getSubscriptionRequestsUrl() + "/" + id;
 	}
+	
+	public String getAdminsUrl(String instance) {
+		return getInstanceUrl(instance) + "/admins";
+	}
 
 	private void appendDates(final StringBuilder url, Date fromDate, Date toDate) {
 		String joiner = "?";

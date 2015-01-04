@@ -126,6 +126,13 @@ public class RequestBuilder {
 		post.setEntity(entity);
 		return post;
 	}
+	
+	public HttpPost buildSetAdminsRequest(String instance, Set<String> admins) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(admins), UTF8);
+		final HttpPost post = new HttpPost(apiUrlBuilder.getAdminsUrl(instance));
+		post.setEntity(entity);
+		return post;
+	}
 
 	public HttpPost buildSetAvailabilityRequest(String instance, Member member, Outing outing, AvailabilityOption availabilityOption) throws JsonGenerationException, JsonMappingException, IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Availability(member, outing, availabilityOption)), UTF8);

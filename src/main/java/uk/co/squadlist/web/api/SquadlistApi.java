@@ -703,7 +703,13 @@ public class SquadlistApi {
 
 		return jsonDeserializer.deserializeSquadDetails(httpFetcher.post(post));
 	}
-
+	
+	public void setAdmins(String instance, Set<String> admins) throws JsonGenerationException, JsonMappingException, IOException, HttpNotFoundException, HttpBadRequestException, HttpForbiddenException, HttpFetchException {
+		final HttpPost post = requestBuilder.buildSetAdminsRequest(instance, admins);
+		addAccessToken(post);		
+		httpFetcher.post(post);
+	}
+	
 	@Deprecated
 	public AvailabilityOption createAvailabilityOption(String instance, String label) throws InvalidAvailabilityOptionException {
 		final AvailabilityOption availabilityOption = new AvailabilityOption(label);
