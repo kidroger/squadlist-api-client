@@ -94,14 +94,14 @@ public class RequestBuilder {
 		post.setEntity(entity);
 		return post;
 	}
-	
+
 	public HttpPost buildUpdateAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(availabilityOption), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getAvailabilityOptionUrl(instance, availabilityOption.getId()));
 		post.setEntity(entity);
 		return post;
 	}
-	
+
 	public HttpPost buildUpdateMemberProfileImageRequest(String instance, Member member, byte[] image) {
 		final HttpEntity entity = MultipartEntityBuilder.create().
 				setMode(HttpMultipartMode.BROWSER_COMPATIBLE).
@@ -167,7 +167,7 @@ public class RequestBuilder {
 	public HttpDelete buildDeleteOutingRequest(String instance, String id) {
 		return new HttpDelete(apiUrlBuilder.getOutingUrl(instance, id));
 	}
-	
+
 	public HttpDelete buildDeleteSubscriptionRequestRequest(String id) {
 		return new HttpDelete(apiUrlBuilder.getSubscriptionRequestUrl(id));
 	}
@@ -175,7 +175,11 @@ public class RequestBuilder {
 	public HttpDelete buildDeleteAvailablityOptionRequest(String instance, String id) {
 		return new HttpDelete(apiUrlBuilder.getAvailabilityOptionUrl(instance, id));
 	}
-	
+
+	public HttpDelete buildDeleteMemberRequest(String instance, Member member) {
+		return new HttpDelete(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()));
+	}
+
 	public HttpPost buildConfirmPasswordRequest(String instance, String token) throws UnsupportedEncodingException {
 		final HttpPost post = new HttpPost(apiUrlBuilder.getConfirmResetPasswordUrl(instance));
 

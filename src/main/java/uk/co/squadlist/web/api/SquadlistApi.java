@@ -114,7 +114,7 @@ public class SquadlistApi {
 		try {
 			final HttpDelete delete = requestBuilder.buildDeleteSubscriptionRequestRequest(id);
 			addAccessToken(delete);
-			
+
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				log.info("Delete returned http ok");
@@ -182,22 +182,22 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public AvailabilityOption updateAvailabilityOption(String instance, AvailabilityOption availabilityOption) throws InvalidAvailabilityOptionException {
 		try {
 			final HttpPost post = requestBuilder.buildUpdateAvailabilityOptionRequest(instance, availabilityOption);
 			addAccessToken(post);
 			return jsonDeserializer.deserializeAvailabilityOption(httpFetcher.post(post));
-			
+
 		} catch (HttpBadRequestException e) {
 			throw new InvalidAvailabilityOptionException(e.getResponseBody());
-			
+
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public Instance getInstance(String id) throws UnknownInstanceException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getInstanceUrl(id), accessTokenHeaders());
@@ -245,27 +245,27 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public void deleteOuting(String instance, String id) throws InvalidInstanceException {
 		try {
 			final HttpDelete delete = requestBuilder.buildDeleteOutingRequest(instance, id);
 			addAccessToken(delete);
-			
+
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				log.info("Delete returned http ok");
 				EntityUtils.consume(response.getEntity());
 				return;
 			}
-			
+
 			consumeAndLogErrorResponse(response);
-			
+
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public Member auth(String instance, String username, String password) {
 		try {
 			final HttpPost post = requestBuilder.buildAuthPost(instance, username, password);
@@ -277,7 +277,7 @@ public class SquadlistApi {
 			if (statusCode == HttpStatus.SC_OK) {
 				return jsonDeserializer.deserializeMemberDetails(EntityUtils.toString(response.getEntity()));
 			}
-			
+
 			consumeAndLogErrorResponse(response);
 			return null;
 
@@ -298,7 +298,7 @@ public class SquadlistApi {
 			if (statusCode == HttpStatus.SC_OK) {
 				return jsonDeserializer.deserializeMemberDetails(EntityUtils.toString(response.getEntity()));
 			}
-			
+
 			consumeAndLogErrorResponse(response);
 			return null;
 
@@ -334,11 +334,11 @@ public class SquadlistApi {
 			if (statusCode == HttpStatus.SC_OK) {
 				return jsonDeserializer.deserializeString(EntityUtils.toString(response.getEntity()));
 			}
-			
+
 			consumeAndLogErrorResponse(response);
 			return null;
 			// TODO 404
-			
+
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -368,7 +368,7 @@ public class SquadlistApi {
 			if (statusCode == HttpStatus.SC_OK) {
 				return true;
 			}
-			
+
 			log.warn("Change password response status was: " + statusCode);
 			consumeAndLogErrorResponse(response);
 
@@ -620,6 +620,18 @@ public class SquadlistApi {
 		}
 	}
 
+	public void deleteMember(String instance, Member member) {
+		try {
+			final HttpDelete delete = requestBuilder.buildDeleteMemberRequest(instance, member);
+			addAccessToken(delete);
+			httpFetcher.delete(delete);
+
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+
 	public Member updateMemberProfileImage(String instance, Member member, byte[] image) {
 		try {
 			final HttpPost post = requestBuilder.buildUpdateMemberProfileImageRequest(instance, member, image);
@@ -707,13 +719,13 @@ public class SquadlistApi {
 
 		} catch (HttpBadRequestException e) {
 			throw new InvalidAvailabilityOptionException(e.getResponseBody());
-			
+
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public void deleteAvailablityOption(String instance, AvailabilityOption availabilityOption) {
 		try {
 			final HttpDelete delete = requestBuilder.buildDeleteAvailablityOptionRequest(instance, availabilityOption.getId());
@@ -746,7 +758,7 @@ public class SquadlistApi {
 		authHeaders.put("Authorization", "Bearer " + accessToken);
 		return authHeaders;
 	}
-	
+
 	private void consumeAndLogErrorResponse(HttpResponse response) throws IOException {
 		log.error(response.getStatusLine());
 		log.error(EntityUtils.toString(response.getEntity()));
