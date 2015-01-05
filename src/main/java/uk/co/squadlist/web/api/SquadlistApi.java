@@ -366,6 +366,7 @@ public class SquadlistApi {
 			final HttpResponse response = client.execute(post);
 			final int statusCode = response.getStatusLine().getStatusCode();
 			if (statusCode == HttpStatus.SC_OK) {
+				EntityUtils.consume(response.getEntity());
 				return true;
 			}
 
