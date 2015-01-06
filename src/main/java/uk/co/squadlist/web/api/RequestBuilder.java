@@ -126,7 +126,7 @@ public class RequestBuilder {
 		post.setEntity(entity);
 		return post;
 	}
-	
+
 	public HttpPost buildSetAdminsRequest(String instance, Set<String> admins) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(admins), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getAdminsUrl(instance));
@@ -185,6 +185,10 @@ public class RequestBuilder {
 
 	public HttpDelete buildDeleteMemberRequest(String instance, Member member) {
 		return new HttpDelete(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()));
+	}
+
+	public HttpDelete buildDeleteAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption) {
+		return new HttpDelete(apiUrlBuilder.getAvailabilityOptionUrl(instance, availabilityOption.getId()));
 	}
 
 	public HttpPost buildConfirmPasswordRequest(String instance, String token) throws UnsupportedEncodingException {

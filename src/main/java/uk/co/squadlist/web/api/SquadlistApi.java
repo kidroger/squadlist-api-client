@@ -257,7 +257,25 @@ public class SquadlistApi {
 				EntityUtils.consume(response.getEntity());
 				return;
 			}
+			consumeAndLogErrorResponse(response);
 
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void deleteAvailabilityOption(String instance, AvailabilityOption availabilityOption) {
+		try {
+			final HttpDelete delete = requestBuilder.buildDeleteAvailabilityOptionRequest(instance, availabilityOption);
+			addAccessToken(delete);
+
+			HttpResponse response = client.execute(delete);
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				log.info("Delete returned http ok");
+				EntityUtils.consume(response.getEntity());
+				return;
+			}
 			consumeAndLogErrorResponse(response);
 
 		} catch (Exception e) {
@@ -704,13 +722,13 @@ public class SquadlistApi {
 
 		return jsonDeserializer.deserializeSquadDetails(httpFetcher.post(post));
 	}
-	
+
 	public void setAdmins(String instance, Set<String> admins) throws JsonGenerationException, JsonMappingException, IOException, HttpNotFoundException, HttpBadRequestException, HttpForbiddenException, HttpFetchException {
 		final HttpPost post = requestBuilder.buildSetAdminsRequest(instance, admins);
-		addAccessToken(post);		
+		addAccessToken(post);
 		httpFetcher.post(post);
 	}
-	
+
 	@Deprecated
 	public AvailabilityOption createAvailabilityOption(String instance, String label) throws InvalidAvailabilityOptionException {
 		final AvailabilityOption availabilityOption = new AvailabilityOption(label);
