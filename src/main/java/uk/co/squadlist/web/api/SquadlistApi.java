@@ -283,7 +283,7 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public void deleteAvailabilityOption(String instance, AvailabilityOption availabilityOption, AvailabilityOption alternative) {
 		try {
 			final HttpDelete delete = requestBuilder.buildDeleteAvailabilityOptionRequest(instance, availabilityOption, alternative);
@@ -302,7 +302,7 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public Member auth(String instance, String username, String password) {
 		try {
 			final HttpPost post = requestBuilder.buildAuthPost(instance, username, password);
@@ -688,6 +688,25 @@ public class SquadlistApi {
 			addAccessToken(post);
 
 			return jsonDeserializer.deserializeSquad(httpFetcher.post(post));
+
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void deleteSquad(String instance, Squad squad) {
+		try {
+			final HttpDelete delete = requestBuilder.buildDeleteSquadRequest(instance, squad.getId());
+			addAccessToken(delete);
+
+			HttpResponse response = client.execute(delete);
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				log.info("Delete returned http ok");
+				EntityUtils.consume(response.getEntity());
+				return;
+			}
+			consumeAndLogErrorResponse(response);
 
 		} catch (Exception e) {
 			log.error(e);

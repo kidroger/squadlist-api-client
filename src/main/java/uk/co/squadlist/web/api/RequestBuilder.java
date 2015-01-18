@@ -187,14 +187,18 @@ public class RequestBuilder {
 		return new HttpDelete(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()));
 	}
 
+	public HttpDelete buildDeleteSquadRequest(String instance, String id) {
+		return new HttpDelete(apiUrlBuilder.getSquadUrl(instance, id));
+	}
+
 	public HttpDelete buildDeleteAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption) {
 		return new HttpDelete(apiUrlBuilder.getAvailabilityOptionUrl(instance, availabilityOption.getId()));
 	}
-	
+
 	public HttpDelete buildDeleteAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption, AvailabilityOption alternative) {
 		return new HttpDelete(apiUrlBuilder.getAvailabilityOptionUrl(instance, availabilityOption.getId()) + "?alternative=" + alternative.getId());
 	}
-	
+
 	public HttpPost buildConfirmPasswordRequest(String instance, String token) throws UnsupportedEncodingException {
 		final HttpPost post = new HttpPost(apiUrlBuilder.getConfirmResetPasswordUrl(instance));
 
