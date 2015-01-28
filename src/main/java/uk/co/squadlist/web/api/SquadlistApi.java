@@ -692,7 +692,6 @@ public class SquadlistApi {
 
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				log.info("Delete returned http ok");
 				EntityUtils.consume(response.getEntity());
 				return;
 			}
