@@ -117,7 +117,6 @@ public class SquadlistApi {
 
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				log.info("Delete returned http ok");
 				EntityUtils.consume(response.getEntity());
 				return;
 			}
@@ -233,7 +232,6 @@ public class SquadlistApi {
 
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				log.info("Delete returned http ok");
 				EntityUtils.consume(response.getEntity());
 				return;
 			}
@@ -253,7 +251,6 @@ public class SquadlistApi {
 
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				log.info("Delete returned http ok");
 				EntityUtils.consume(response.getEntity());
 				return;
 			}
@@ -272,7 +269,6 @@ public class SquadlistApi {
 
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				log.info("Delete returned http ok");
 				EntityUtils.consume(response.getEntity());
 				return;
 			}
@@ -291,7 +287,6 @@ public class SquadlistApi {
 
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				log.info("Delete returned http ok");
 				EntityUtils.consume(response.getEntity());
 				return;
 			}
@@ -310,7 +305,6 @@ public class SquadlistApi {
 
 			final HttpResponse response = client.execute(post);
 			final int statusCode = response.getStatusLine().getStatusCode();
-			log.info("Auth attempt status code was: " + statusCode);
 			if (statusCode == HttpStatus.SC_OK) {
 				return jsonDeserializer.deserializeMemberDetails(EntityUtils.toString(response.getEntity()));
 			}
@@ -331,7 +325,6 @@ public class SquadlistApi {
 
 			final HttpResponse response = client.execute(post);
 			final int statusCode = response.getStatusLine().getStatusCode();
-			log.info("Auth attempt status code was: " + statusCode);
 			if (statusCode == HttpStatus.SC_OK) {
 				return jsonDeserializer.deserializeMemberDetails(EntityUtils.toString(response.getEntity()));
 			}
@@ -367,7 +360,6 @@ public class SquadlistApi {
 
 			final HttpResponse response = client.execute(post);
 			final int statusCode = response.getStatusLine().getStatusCode();
-			log.info("Auth attempt status code was: " + statusCode);
 			if (statusCode == HttpStatus.SC_OK) {
 				return jsonDeserializer.deserializeString(EntityUtils.toString(response.getEntity()));
 			}
@@ -420,7 +412,6 @@ public class SquadlistApi {
 
 	public List<OutingAvailability> getAvailabilityFor(String instance, String memberId, Date fromDate, Date toDate) {
 		try {
-			log.info("getAvailabilityFor: " + memberId + ", " + fromDate);
 			final String json = httpFetcher.get(apiUrlBuilder.getMembersAvailabilityUrl(instance, memberId, fromDate, toDate), accessTokenHeaders());
 			return jsonDeserializer.deserializeListOfOutingAvailability(json);
 
@@ -632,7 +623,6 @@ public class SquadlistApi {
 			return jsonDeserializer.deserializeSquadDetails(httpFetcher.post(post));
 
 		} catch (HttpBadRequestException e) {
-			log.info("Bad request response to new squad request: " + e.getResponseBody());
 			throw new InvalidSquadException();
 
 		} catch (HttpFetchException e) {
@@ -796,7 +786,6 @@ public class SquadlistApi {
 
 			HttpResponse response = client.execute(delete);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				log.info("Delete returned http ok");
 				EntityUtils.consume(response.getEntity());
 				return;
 			}
