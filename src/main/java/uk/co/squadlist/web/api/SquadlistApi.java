@@ -27,6 +27,7 @@ import uk.co.eelpieconsulting.common.http.HttpFetcher;
 import uk.co.eelpieconsulting.common.http.HttpForbiddenException;
 import uk.co.eelpieconsulting.common.http.HttpNotFoundException;
 import uk.co.squadlist.web.exceptions.InvalidAvailabilityOptionException;
+import uk.co.squadlist.web.exceptions.InvalidImageException;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 import uk.co.squadlist.web.exceptions.InvalidMemberException;
 import uk.co.squadlist.web.exceptions.InvalidOutingException;
@@ -660,12 +661,15 @@ public class SquadlistApi {
 		}
 	}
 
-	public Member updateMemberProfileImage(String instance, Member member, byte[] image) {
+	public Member updateMemberProfileImage(String instance, Member member, byte[] image) throws InvalidImageException {
 		try {
 			final HttpPost post = requestBuilder.buildUpdateMemberProfileImageRequest(instance, member, image);
 			addAccessToken(post);
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
-
+			
+		} catch (HttpBadRequestException e) {
+			throw new InvalidImageException();
+			
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
