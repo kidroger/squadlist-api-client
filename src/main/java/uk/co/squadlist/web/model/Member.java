@@ -15,7 +15,7 @@ public class Member {
 	private Date dateOfBirth, availabilityLastUpdated;
 	private Boolean admin;
 	private String profileImage;
-	private Boolean inactive;
+	private boolean inactive;
 	
 	public Member() {
 	}
@@ -191,10 +191,10 @@ public class Member {
 		return username;
 	}
 	
-	public Boolean getInactive() {
+	public boolean getInactive() {
 		return inactive;
 	}
-	public void setInactive(Boolean inactive) {
+	public void setInactive(boolean inactive) {
 		this.inactive = inactive;
 	}
 
