@@ -29,6 +29,10 @@ public class ApiUrlBuilder {
 	public String getInstancesUrl() {
 		return apiUrl + "/instances";
 	}
+	
+	public String getStatisticsUrl() {
+		return apiUrl + "/statistics";
+	}
 
 	public String getSubscriptionRequestsUrl() {
 		return apiUrl + "/subscription-requests";
@@ -141,5 +145,5 @@ public class ApiUrlBuilder {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 }

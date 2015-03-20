@@ -225,7 +225,17 @@ public class SquadlistApi {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
+	public Map<String, Object> getStatistics() {
+		try {
+			final String json = httpFetcher.get(apiUrlBuilder.getStatisticsUrl());
+			return jsonDeserializer.deserializeMap(json);			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public void deleteInstance(String id) throws InvalidInstanceException {
 		try {
 			final HttpDelete delete = requestBuilder.buildDeleteInstanceRequest(id);
