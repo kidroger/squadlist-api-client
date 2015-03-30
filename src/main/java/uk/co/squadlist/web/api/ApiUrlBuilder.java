@@ -29,7 +29,11 @@ public class ApiUrlBuilder {
 	public String getInstancesUrl() {
 		return apiUrl + "/instances";
 	}
-	
+
+	public String getInstancesUrl(String q) {
+		return getInstancesUrl() + "?q=" + urlEncode(q);
+	}
+
 	public String getStatisticsUrl() {
 		return apiUrl + "/statistics";
 	}
@@ -93,11 +97,11 @@ public class ApiUrlBuilder {
 	public String getAvailabilityOptionsUrl(String instance) {
 		return getInstanceUrl(instance) + "/availability/options";
 	}
-	
+
 	public String getAvailabilityOptionUrl(String instance, String id) {
 		return getAvailabilityOptionsUrl(instance) + "/" + id;
 	}
-	
+
 	public String getAuthUrlFor(String instance){
 		return getInstanceUrl(instance) + "/auth";
 	}
@@ -121,7 +125,7 @@ public class ApiUrlBuilder {
 	public String getSubscriptionRequestUrl(String id) {
 		return getSubscriptionRequestsUrl() + "/" + id;
 	}
-	
+
 	public String getAdminsUrl(String instance) {
 		return getInstanceUrl(instance) + "/admins";
 	}
@@ -145,5 +149,5 @@ public class ApiUrlBuilder {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 }
