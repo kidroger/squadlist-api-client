@@ -2,8 +2,10 @@ package uk.co.squadlist.web.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 
 public class Member {
 	
@@ -17,7 +19,10 @@ public class Member {
 	private String profileImage;
 	private boolean inactive;
 	
+	private Map<String, String> address;
+	
 	public Member() {
+		this.address = Maps.newHashMap();
 	}
 	
 	public Member(String firstName, String lastName, List<Squad> squads, String emailAddress, String password, Date dateOfBirth) {
@@ -27,6 +32,7 @@ public class Member {
 		this.password = password;
 		this.dateOfBirth = dateOfBirth;		
 		this.squads = squads;
+		this.address = Maps.newHashMap();
 	}
 	
 	public String getId() {
@@ -196,6 +202,14 @@ public class Member {
 	}
 	public void setInactive(boolean inactive) {
 		this.inactive = inactive;
+	}
+	
+	public Map<String, String> getAddress() {
+		return address;
+	}
+
+	public void setAddress(Map<String, String> address) {
+		this.address = address;
 	}
 
 	@Override
