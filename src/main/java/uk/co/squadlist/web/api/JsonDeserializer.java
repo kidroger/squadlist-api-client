@@ -13,6 +13,7 @@ import org.codehaus.jackson.type.TypeReference;
 
 import uk.co.squadlist.web.model.Availability;
 import uk.co.squadlist.web.model.AvailabilityOption;
+import uk.co.squadlist.web.model.Boat;
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
 import uk.co.squadlist.web.model.Outing;
@@ -62,6 +63,11 @@ public class JsonDeserializer {
 	
 	public OutingAvailability deserializeOutingAvailability(String json) throws JsonParseException, JsonMappingException, IOException {
 		return mapper.readValue(json, OutingAvailability.class);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Boat> deserializeListOfBoats(String json) throws JsonParseException, JsonMappingException, IOException {
+		return (List<Boat>) mapper.readValue(json, new TypeReference<Collection<Boat>>() {});
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -131,6 +137,10 @@ public class JsonDeserializer {
 	
 	public Map<String, Object> deserializeMap(String json) throws JsonParseException, JsonMappingException, IOException {
 		return mapper.readValue(json, Map.class);
+	}
+
+	public Boat deserializeBoat(String json) throws JsonParseException, JsonMappingException, IOException {
+		return mapper.readValue(json, Boat.class);
 	}
 
 }

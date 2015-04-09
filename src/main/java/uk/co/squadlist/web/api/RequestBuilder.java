@@ -25,6 +25,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import uk.co.squadlist.web.model.Availability;
 import uk.co.squadlist.web.model.AvailabilityOption;
+import uk.co.squadlist.web.model.Boat;
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
 import uk.co.squadlist.web.model.Outing;
@@ -65,7 +66,14 @@ public class RequestBuilder {
 		post.setEntity(entity);
 		return post;
 	}
-
+	
+	public HttpPost buildCreateBoatRequest(String instance, Boat boat) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
+		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(boat), UTF8);
+		final HttpPost post = new HttpPost(apiUrlBuilder.getBoatsUrl(instance));
+		post.setEntity(entity);
+		return post;
+	}
+	
 	public HttpPost buildCreateMemberRequest(String instance, Member member) throws JsonGenerationException, JsonMappingException, IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(member), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
@@ -249,5 +257,5 @@ public class RequestBuilder {
 		}
 		return post;
 	}
-
+	
 }

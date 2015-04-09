@@ -27,17 +27,20 @@ import uk.co.eelpieconsulting.common.http.HttpFetcher;
 import uk.co.eelpieconsulting.common.http.HttpForbiddenException;
 import uk.co.eelpieconsulting.common.http.HttpNotFoundException;
 import uk.co.squadlist.web.exceptions.InvalidAvailabilityOptionException;
+import uk.co.squadlist.web.exceptions.InvalidBoatException;
 import uk.co.squadlist.web.exceptions.InvalidImageException;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
 import uk.co.squadlist.web.exceptions.InvalidMemberException;
 import uk.co.squadlist.web.exceptions.InvalidOutingException;
 import uk.co.squadlist.web.exceptions.InvalidSquadException;
 import uk.co.squadlist.web.exceptions.InvalidSubscriptionRequestException;
+import uk.co.squadlist.web.exceptions.UnknownBoatException;
 import uk.co.squadlist.web.exceptions.UnknownInstanceException;
 import uk.co.squadlist.web.exceptions.UnknownMemberException;
 import uk.co.squadlist.web.exceptions.UnknownOutingException;
 import uk.co.squadlist.web.exceptions.UnknownSquadException;
 import uk.co.squadlist.web.model.AvailabilityOption;
+import uk.co.squadlist.web.model.Boat;
 import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
 import uk.co.squadlist.web.model.Outing;
@@ -443,6 +446,17 @@ public class SquadlistApi {
 		}
 	}
 
+	public List<Boat> getBoats(String instance) {
+		try {
+			final String json = httpFetcher.get(apiUrlBuilder.getBoatsUrl(instance), accessTokenHeaders());
+			return jsonDeserializer.deserializeListOfBoats(json);
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public List<Squad> getSquads(String instance) {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getSquadsUrl(instance), accessTokenHeaders());
@@ -529,6 +543,20 @@ public class SquadlistApi {
 		}
 	}
 
+	public Boat getBoat(String instance, String id) throws UnknownSquadException, UnknownBoatException {
+		try {
+			final String json = httpFetcher.get(apiUrlBuilder.getBoatUrl(instance, id), accessTokenHeaders());
+			return jsonDeserializer.deserializeBoat(json);
+			
+		} catch (HttpNotFoundException e) {
+			throw new UnknownBoatException();
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public Squad getSquad(String instance, String squadId) throws UnknownSquadException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getSquadUrl(instance, squadId), accessTokenHeaders());
@@ -635,6 +663,26 @@ public class SquadlistApi {
 		member.setRole(role);
 
 		return createMember(instance, member);
+	}
+	
+	public Boat createBoat(String instance, String name) throws InvalidBoatException {
+		try {
+			final HttpPost post = requestBuilder.buildCreateBoatRequest(instance, new Boat(name));
+			addAccessToken(post);
+			
+			return jsonDeserializer.deserializeBoat(httpFetcher.post(post));
+			
+		} catch (HttpBadRequestException e) {
+			throw new InvalidBoatException();
+			
+		} catch (HttpFetchException e) {
+			log.error(e);
+			throw new RuntimeException(e);
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
 	}
 
 	public Squad createSquad(String instance, String name) throws InvalidSquadException {

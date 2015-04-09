@@ -19,7 +19,15 @@ public class ApiUrlBuilder {
 	public ApiUrlBuilder(String apiUrl) {
 		this.apiUrl = apiUrl;
 	}
-
+	
+	public String getBoatUrl(String instance, String id) {
+		return getBoatsUrl(instance) + "/" + id;
+	}
+	
+	public String getBoatsUrl(String instance) {
+		return getInstanceUrl(instance) + "/boats";
+	}
+	
 	public String getMembersAvailabilityUrl(String instance, String memberId, Date fromDate, Date toDate) {
 		final StringBuilder url = new StringBuilder(getMemberDetailsUrl(instance, memberId) + "/availability");
 		appendDates(url, fromDate, toDate);
@@ -49,7 +57,7 @@ public class ApiUrlBuilder {
 	public String getSquadsUrl(String instance) {
 		return getInstanceUrl(instance) + "/squads";
 	}
-
+	
 	public String getSquadUrl(String instance, String squadId) {
 		return getSquadsUrl(instance) + "/" + squadId;
 	}
