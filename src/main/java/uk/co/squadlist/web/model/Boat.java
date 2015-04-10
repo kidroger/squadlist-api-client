@@ -3,10 +3,10 @@ package uk.co.squadlist.web.model;
 public class Boat {
 
 	private String id, name;
-	
+
 	public Boat() {
 	}
-	
+
 	public Boat(String name) {
 		this.name = name;
 	}
@@ -26,7 +26,7 @@ public class Boat {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -51,10 +51,10 @@ public class Boat {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Squad [id=" + id + ", name=" + name + "]";
+		return "Boat [id=" + id + ", name=" + name + "]";
 	}
-	
+
 }
