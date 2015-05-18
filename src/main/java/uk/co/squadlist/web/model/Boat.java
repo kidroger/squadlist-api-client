@@ -2,7 +2,7 @@ package uk.co.squadlist.web.model;
 
 public class Boat {
 
-	private String id, name;
+	private String id, name, number, type, configuration, supplier, serialNumber, coxPosition;
 
 	public Boat() {
 	}
@@ -25,6 +25,54 @@ public class Boat {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getConfiguration() {
+		return configuration;
+	}
+
+	public void setConfiguration(String configuration) {
+		this.configuration = configuration;
+	}
+
+	public String getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+	public String getCoxPosition() {
+		return coxPosition;
+	}
+
+	public void setCoxPosition(String coxPosition) {
+		this.coxPosition = coxPosition;
 	}
 
 	@Override
