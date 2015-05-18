@@ -450,13 +450,13 @@ public class SquadlistApi {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getBoatsUrl(instance), accessTokenHeaders());
 			return jsonDeserializer.deserializeListOfBoats(json);
-			
+
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public List<Squad> getSquads(String instance) {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getSquadsUrl(instance), accessTokenHeaders());
@@ -547,16 +547,16 @@ public class SquadlistApi {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getBoatUrl(instance, id), accessTokenHeaders());
 			return jsonDeserializer.deserializeBoat(json);
-			
+
 		} catch (HttpNotFoundException e) {
 			throw new UnknownBoatException();
-			
+
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public Squad getSquad(String instance, String squadId) throws UnknownSquadException {
 		try {
 			final String json = httpFetcher.get(apiUrlBuilder.getSquadUrl(instance, squadId), accessTokenHeaders());
@@ -664,21 +664,21 @@ public class SquadlistApi {
 
 		return createMember(instance, member);
 	}
-	
-	public Boat createBoat(String instance, String name) throws InvalidBoatException {
+
+	public Boat createBoat(String instance, Boat boat) throws InvalidBoatException {
 		try {
-			final HttpPost post = requestBuilder.buildCreateBoatRequest(instance, new Boat(name));
+			final HttpPost post = requestBuilder.buildCreateBoatRequest(instance, boat);
 			addAccessToken(post);
-			
+
 			return jsonDeserializer.deserializeBoat(httpFetcher.post(post));
-			
+
 		} catch (HttpBadRequestException e) {
 			throw new InvalidBoatException();
-			
+
 		} catch (HttpFetchException e) {
 			log.error(e);
 			throw new RuntimeException(e);
-			
+
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
