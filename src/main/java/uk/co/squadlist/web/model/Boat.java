@@ -11,6 +11,11 @@ public class Boat {
 		this.name = name;
 	}
 
+	public Boat(String name, String number) {
+		this.name = name;
+		this.number = number;
+	}
+
 	public String getId() {
 		return id;
 	}
