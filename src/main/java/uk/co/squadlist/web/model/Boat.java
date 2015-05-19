@@ -107,7 +107,10 @@ public class Boat {
 
 	@Override
 	public String toString() {
-		return "Boat [id=" + id + ", name=" + name + "]";
+		return "Boat [id=" + id + ", name=" + name + ", number=" + number
+				+ ", type=" + type + ", configuration=" + configuration
+				+ ", supplier=" + supplier + ", serialNumber=" + serialNumber
+				+ ", coxPosition=" + coxPosition + "]";
 	}
 
 }
