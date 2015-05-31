@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import uk.co.eelpieconsulting.common.http.HttpBadRequestException;
 import uk.co.eelpieconsulting.common.http.HttpFetcher;
 import uk.co.squadlist.web.exceptions.InvalidInstanceException;
+import uk.co.squadlist.web.model.Tariff;
 
 public class SquadlistApiTest {
 
@@ -22,7 +23,7 @@ public class SquadlistApiTest {
 	private HttpFetcher httpFetcher;
 	@Mock
 	private JsonDeserializer jsonDeserializer;
-	
+
 	@Mock
 	private HttpPost request;
 
@@ -30,15 +31,15 @@ public class SquadlistApiTest {
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 	}
-	
+
 	@Test(expected=InvalidInstanceException.class)
 	public void shouldReturnInvalidInstanceExceptionInResponseToNewInstance400Response() throws Exception {
 		SquadlistApi api = new SquadlistApi(requestBuilder, urlBuilder, httpFetcher, jsonDeserializer, "access-token");
-		
-		when(requestBuilder.buildCreateInstanceRequest("invalid", "Invalid", "Europe/London", true)).thenReturn(request);
-		when(httpFetcher.post(request)).thenThrow(new HttpBadRequestException("Invalid instance resposne body"));
-		
-		api.createInstance("invalid", "Invalid", "Europe/London", true);		
+
+		when(requestBuilder.buildCreateInstanceRequest("invalid", "Invalid", "Europe/London", true, Tariff.PRE_JUNE_2015)).thenReturn(request);
+		when(httpFetcher.post(request)).thenThrow(new HttpBadRequestException("Invalid instance response body"));
+
+		api.createInstance("invalid", "Invalid", "Europe/London", true, Tariff.PRE_JUNE_2015);
 	}
-	
+
 }

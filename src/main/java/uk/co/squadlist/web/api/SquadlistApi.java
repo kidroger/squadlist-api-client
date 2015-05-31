@@ -48,6 +48,7 @@ import uk.co.squadlist.web.model.OutingAvailability;
 import uk.co.squadlist.web.model.OutingWithSquadAvailability;
 import uk.co.squadlist.web.model.Squad;
 import uk.co.squadlist.web.model.SubscriptionRequest;
+import uk.co.squadlist.web.model.Tariff;
 
 import com.google.common.collect.Maps;
 
@@ -159,9 +160,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Instance createInstance(String id, String name, String timeZone, boolean availabilityVisible) throws InvalidInstanceException {
+	public Instance createInstance(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff) throws InvalidInstanceException {
 		try {
-			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name, timeZone, availabilityVisible);
+			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name, timeZone, availabilityVisible, tariff);
 			addAccessToken(post);
 			return jsonDeserializer.deserializeInstanceDetails(httpFetcher.post(post));
 

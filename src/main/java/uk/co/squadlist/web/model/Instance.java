@@ -1,6 +1,5 @@
 package uk.co.squadlist.web.model;
 
-
 public class Instance {
 
 	private String id;
@@ -9,15 +8,17 @@ public class Instance {
 	private boolean availabilityVisible;
 	private Boolean beta;
 	private String memberOrdering;
+	private Tariff tariff;
 
 	public Instance() {
 	}
 
-	public Instance(String id, String name, String timeZone, boolean availabilityVisible) {
+	public Instance(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff) {
 		this.id = id;
 		this.name = name;
 		this.timeZone = timeZone;
 		this.availabilityVisible = availabilityVisible;
+		this.tariff = tariff;
 	}
 
 	public String getId() {
@@ -62,6 +63,13 @@ public class Instance {
 		this.memberOrdering = memberOrdering;
 	}
 
+	public Tariff getTariff() {
+		return tariff;
+	}
+	public void setTariff(Tariff tariff) {
+		this.tariff = tariff;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -89,10 +97,10 @@ public class Instance {
 
 	@Override
 	public String toString() {
-		return "Instance [availabilityVisible=" + availabilityVisible
-				+ ", beta=" + beta + ", id=" + id + ", memberOrdering="
-				+ memberOrdering + ", name=" + name + ", timeZone=" + timeZone
-				+ "]";
+		return "Instance [id=" + id + ", name=" + name + ", timeZone="
+				+ timeZone + ", availabilityVisible=" + availabilityVisible
+				+ ", beta=" + beta + ", memberOrdering=" + memberOrdering
+				+ ", tariff=" + tariff + "]";
 	}
 
 }

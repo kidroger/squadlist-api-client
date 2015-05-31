@@ -31,6 +31,7 @@ import uk.co.squadlist.web.model.Member;
 import uk.co.squadlist.web.model.Outing;
 import uk.co.squadlist.web.model.Squad;
 import uk.co.squadlist.web.model.SubscriptionRequest;
+import uk.co.squadlist.web.model.Tariff;
 
 import com.google.common.collect.Lists;
 
@@ -46,8 +47,8 @@ public class RequestBuilder {
 		this.objectMapper = new ObjectMapper();
 	}
 
-	public HttpPost buildCreateInstanceRequest(String id, String name, String timeZone, boolean availabilityVisible) throws JsonGenerationException, JsonMappingException, IOException {
-		HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Instance(id, name, timeZone, availabilityVisible)), UTF8);
+	public HttpPost buildCreateInstanceRequest(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff) throws JsonGenerationException, JsonMappingException, IOException {
+		HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Instance(id, name, timeZone, availabilityVisible, tariff)), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getInstancesUrl());
 		post.setEntity(entity);
 		return post;
@@ -66,14 +67,14 @@ public class RequestBuilder {
 		post.setEntity(entity);
 		return post;
 	}
-	
+
 	public HttpPost buildCreateBoatRequest(String instance, Boat boat) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(boat), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getBoatsUrl(instance));
 		post.setEntity(entity);
 		return post;
 	}
-	
+
 	public HttpPost buildCreateMemberRequest(String instance, Member member) throws JsonGenerationException, JsonMappingException, IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(member), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
@@ -257,5 +258,5 @@ public class RequestBuilder {
 		}
 		return post;
 	}
-	
+
 }
