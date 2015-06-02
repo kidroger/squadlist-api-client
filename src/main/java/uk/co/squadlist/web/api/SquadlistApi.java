@@ -731,7 +731,7 @@ public class SquadlistApi {
 		}
 	}
 
-	public Member updateMemberProfileImage(String instance, Member member, byte[] image) throws InvalidImageException {
+	public Member updateMemberProfileImage(String instance, Member member, byte[] image) throws InvalidImageException {	// TODO requires a longer blocking timeout for large image; connection times out before image resize is completed
 		try {
 			final HttpPost post = requestBuilder.buildUpdateMemberProfileImageRequest(instance, member, image);
 			addAccessToken(post);
