@@ -4,6 +4,9 @@ import java.util.Date;
 
 public class Subscription {
 	
+	public Subscription() {
+	}
+	
 	public Subscription(Tariff tariff, Date expires) {
 		this.tariff = tariff;
 		this.expires = expires;
