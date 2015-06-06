@@ -1,5 +1,7 @@
 package uk.co.squadlist.web.model;
 
+import java.util.List;
+
 public class Instance {
 
 	private String id;
@@ -8,17 +10,17 @@ public class Instance {
 	private boolean availabilityVisible;
 	private Boolean beta;
 	private String memberOrdering;
-	private Tariff tariff;
-
+	private List<Subscription> subscriptions;
+	
 	public Instance() {
 	}
 
-	public Instance(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff) {
+	public Instance(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff, List<Subscription> subscriptions) {
 		this.id = id;
 		this.name = name;
 		this.timeZone = timeZone;
 		this.availabilityVisible = availabilityVisible;
-		this.tariff = tariff;
+		this.subscriptions = subscriptions;
 	}
 
 	public String getId() {
@@ -62,12 +64,12 @@ public class Instance {
 	public void setMemberOrdering(String memberOrdering) {
 		this.memberOrdering = memberOrdering;
 	}
-
-	public Tariff getTariff() {
-		return tariff;
+	
+	public List<Subscription> getSubscriptions() {
+		return subscriptions;
 	}
-	public void setTariff(Tariff tariff) {
-		this.tariff = tariff;
+	public void setSubscriptions(List<Subscription> subscriptions) {
+		this.subscriptions = subscriptions;
 	}
 
 	@Override
@@ -97,10 +99,10 @@ public class Instance {
 
 	@Override
 	public String toString() {
-		return "Instance [id=" + id + ", name=" + name + ", timeZone="
-				+ timeZone + ", availabilityVisible=" + availabilityVisible
-				+ ", beta=" + beta + ", memberOrdering=" + memberOrdering
-				+ ", tariff=" + tariff + "]";
+		return "Instance [availabilityVisible=" + availabilityVisible
+				+ ", beta=" + beta + ", id=" + id + ", memberOrdering="
+				+ memberOrdering + ", name=" + name + ", subscriptions="
+				+ subscriptions + ", timeZone=" + timeZone + "]";
 	}
-
+	
 }

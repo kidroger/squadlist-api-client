@@ -30,6 +30,7 @@ import uk.co.squadlist.web.model.Instance;
 import uk.co.squadlist.web.model.Member;
 import uk.co.squadlist.web.model.Outing;
 import uk.co.squadlist.web.model.Squad;
+import uk.co.squadlist.web.model.Subscription;
 import uk.co.squadlist.web.model.SubscriptionRequest;
 import uk.co.squadlist.web.model.Tariff;
 
@@ -48,7 +49,7 @@ public class RequestBuilder {
 	}
 
 	public HttpPost buildCreateInstanceRequest(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff) throws JsonGenerationException, JsonMappingException, IOException {
-		HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Instance(id, name, timeZone, availabilityVisible, tariff)), UTF8);
+		HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Instance(id, name, timeZone, availabilityVisible, tariff, Lists.<Subscription>newArrayList())), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getInstancesUrl());
 		post.setEntity(entity);
 		return post;
