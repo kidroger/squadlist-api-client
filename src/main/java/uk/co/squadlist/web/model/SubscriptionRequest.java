@@ -3,10 +3,11 @@ package uk.co.squadlist.web.model;
 import java.util.Date;
 
 public class SubscriptionRequest {
-	
-	private String id, club, location, firstName, lastName, email, reason;	
+
+	private String id, club, location, firstName, lastName, email, reason;
 	private Date received;
 	private String status, notes, accessDetails;
+	private Tariff tariff;
 
 	public SubscriptionRequest() {
 	}
@@ -99,13 +100,21 @@ public class SubscriptionRequest {
 		this.accessDetails = accessDetails;
 	}
 
+	public Tariff getTariff() {
+		return tariff;
+	}
+	public void setTariff(Tariff tariff) {
+		this.tariff = tariff;
+	}
+
 	@Override
 	public String toString() {
 		return "SubscriptionRequest [id=" + id + ", club=" + club
 				+ ", location=" + location + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", email=" + email + ", reason="
 				+ reason + ", received=" + received + ", status=" + status
-				+ ", notes=" + notes + ", accessDetails=" + accessDetails + "]";
+				+ ", notes=" + notes + ", accessDetails=" + accessDetails
+				+ ", tariff=" + tariff + "]";
 	}
-	
+
 }
