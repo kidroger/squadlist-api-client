@@ -2,6 +2,8 @@ package uk.co.squadlist.web.model;
 
 import java.util.Date;
 
+import org.joda.time.DateTime;
+
 public class Subscription {
 
 	public Subscription() {
@@ -28,7 +30,11 @@ public class Subscription {
 	public void setExpires(Date expires) {
 		this.expires = expires;
 	}
-
+	
+	public boolean isExpired() {
+		return expires != null && expires.before(DateTime.now().toDate());
+	}
+	
 	@Override
 	public String toString() {
 		return "Subscription [tariff=" + tariff + ", expires=" + expires + "]";
