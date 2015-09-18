@@ -72,7 +72,16 @@ public class SquadlistApi {
 		this.accessToken = accessToken;
 		this.client = HttpClients.createDefault();
 	}
-
+	
+	public SquadlistApi(String apiUrl) {
+		this.apiUrlBuilder  = new ApiUrlBuilder(apiUrl);
+		this.requestBuilder = new RequestBuilder(apiUrlBuilder);
+		this.httpFetcher = new HttpFetcher();
+		this.jsonDeserializer = new JsonDeserializer();
+		this.accessToken = null;
+		this.client = HttpClients.createDefault();
+	}
+	
 	public SquadlistApi(String apiUrl, String accessToken) {
 		this.apiUrlBuilder  = new ApiUrlBuilder(apiUrl);
 		this.requestBuilder = new RequestBuilder(apiUrlBuilder);
@@ -869,6 +878,10 @@ public class SquadlistApi {
 			log.error(e);
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public String requestAccessToken(String instance, String username, String password) {
+		throw new UnsupportedOperationException();
 	}
 
 	private void addAccessToken(final HttpRequestBase request) {
