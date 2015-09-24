@@ -138,6 +138,10 @@ public class ApiUrlBuilder {
 		return getInstanceUrl(instance) + "/admins";
 	}
 
+	public String getRequestTokenUrl() {
+		return apiUrl + "/oauth/token";
+	}
+	
 	private void appendDates(final StringBuilder url, Date fromDate, Date toDate) {
 		String joiner = "?";
 		if (fromDate != null) {
