@@ -2,6 +2,7 @@ package uk.co.squadlist.web.model;
 
 import java.util.Date;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.DateTime;
 
 public class Subscription {
@@ -30,7 +31,8 @@ public class Subscription {
 	public void setExpires(Date expires) {
 		this.expires = expires;
 	}
-	
+
+	@JsonIgnore
 	public boolean isExpired() {
 		return expires != null && expires.before(DateTime.now().toDate());
 	}
