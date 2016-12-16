@@ -11,16 +11,18 @@ public class Instance {
 	private Boolean beta;
 	private String memberOrdering;
 	private List<Subscription> subscriptions;
+	private String governingBody;
 	
 	public Instance() {
 	}
 
-	public Instance(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff, List<Subscription> subscriptions) {
+	public Instance(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff, List<Subscription> subscriptions, String governingBody) {
 		this.id = id;
 		this.name = name;
 		this.timeZone = timeZone;
 		this.availabilityVisible = availabilityVisible;
 		this.subscriptions = subscriptions;
+		this.governingBody = governingBody;
 	}
 
 	public String getId() {
@@ -72,6 +74,13 @@ public class Instance {
 		this.subscriptions = subscriptions;
 	}
 
+	public String getGoverningBody() {
+		return governingBody;
+	}
+	public void setGoverningBody(String governingBody) {
+		this.governingBody = governingBody;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -99,10 +108,16 @@ public class Instance {
 
 	@Override
 	public String toString() {
-		return "Instance [availabilityVisible=" + availabilityVisible
-				+ ", beta=" + beta + ", id=" + id + ", memberOrdering="
-				+ memberOrdering + ", name=" + name + ", subscriptions="
-				+ subscriptions + ", timeZone=" + timeZone + "]";
+		return "Instance{" +
+				"id='" + id + '\'' +
+				", name='" + name + '\'' +
+				", timeZone='" + timeZone + '\'' +
+				", availabilityVisible=" + availabilityVisible +
+				", beta=" + beta +
+				", memberOrdering='" + memberOrdering + '\'' +
+				", subscriptions=" + subscriptions +
+				", governingBody='" + governingBody + '\'' +
+				'}';
 	}
-	
+
 }

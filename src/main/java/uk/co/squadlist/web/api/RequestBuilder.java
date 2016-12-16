@@ -48,8 +48,8 @@ public class RequestBuilder {
 		this.objectMapper = new ObjectMapper();
 	}
 
-	public HttpPost buildCreateInstanceRequest(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff) throws JsonGenerationException, JsonMappingException, IOException {
-		HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Instance(id, name, timeZone, availabilityVisible, tariff, Lists.<Subscription>newArrayList())), UTF8);
+	public HttpPost buildCreateInstanceRequest(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff, String governingBody) throws JsonGenerationException, JsonMappingException, IOException {
+		HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Instance(id, name, timeZone, availabilityVisible, tariff, Lists.<Subscription>newArrayList(), governingBody)), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getInstancesUrl());
 		post.setEntity(entity);
 		return post;

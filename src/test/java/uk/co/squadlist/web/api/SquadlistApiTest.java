@@ -36,10 +36,10 @@ public class SquadlistApiTest {
 	public void shouldReturnInvalidInstanceExceptionInResponseToNewInstance400Response() throws Exception {
 		SquadlistApi api = new SquadlistApi(requestBuilder, urlBuilder, httpFetcher, jsonDeserializer, "access-token");
 
-		when(requestBuilder.buildCreateInstanceRequest("invalid", "Invalid", "Europe/London", true, Tariff.PRE_JUNE_2015)).thenReturn(request);
+		when(requestBuilder.buildCreateInstanceRequest("invalid", "Invalid", "Europe/London", true, Tariff.PRE_JUNE_2015, "british-rowing")).thenReturn(request);
 		when(httpFetcher.post(request)).thenThrow(new HttpBadRequestException("Invalid instance response body"));
 
-		api.createInstance("invalid", "Invalid", "Europe/London", true, Tariff.PRE_JUNE_2015);
+		api.createInstance("invalid", "Invalid", "Europe/London", true, Tariff.PRE_JUNE_2015, "british-rowing");
 	}
 
 }
