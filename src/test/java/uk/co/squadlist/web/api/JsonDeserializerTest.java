@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 
 import uk.co.squadlist.web.model.AvailabilityOption;
@@ -30,7 +32,7 @@ public class JsonDeserializerTest {
 		
 		final Outing firstOuting = outings.get(0);
 		assertEquals("241", firstOuting.getId());
-		assertEquals("Fri Mar 16 08:00:00 GMT 2012", firstOuting.getDate().toString());
+		assertEquals("2012-03-16T08:00:00.000Z", new DateTime(firstOuting.getDate(), DateTimeZone.UTC).toString());
 		assertEquals("Men's Senior Squad", firstOuting.getSquad().getName());
 	}
 	
@@ -42,7 +44,7 @@ public class JsonDeserializerTest {
 		final Outing outing = deserializer.deserializeOuting(json);
 		
 		assertEquals("0", outing.getId());
-		assertEquals("Wed Nov 07 22:01:29 GMT 2012", outing.getDate().toString());
+		assertEquals("2012-11-07T22:01:29.000Z", new DateTime(outing.getDate(), DateTimeZone.UTC).toString());
 		assertEquals("Novice men", outing.getSquad().getName());
 	}
 	
