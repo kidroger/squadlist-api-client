@@ -8,7 +8,6 @@ public class Instance {
 	private String name;
 	private String timeZone;
 	private boolean availabilityVisible;
-	private Boolean beta;
 	private String memberOrdering;
 	private List<Subscription> subscriptions;
 	private String governingBody;
@@ -51,13 +50,6 @@ public class Instance {
 	}
 	public void setAvailabilityVisible(boolean availabilityVisible) {
 		this.availabilityVisible = availabilityVisible;
-	}
-
-	public Boolean getBeta() {
-		return beta;
-	}
-	public void setBeta(Boolean beta) {
-		this.beta = beta;
 	}
 
 	public String getMemberOrdering() {
@@ -113,7 +105,6 @@ public class Instance {
 				", name='" + name + '\'' +
 				", timeZone='" + timeZone + '\'' +
 				", availabilityVisible=" + availabilityVisible +
-				", beta=" + beta +
 				", memberOrdering='" + memberOrdering + '\'' +
 				", subscriptions=" + subscriptions +
 				", governingBody='" + governingBody + '\'' +
