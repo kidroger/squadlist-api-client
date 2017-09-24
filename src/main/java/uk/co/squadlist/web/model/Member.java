@@ -14,7 +14,7 @@ public class Member {
 		rowingPoints, sculling, scullingPoints, sweepOarSide, registrationNumber, password;
 	private Integer weight;
 	private List<Squad> squads;
-	private Date dateOfBirth, availabilityLastUpdated;
+	private Date dateOfBirth, availabilityLastUpdated, lastLoggedIn;
 	private Boolean admin;
 	private String profileImage;
 	private boolean inactive;
@@ -207,9 +207,15 @@ public class Member {
 	public Map<String, String> getAddress() {
 		return address;
 	}
-
 	public void setAddress(Map<String, String> address) {
 		this.address = address;
+	}
+
+	public Date getLastLoggedIn() {
+		return lastLoggedIn;
+	}
+	public void setLastLoggedIn(Date lastLoggedIn) {
+		this.lastLoggedIn = lastLoggedIn;
 	}
 
 	@Override
@@ -239,21 +245,35 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member [id=" + id + ", username=" + username + ", facebookId="
-				+ facebookId + ", role=" + role + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", knownAs=" + knownAs
-				+ ", gender=" + gender + ", emailAddress=" + emailAddress
-				+ ", contactNumber=" + contactNumber
-				+ ", emergencyContactName=" + emergencyContactName
-				+ ", emergencyContactNumber=" + emergencyContactNumber
-				+ ", rowingPoints=" + rowingPoints + ", sculling=" + sculling
-				+ ", scullingPoints=" + scullingPoints + ", sweepOarSide="
-				+ sweepOarSide + ", registrationNumber=" + registrationNumber
-				+ ", password=" + password + ", weight=" + weight + ", squads="
-				+ squads + ", dateOfBirth=" + dateOfBirth
-				+ ", availabilityLastUpdated=" + availabilityLastUpdated
-				+ ", admin=" + admin + ", profileImage=" + profileImage
-				+ ", inactive=" + inactive + "]";
+		return "Member{" +
+						"id='" + id + '\'' +
+						", username='" + username + '\'' +
+						", facebookId='" + facebookId + '\'' +
+						", role='" + role + '\'' +
+						", firstName='" + firstName + '\'' +
+						", lastName='" + lastName + '\'' +
+						", knownAs='" + knownAs + '\'' +
+						", gender='" + gender + '\'' +
+						", emailAddress='" + emailAddress + '\'' +
+						", contactNumber='" + contactNumber + '\'' +
+						", emergencyContactName='" + emergencyContactName + '\'' +
+						", emergencyContactNumber='" + emergencyContactNumber + '\'' +
+						", rowingPoints='" + rowingPoints + '\'' +
+						", sculling='" + sculling + '\'' +
+						", scullingPoints='" + scullingPoints + '\'' +
+						", sweepOarSide='" + sweepOarSide + '\'' +
+						", registrationNumber='" + registrationNumber + '\'' +
+						", password='" + password + '\'' +
+						", weight=" + weight +
+						", squads=" + squads +
+						", dateOfBirth=" + dateOfBirth +
+						", availabilityLastUpdated=" + availabilityLastUpdated +
+						", lastLoggedIn=" + lastLoggedIn +
+						", admin=" + admin +
+						", profileImage='" + profileImage + '\'' +
+						", inactive=" + inactive +
+						", address=" + address +
+						'}';
 	}
 
 }
