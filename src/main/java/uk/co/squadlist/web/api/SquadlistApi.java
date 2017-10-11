@@ -501,9 +501,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public List<Outing> getSquadOutings(String instance, String squadId, Date fromDate, Date toDate) {
+	public List<Outing> getOutings(String instance, List<Squad> squads, Date fromDate, Date toDate) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadOutingsUrl(instance, squadId, fromDate, toDate), accessTokenHeader());
+			final String json = httpFetcher.get(apiUrlBuilder.getOutingsUrl(instance, squads, fromDate, toDate), accessTokenHeader());
 			return jsonDeserializer.deserializeListOfOutings(json);
 
 		} catch (Exception e) {
