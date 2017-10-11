@@ -76,12 +76,6 @@ public class ApiUrlBuilder {
 		return getSquadUrl(instance, squadId) + "/members";
 	}
 
-	private String getSquadOutingsUrl(String instance, String squadId, Date fromDate, Date toDate) {
-		final StringBuilder url = new StringBuilder(getSquadUrl(instance, squadId) + "/outings");
-		appendDates(url, fromDate, toDate);
-		return url.toString();
-	}
-
 	public String getOutingsUrl(String instance, List<Squad> squads, Date fromDate, Date toDate) {
 		final StringBuilder url = new StringBuilder(getOutingsUrl(instance));
 		appendDates(url, fromDate, toDate);
@@ -95,8 +89,16 @@ public class ApiUrlBuilder {
 		return url.toString();
 	}
 
-	public String getSquadOutingsMonthsUrl(String instance, String squadId) {
-		return getSquadOutingsUrl(instance, squadId, null, null) + "/months";
+	public String getOutingsMonthsUrl(String instance, List<Squad> squads) {
+		final StringBuilder url = new StringBuilder(getOutingsUrl(instance) + "/months");
+
+		List<String> squadIds = Lists.newArrayList();
+		for(Squad squad: squads) {
+			squadIds.add(squad.getId());
+		}
+
+		url.append("?squads=" + Joiner.on("%2E").join(squadIds));
+		return url.toString();
 	}
 
 	public String getMembersUrl(String instance) {

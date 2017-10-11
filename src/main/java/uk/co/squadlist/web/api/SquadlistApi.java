@@ -512,9 +512,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Map<String, Integer> getSquadOutingMonths(String instance, String squadId) {
+	public Map<String, Integer> getOutingMonths(String instance, List<Squad> squads) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadOutingsMonthsUrl(instance, squadId), accessTokenHeader());
+			final String json = httpFetcher.get(apiUrlBuilder.getOutingsMonthsUrl(instance, squads), accessTokenHeader());
 			return jsonDeserializer.deserializeOutingsMonthsMap(json);
 
 		} catch (Exception e) {
