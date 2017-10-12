@@ -98,7 +98,7 @@ public class ApiUrlBuilder {
 			squadIds.add(squad.getId());
 		}
 
-		url.append("?squads=" + Joiner.on("%2E").join(squadIds));
+		url.append("&squads=" + Joiner.on("%2E").join(squadIds));
 		return url.toString();
 	}
 
