@@ -89,8 +89,9 @@ public class ApiUrlBuilder {
 		return url.toString();
 	}
 
-	public String getOutingsMonthsUrl(String instance, List<Squad> squads) {
+	public String getOutingsMonthsUrl(String instance, List<Squad> squads, Date fromDate, Date toDate) {
 		final StringBuilder url = new StringBuilder(getOutingsUrl(instance) + "/months");
+		appendDates(url, fromDate, toDate);
 
 		List<String> squadIds = Lists.newArrayList();
 		for(Squad squad: squads) {
