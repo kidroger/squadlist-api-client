@@ -163,21 +163,6 @@ public class SquadlistApi {
 		}
 	}
 
-	public SubscriptionRequest createSubscriptionRequest(SubscriptionRequest subscriptionRequest) throws InvalidSubscriptionRequestException {
-		try {
-			final HttpPost post = requestBuilder.buildCreateSubscriptionRequestRequest(subscriptionRequest);
-			addAccessToken(post);
-			return jsonDeserializer.deserializeSubscriptionRequest(httpFetcher.post(post));
-
-		} catch (HttpBadRequestException e) {
-			throw new InvalidSubscriptionRequestException();
-
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
-
 	public Instance createInstance(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff, String governingBody) throws InvalidInstanceException {
 		try {
 			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name, timeZone, availabilityVisible, tariff, governingBody);
@@ -197,18 +182,6 @@ public class SquadlistApi {
 			final HttpPut put = requestBuilder.buildUpdateInstanceRequest(instance);
 			addAccessToken(put);
 			return jsonDeserializer.deserializeInstanceDetails(httpFetcher.put(put));
-
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
-
-	public SubscriptionRequest updateSubscriptionRequest(SubscriptionRequest subscriptonRequest) {
-		try {
-			final HttpPost post = requestBuilder.buildUpdateSubscriptionRequestRequest(subscriptonRequest);
-			addAccessToken(post);
-			return jsonDeserializer.deserializeSubscriptionRequest(httpFetcher.post(post));
 
 		} catch (Exception e) {
 			log.error(e);

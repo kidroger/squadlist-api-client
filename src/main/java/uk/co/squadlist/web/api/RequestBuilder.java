@@ -31,7 +31,6 @@ import uk.co.squadlist.web.model.Member;
 import uk.co.squadlist.web.model.Outing;
 import uk.co.squadlist.web.model.Squad;
 import uk.co.squadlist.web.model.Subscription;
-import uk.co.squadlist.web.model.SubscriptionRequest;
 import uk.co.squadlist.web.model.Tariff;
 
 import com.google.common.collect.Lists;
@@ -60,13 +59,6 @@ public class RequestBuilder {
 		HttpEntity entity = new StringEntity(objectMapper.writeValueAsString(instance), UTF8);
 		put.setEntity(entity);
 		return put;
-	}
-
-	public HttpPost buildUpdateSubscriptionRequestRequest(SubscriptionRequest subscriptonRequest) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
-		final HttpPost post = new HttpPost(apiUrlBuilder.getSubscriptionRequestUrl(subscriptonRequest.getId()));
-		HttpEntity entity = new StringEntity(objectMapper.writeValueAsString(subscriptonRequest), UTF8);
-		post.setEntity(entity);
-		return post;
 	}
 
 	public HttpPost buildCreateBoatRequest(String instance, Boat boat) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
@@ -241,12 +233,6 @@ public class RequestBuilder {
 		nameValuePairs.add(new BasicNameValuePair("currentPassword", currentPassword));
 		nameValuePairs.add(new BasicNameValuePair("newPassword", newPassword));
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-		return post;
-	}
-
-	public HttpPost buildCreateSubscriptionRequestRequest(SubscriptionRequest subscriptionRequest) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
-		final HttpPost post = new HttpPost(apiUrlBuilder.getSubscriptionRequestsUrl());
-		post.setEntity(new StringEntity(new ObjectMapper().writeValueAsString(subscriptionRequest), UTF8));
 		return post;
 	}
 
