@@ -15,7 +15,7 @@ public class Instance {
 	public Instance() {
 	}
 
-	public Instance(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff, List<Subscription> subscriptions, String governingBody) {
+	public Instance(String id, String name, String timeZone, boolean availabilityVisible, List<Subscription> subscriptions, String governingBody) {
 		this.id = id;
 		this.name = name;
 		this.timeZone = timeZone;

@@ -1,34 +1,57 @@
 package uk.co.squadlist.web.model;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.Date;
 
-public enum Tariff {
+public class Tariff {
 
-	PRE_JUNE_2015(null, BigDecimal.ZERO), ONE_MONTH_FREE_TRIAL(1, BigDecimal.ZERO), STANDARD_THREE_MONTHS(3, BigDecimal.valueOf(36));
-
+	private String id;
+	private String name;
 	Integer duration;
-	BigDecimal price;
+	Date expires;
 
-	private Tariff(Integer duration, BigDecimal price) {
-		this.duration = duration;
-		this.price = price;
-		price.setScale(2, RoundingMode.HALF_UP);
+	public Tariff() {
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Integer getDuration() {
 		return duration;
 	}
 
-	public BigDecimal getPrice() {
-		return price;
+	public void setDuration(Integer duration) {
+		this.duration = duration;
 	}
-	
-	public String getDisplayPrice() {
-		if (price.compareTo(BigDecimal.ZERO) == 0) {
-			return "Free";
-		}
-		return "£" + price.toPlainString() + " inc VAT";
+
+	public Date getExpires() {
+		return expires;
+	}
+
+	public void setExpires(Date expires) {
+		this.expires = expires;
+	}
+
+	@Override
+	public String toString() {
+		return "Tariff{" +
+						"id='" + id + '\'' +
+						", name='" + name + '\'' +
+						", duration=" + duration +
+						", expires=" + expires +
+						'}';
 	}
 
 }

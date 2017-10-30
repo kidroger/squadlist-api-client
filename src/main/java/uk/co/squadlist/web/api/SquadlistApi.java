@@ -163,9 +163,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Instance createInstance(String id, String name, String timeZone, boolean availabilityVisible, Tariff tariff, String governingBody) throws InvalidInstanceException {
+	public Instance createInstance(String id, String name, String timeZone, boolean availabilityVisible, String governingBody) throws InvalidInstanceException {
 		try {
-			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name, timeZone, availabilityVisible, tariff, governingBody);
+			final HttpPost post = requestBuilder.buildCreateInstanceRequest(id, name, timeZone, availabilityVisible, governingBody);
 			addAccessToken(post);
 			return jsonDeserializer.deserializeInstanceDetails(httpFetcher.post(post));
 
