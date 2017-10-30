@@ -315,26 +315,6 @@ public class SquadlistApi {
 		}
 	}
 
-	public Member auth(String instance, String username, String password) {
-		try {
-			final HttpPost post = requestBuilder.buildAuthPost(instance, username, password);
-			addAccessToken(post);
-
-			final HttpResponse response = client.execute(post);
-			final int statusCode = response.getStatusLine().getStatusCode();
-			if (statusCode == HttpStatus.SC_OK) {
-				return jsonDeserializer.deserializeMemberDetails(EntityUtils.toString(response.getEntity()));
-			}
-
-			consumeAndLogErrorResponse(response);
-			return null;
-
-		} catch (Exception e) {
-			log.error("Error while attempting to make auth call", e);
-			throw new RuntimeException(e);
-		}
-	}
-
 	public Member authFacebook(String instance, String token) {
 		try {
 			final HttpPost post = requestBuilder.buildAuthFacebookPost(instance, token);
