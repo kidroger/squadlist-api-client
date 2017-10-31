@@ -211,10 +211,16 @@ public class RequestBuilder {
 	}
 
 	public HttpPost buildAuthFacebookPost(String instance, String token) throws UnsupportedEncodingException {
-		final HttpPost post = new HttpPost(apiUrlBuilder.getAuthUrlFor(instance) + "/facebook");
-		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
-		nameValuePairs.add(new BasicNameValuePair("token", token));
+		final HttpPost post = new HttpPost(apiUrlBuilder.getFacebookAuthUrlFor(instance));
+    final List<NameValuePair> nameValuePairs = Lists.newArrayList();
+    nameValuePairs.add(new BasicNameValuePair("token", token));
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		return post;
+	}
+
+	public HttpPost buildVerifyPost(String token) throws UnsupportedEncodingException {
+		final HttpPost post = new HttpPost(apiUrlBuilder.getVerifyUrl());
+		post.setHeader("Authorization", "Bearer " + token);
 		return post;
 	}
 

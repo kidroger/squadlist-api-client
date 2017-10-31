@@ -1,12 +1,8 @@
 package uk.co.squadlist.web.api;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -25,39 +21,12 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
+import uk.co.eelpieconsulting.common.http.*;
+import uk.co.squadlist.web.exceptions.*;
+import uk.co.squadlist.web.model.*;
 
-import uk.co.eelpieconsulting.common.http.HttpBadRequestException;
-import uk.co.eelpieconsulting.common.http.HttpFetchException;
-import uk.co.eelpieconsulting.common.http.HttpFetcher;
-import uk.co.eelpieconsulting.common.http.HttpForbiddenException;
-import uk.co.eelpieconsulting.common.http.HttpNotFoundException;
-import uk.co.squadlist.web.exceptions.InvalidAvailabilityOptionException;
-import uk.co.squadlist.web.exceptions.InvalidBoatException;
-import uk.co.squadlist.web.exceptions.InvalidImageException;
-import uk.co.squadlist.web.exceptions.InvalidInstanceException;
-import uk.co.squadlist.web.exceptions.InvalidMemberException;
-import uk.co.squadlist.web.exceptions.InvalidOutingException;
-import uk.co.squadlist.web.exceptions.InvalidSquadException;
-import uk.co.squadlist.web.exceptions.InvalidSubscriptionRequestException;
-import uk.co.squadlist.web.exceptions.UnknownBoatException;
-import uk.co.squadlist.web.exceptions.UnknownInstanceException;
-import uk.co.squadlist.web.exceptions.UnknownMemberException;
-import uk.co.squadlist.web.exceptions.UnknownOutingException;
-import uk.co.squadlist.web.exceptions.UnknownSquadException;
-import uk.co.squadlist.web.model.AvailabilityOption;
-import uk.co.squadlist.web.model.Boat;
-import uk.co.squadlist.web.model.Instance;
-import uk.co.squadlist.web.model.Member;
-import uk.co.squadlist.web.model.Outing;
-import uk.co.squadlist.web.model.OutingAvailability;
-import uk.co.squadlist.web.model.OutingWithSquadAvailability;
-import uk.co.squadlist.web.model.Squad;
-import uk.co.squadlist.web.model.SubscriptionRequest;
-import uk.co.squadlist.web.model.Tariff;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.io.IOException;
+import java.util.*;
 
 public class SquadlistApi {
 
@@ -311,6 +280,24 @@ public class SquadlistApi {
 
 		} catch (Exception e) {
 			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Member verify(String token) {
+		try {
+			final HttpPost post = requestBuilder.buildVerifyPost(token);
+			final HttpResponse response = client.execute(post);
+			final int statusCode = response.getStatusLine().getStatusCode();
+			if (statusCode == HttpStatus.SC_OK) {
+				return jsonDeserializer.deserializeMemberDetails(EntityUtils.toString(response.getEntity()));
+			}
+
+			consumeAndLogErrorResponse(response);
+			return null;
+
+		} catch (Exception e) {
+			log.error("Error while attempting to make auth call", e);
 			throw new RuntimeException(e);
 		}
 	}

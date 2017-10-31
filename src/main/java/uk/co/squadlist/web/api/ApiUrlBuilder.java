@@ -130,8 +130,12 @@ public class ApiUrlBuilder {
 		return getAvailabilityOptionsUrl(instance) + "/" + id;
 	}
 
-	public String getAuthUrlFor(String instance){
-		return getInstanceUrl(instance) + "/auth";
+	public String getFacebookAuthUrlFor(String instance){
+		return getInstanceUrl(instance) + "/auth/facebook";
+	}
+
+	public String getVerifyUrl(){
+		return apiUrl + "/verify";
 	}
 
 	public String getResetPasswordUrl(String instance) {
