@@ -829,8 +829,7 @@ public class SquadlistApi {
 		}
 	}
 	
-	public Map<String, Object> requestAccessToken(String instance, String username, String password, String clientId, String clientSecret) throws ClientProtocolException, IOException {
-		
+	public String requestAccessToken(String instance, String username, String password, String clientId, String clientSecret) throws ClientProtocolException, IOException {
 		final HttpPost post = new HttpPost(apiUrlBuilder.getRequestTokenUrl());
 		
 		final List<NameValuePair> nameValuePairs = Lists.newArrayList();	// TODO push to request builder
@@ -841,14 +840,18 @@ public class SquadlistApi {
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				
 		applyHeadersTo(post, clientAuthHeader(clientId, clientSecret));
-				
+
 		HttpResponse response = client.execute(post);
 		if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-			return jsonDeserializer.deserializeMap(EntityUtils.toString(response.getEntity()));
+			Map<String, Object> stringObjectMap = jsonDeserializer.deserializeMap(EntityUtils.toString(response.getEntity()));
+			return (String) stringObjectMap.get("access_token");
+		} else if (response.getStatusLine().getStatusCode() == HttpStatus.SC_UNAUTHORIZED) {
+			consumeAndLogErrorResponse(response);	// TODO not stricly an error
+			return null;
+		} else {
+			consumeAndLogErrorResponse(response);
+			throw new RuntimeException();
 		}
-		
-		consumeAndLogErrorResponse(response);
-		throw new RuntimeException();
 	}
 	
 	private void addAccessToken(final HttpRequestBase request) {
