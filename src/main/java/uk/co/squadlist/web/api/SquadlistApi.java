@@ -613,7 +613,6 @@ public class SquadlistApi {
 			log.error(e);
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	@Deprecated
@@ -853,7 +852,31 @@ public class SquadlistApi {
 			throw new RuntimeException();
 		}
 	}
-	
+
+	public String requestAccessTokenWithFacebook(String instance, String facebookAccessToken, String clientId, String clientSecret) throws ClientProtocolException, IOException {
+		final HttpPost post = new HttpPost(apiUrlBuilder.getRequestTokenUrl());
+
+		final List<NameValuePair> nameValuePairs = Lists.newArrayList();	// TODO push to request builder
+		nameValuePairs.add(new BasicNameValuePair("grant_type", "facebook"));
+		nameValuePairs.add(new BasicNameValuePair("token", facebookAccessToken));
+		nameValuePairs.add(new BasicNameValuePair("client_id", clientId));
+		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+		applyHeadersTo(post, clientAuthHeader(clientId, clientSecret));
+
+		HttpResponse response = client.execute(post);
+		if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+			Map<String, Object> stringObjectMap = jsonDeserializer.deserializeMap(EntityUtils.toString(response.getEntity()));
+			return (String) stringObjectMap.get("access_token");
+		} else if (response.getStatusLine().getStatusCode() == HttpStatus.SC_UNAUTHORIZED) {
+			consumeAndLogErrorResponse(response);	// TODO not stricly an error
+			return null;
+		} else {
+			consumeAndLogErrorResponse(response);
+			throw new RuntimeException();
+		}
+	}
+
 	private void addAccessToken(final HttpRequestBase request) {
 		final Map<String, String> authHeaders = accessTokenHeader();
 		applyHeadersTo(request, authHeaders);
