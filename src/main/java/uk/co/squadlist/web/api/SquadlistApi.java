@@ -833,7 +833,8 @@ public class SquadlistApi {
 		
 		final List<NameValuePair> nameValuePairs = Lists.newArrayList();	// TODO push to request builder
 		nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
-		nameValuePairs.add(new BasicNameValuePair("username", instance + "/" + username));
+		nameValuePairs.add(new BasicNameValuePair("instance", instance));
+		nameValuePairs.add(new BasicNameValuePair("username", username));
 		nameValuePairs.add(new BasicNameValuePair("password", password));
 		nameValuePairs.add(new BasicNameValuePair("client_id", clientId));
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -858,6 +859,7 @@ public class SquadlistApi {
 
 		final List<NameValuePair> nameValuePairs = Lists.newArrayList();	// TODO push to request builder
 		nameValuePairs.add(new BasicNameValuePair("grant_type", "facebook"));
+		nameValuePairs.add(new BasicNameValuePair("instance", instance));
 		nameValuePairs.add(new BasicNameValuePair("token", facebookAccessToken));
 		nameValuePairs.add(new BasicNameValuePair("client_id", clientId));
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
