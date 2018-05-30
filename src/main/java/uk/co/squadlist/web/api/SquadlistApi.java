@@ -488,9 +488,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Member getMemberDetails(String instance, String memberId) throws UnknownMemberException {
+	public Member getMember(String memberId) throws UnknownMemberException {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getMemberDetailsUrl(instance, memberId), accessTokenHeader());
+			final String json = httpFetcher.get(apiUrlBuilder.getMemberUrl(memberId), accessTokenHeader());
 			return jsonDeserializer.deserializeMemberDetails(json);
 
 		} catch (HttpNotFoundException e) {

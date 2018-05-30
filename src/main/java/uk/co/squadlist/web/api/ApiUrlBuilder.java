@@ -110,6 +110,10 @@ public class ApiUrlBuilder {
 		return getInstanceUrl(instance) + "/members/" + urlEncode(memberId);
 	}
 
+	public String getMemberUrl(String memberId) {
+		return apiUrl + "/members/" + urlEncode(memberId);
+	}
+
 	public String getOutingsUrl(String instance) {
 		return getInstanceUrl(instance) + "/outings";
 	}
