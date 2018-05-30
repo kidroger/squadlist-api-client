@@ -62,18 +62,18 @@ public class ApiUrlBuilder {
 		return getInstanceUrl(instance) + "/squads";
 	}
 	
-	public String getSquadUrl(String instance, String squadId) {
-		return getSquadsUrl(instance) + "/" + squadId;
+	public String getSquadUrl(String squadId) {
+		return apiUrl + "/squads/" + squadId;
 	}
 
-	public String getSquadAvailabilityUrl(String instance, String squadId, Date fromDate, Date toDate) {
-		final StringBuilder url = new StringBuilder(getSquadUrl(instance, squadId) + "/availability");
+	public String getSquadAvailabilityUrl(String squadId, Date fromDate, Date toDate) {
+		final StringBuilder url = new StringBuilder(getSquadUrl(squadId) + "/availability");
 		appendDates(url, fromDate, toDate);
 		return url.toString();
 	}
 
-	public String getSquadMembersUrl(String instance, String squadId) {
-		return getSquadUrl(instance, squadId) + "/members";
+	public String getSquadMembersUrl(String squadId) {
+		return getSquadUrl(squadId) + "/members";
 	}
 
 	public String getOutingsUrl(String instance, List<Squad> squads, Date fromDate, Date toDate) {

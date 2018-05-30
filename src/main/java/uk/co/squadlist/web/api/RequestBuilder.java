@@ -103,16 +103,16 @@ public class RequestBuilder {
 		return post;
 	}
 
-	public HttpPost buildUpdateSquadRequest(String instance, Squad squad) throws IOException {
+	public HttpPost buildUpdateSquadRequest(Squad squad) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(squad), UTF8);
-		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(instance, squad.getId()));
+		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(squad.getId()));
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildSetSquadMembersRequest(String instance, String squadId, Set<String> members) throws IOException {
+	public HttpPost buildSetSquadMembersRequest(String squadId, Set<String> members) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(members), UTF8);
-		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(instance, squadId) + "/members");
+		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(squadId) + "/members");
 		post.setEntity(entity);
 		return post;
 	}
@@ -177,8 +177,8 @@ public class RequestBuilder {
 		return new HttpDelete(apiUrlBuilder.getMemberUrl(member.getId()));
 	}
 
-	public HttpDelete buildDeleteSquadRequest(String instance, String id) {
-		return new HttpDelete(apiUrlBuilder.getSquadUrl(instance, id));
+	public HttpDelete buildDeleteSquadRequest(String id) {
+		return new HttpDelete(apiUrlBuilder.getSquadUrl(id));
 	}
 
 	public HttpDelete buildDeleteAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption) {

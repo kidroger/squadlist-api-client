@@ -516,9 +516,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Squad getSquad(String instance, String squadId) throws UnknownSquadException {
+	public Squad getSquad(String squadId) throws UnknownSquadException {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadUrl(instance, squadId), accessTokenHeader());
+			final String json = httpFetcher.get(apiUrlBuilder.getSquadUrl(squadId), accessTokenHeader());
 			return jsonDeserializer.deserializeSquad(json);
 
 		} catch (HttpNotFoundException e) {
@@ -555,9 +555,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public List<Member> getSquadMembers(String instance, String squadId) {
+	public List<Member> getSquadMembers(String squadId) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadMembersUrl(instance, squadId), accessTokenHeader());
+			final String json = httpFetcher.get(apiUrlBuilder.getSquadMembersUrl(squadId), accessTokenHeader());
 			return jsonDeserializer.deserializeListOfMembers(json);
 
 		} catch (Exception e) {
@@ -566,9 +566,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public List<OutingWithSquadAvailability> getSquadAvailability(String instance, String squadId, Date fromDate, Date toDate) {
+	public List<OutingWithSquadAvailability> getSquadAvailability(String squadId, Date fromDate, Date toDate) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getSquadAvailabilityUrl(instance, squadId, fromDate, toDate), accessTokenHeader());
+			final String json = httpFetcher.get(apiUrlBuilder.getSquadAvailabilityUrl(squadId, fromDate, toDate), accessTokenHeader());
 			return jsonDeserializer.deserializeSquadAvailability(json);
 
 		} catch (Exception e) {
@@ -703,9 +703,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Squad updateSquad(String instance, Squad squad) {
+	public Squad updateSquad(Squad squad) {
 		try {
-			final HttpPost post = requestBuilder.buildUpdateSquadRequest(instance, squad);
+			final HttpPost post = requestBuilder.buildUpdateSquadRequest(squad);
 			addAccessToken(post);
 
 			return jsonDeserializer.deserializeSquad(httpFetcher.post(post));
@@ -716,9 +716,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public void deleteSquad(String instance, Squad squad) {
+	public void deleteSquad(Squad squad) {
 		try {
-			final HttpDelete delete = requestBuilder.buildDeleteSquadRequest(instance, squad.getId());
+			final HttpDelete delete = requestBuilder.buildDeleteSquadRequest(squad.getId());
 			addAccessToken(delete);
 
 			HttpResponse response = client.execute(delete);
@@ -774,8 +774,8 @@ public class SquadlistApi {
 		}
 	}
 
-	public Squad setSquadMembers(String instance, String squadId, Set<String> members) throws JsonGenerationException, JsonMappingException, IOException, HttpNotFoundException, HttpBadRequestException, HttpForbiddenException, HttpFetchException {
-		final HttpPost post = requestBuilder.buildSetSquadMembersRequest(instance, squadId, members);
+	public Squad setSquadMembers(String squadId, Set<String> members) throws JsonGenerationException, JsonMappingException, IOException, HttpNotFoundException, HttpBadRequestException, HttpForbiddenException, HttpFetchException {
+		final HttpPost post = requestBuilder.buildSetSquadMembersRequest(squadId, members);
 		addAccessToken(post);
 
 		return jsonDeserializer.deserializeSquadDetails(httpFetcher.post(post));
