@@ -32,8 +32,8 @@ public class ApiUrlBuilder {
 		return getInstanceUrl(instance) + "/boats";
 	}
 	
-	public String getMembersAvailabilityUrl(String instance, String memberId, Date fromDate, Date toDate) {
-		final StringBuilder url = new StringBuilder(getMemberDetailsUrl(instance, memberId) + "/availability");
+	public String getMembersAvailabilityUrl(String memberId, Date fromDate, Date toDate) {
+		final StringBuilder url = new StringBuilder(getMemberUrl(memberId) + "/availability");
 		appendDates(url, fromDate, toDate);
 		return url.toString();
 	}
@@ -104,10 +104,6 @@ public class ApiUrlBuilder {
 
 	public String getMembersUrl(String instance) {
 		return getInstanceUrl(instance) + "/members";
-	}
-
-	public String getMemberDetailsUrl(String instance, String memberId) {
-		return getInstanceUrl(instance) + "/members/" + urlEncode(memberId);
 	}
 
 	public String getMemberUrl(String memberId) {

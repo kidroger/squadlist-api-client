@@ -1,11 +1,6 @@
 package uk.co.squadlist.web.api;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.UnsupportedCharsetException;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.collect.Lists;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -19,21 +14,14 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import uk.co.squadlist.web.model.*;
 
-import uk.co.squadlist.web.model.Availability;
-import uk.co.squadlist.web.model.AvailabilityOption;
-import uk.co.squadlist.web.model.Boat;
-import uk.co.squadlist.web.model.Instance;
-import uk.co.squadlist.web.model.Member;
-import uk.co.squadlist.web.model.Outing;
-import uk.co.squadlist.web.model.Squad;
-import uk.co.squadlist.web.model.Subscription;
-import uk.co.squadlist.web.model.Tariff;
-
-import com.google.common.collect.Lists;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.UnsupportedCharsetException;
+import java.util.List;
+import java.util.Set;
 
 public class RequestBuilder {
 
@@ -47,35 +35,35 @@ public class RequestBuilder {
 		this.objectMapper = new ObjectMapper();
 	}
 
-	public HttpPost buildCreateInstanceRequest(String id, String name, String timeZone, boolean availabilityVisible, String governingBody) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildCreateInstanceRequest(String id, String name, String timeZone, boolean availabilityVisible, String governingBody) throws IOException {
 		HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Instance(id, name, timeZone, availabilityVisible, Lists.<Subscription>newArrayList(), governingBody)), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getInstancesUrl());
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPut buildUpdateInstanceRequest(Instance instance) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPut buildUpdateInstanceRequest(Instance instance) throws IOException {
 		final HttpPut put = new HttpPut(apiUrlBuilder.getInstancesUrl() + "/" + instance.getId());
 		HttpEntity entity = new StringEntity(objectMapper.writeValueAsString(instance), UTF8);
 		put.setEntity(entity);
 		return put;
 	}
 
-	public HttpPost buildCreateBoatRequest(String instance, Boat boat) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildCreateBoatRequest(String instance, Boat boat) throws UnsupportedCharsetException, IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(boat), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getBoatsUrl(instance));
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildCreateMemberRequest(String instance, Member member) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildCreateMemberRequest(String instance, Member member) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(member), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getMembersUrl(instance));
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildCreateAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildCreateAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(availabilityOption), UTF8);
 		String availabilityOptionsUrl = apiUrlBuilder.getAvailabilityOptionsUrl(instance);
 		final HttpPost post = new HttpPost(availabilityOptionsUrl);
@@ -83,71 +71,71 @@ public class RequestBuilder {
 		return post;
 	}
 
-	public HttpPost buildUpdateMemberRequest(String instance, Member member) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildUpdateMemberRequest(Member member) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(member), UTF8);
-		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()));
+		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberUrl(member.getId()));
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildCreateSquadRequest(String instance, Squad squad) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildCreateSquadRequest(String instance, Squad squad) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(squad), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadsUrl(instance));
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildUpdateAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildUpdateAvailabilityOptionRequest(String instance, AvailabilityOption availabilityOption) throws UnsupportedCharsetException, IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(availabilityOption), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getAvailabilityOptionUrl(instance, availabilityOption.getId()));
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildUpdateMemberProfileImageRequest(String instance, Member member, byte[] image) {
+	public HttpPost buildUpdateMemberProfileImageRequest(Member member, byte[] image) {
 		final HttpEntity entity = MultipartEntityBuilder.create().
 				setMode(HttpMultipartMode.BROWSER_COMPATIBLE).
 				addPart("image", new ByteArrayBody(image, "image")).
 				build();
 
-		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()) + "/profileimage");
+		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberUrl(member.getId()) + "/profileimage");
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildUpdateSquadRequest(String instance, Squad squad) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildUpdateSquadRequest(String instance, Squad squad) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(squad), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(instance, squad.getId()));
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildSetSquadMembersRequest(String instance, String squadId, Set<String> members) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildSetSquadMembersRequest(String instance, String squadId, Set<String> members) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(members), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadUrl(instance, squadId) + "/members");
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildSetAdminsRequest(String instance, Set<String> admins) throws UnsupportedCharsetException, JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildSetAdminsRequest(String instance, Set<String> admins) throws UnsupportedCharsetException, IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(admins), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getAdminsUrl(instance));
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildSetAvailabilityRequest(String instance, Member member, Outing outing, AvailabilityOption availabilityOption) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildSetAvailabilityRequest(String instance, Member member, Outing outing, AvailabilityOption availabilityOption) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Availability(member, outing, availabilityOption)), UTF8);
 		final HttpPost post = new HttpPost(apiUrlBuilder.getOutingAvailabilityUrl(instance, outing.getId()));
 		post.setEntity(entity);
 		return post;
 	}
 
-	public HttpPost buildCreateOutingPost(String instance, Outing outing, int repeats) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildCreateOutingPost(String instance, Outing outing, int repeats) throws IOException {
 		return buildOutingPostTo(outing, apiUrlBuilder.getOutingsUrl(instance), repeats);
 	}
 
-	public HttpPost buildUpdateOutingPost(String instance, Outing outing) throws JsonGenerationException, JsonMappingException, IOException {
+	public HttpPost buildUpdateOutingPost(String instance, Outing outing) throws IOException {
 		return buildOutingPostTo(outing, apiUrlBuilder.getOutingUrl(instance, outing.getId()), null);
 	}
 
@@ -185,8 +173,8 @@ public class RequestBuilder {
 		return new HttpDelete(apiUrlBuilder.getAvailabilityOptionUrl(instance, id));
 	}
 
-	public HttpDelete buildDeleteMemberRequest(String instance, Member member) {
-		return new HttpDelete(apiUrlBuilder.getMemberDetailsUrl(instance, member.getId()));
+	public HttpDelete buildDeleteMemberRequest(Member member) {
+		return new HttpDelete(apiUrlBuilder.getMemberUrl(member.getId()));
 	}
 
 	public HttpDelete buildDeleteSquadRequest(String instance, String id) {
@@ -224,8 +212,8 @@ public class RequestBuilder {
 		return post;
 	}
 
-	public HttpPost buildChangePasswordPost(String instance, String memberId, String currentPassword, String newPassword) throws UnsupportedEncodingException {
-		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberDetailsUrl(instance, memberId) + "/password");
+	public HttpPost buildChangePasswordPost(String memberId, String currentPassword, String newPassword) throws UnsupportedEncodingException {
+		final HttpPost post = new HttpPost(apiUrlBuilder.getMemberUrl(memberId) + "/password");
 		final List<NameValuePair> nameValuePairs = Lists.newArrayList();
 		nameValuePairs.add(new BasicNameValuePair("currentPassword", currentPassword));
 		nameValuePairs.add(new BasicNameValuePair("newPassword", newPassword));
@@ -233,7 +221,7 @@ public class RequestBuilder {
 		return post;
 	}
 
-	private HttpPost buildOutingPostTo(Outing outing, String url, Integer repeats) throws IOException, JsonGenerationException, JsonMappingException {
+	private HttpPost buildOutingPostTo(Outing outing, String url, Integer repeats) throws IOException {
 		final HttpPost post = new HttpPost(url);
 		post.setEntity(new StringEntity(new ObjectMapper().writeValueAsString(outing), UTF8));
 		if (repeats != null) {

@@ -371,9 +371,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public boolean changePassword(String instance, String memberId, String currentPassword, String newPassword) {
+	public boolean changePassword(String memberId, String currentPassword, String newPassword) {
 		try {
-			final HttpPost post = requestBuilder.buildChangePasswordPost(instance, memberId, currentPassword, newPassword);
+			final HttpPost post = requestBuilder.buildChangePasswordPost(memberId, currentPassword, newPassword);
 			addAccessToken(post);
 
 			final HttpResponse response = client.execute(post);
@@ -394,9 +394,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public List<OutingAvailability> getAvailabilityFor(String instance, String memberId, Date fromDate, Date toDate) {
+	public List<OutingAvailability> getAvailabilityFor(String memberId, Date fromDate, Date toDate) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getMembersAvailabilityUrl(instance, memberId, fromDate, toDate), accessTokenHeader());
+			final String json = httpFetcher.get(apiUrlBuilder.getMembersAvailabilityUrl(memberId, fromDate, toDate), accessTokenHeader());
 			return jsonDeserializer.deserializeListOfOutingAvailability(json);
 
 		} catch (Exception e) {
@@ -463,9 +463,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Map<String, Integer> getMemberOutingMonths(String instance, String memberId) {
+	public Map<String, Integer> getMemberOutingMonths(String memberId) {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getMemberDetailsUrl(instance, memberId) + "/outings/months", accessTokenHeader());
+			final String json = httpFetcher.get(apiUrlBuilder.getMembersUrl(memberId) + "/outings/months", accessTokenHeader());
 			return jsonDeserializer.deserializeOutingsMonthsMap(json);
 
 		} catch (Exception e) {
@@ -663,9 +663,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Member updateMemberDetails(String instance, Member member) {
+	public Member updateMemberDetails(Member member) {
 		try {
-			final HttpPost post = requestBuilder.buildUpdateMemberRequest(instance, member);
+			final HttpPost post = requestBuilder.buildUpdateMemberRequest(member);
 			addAccessToken(post);
 
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
@@ -676,9 +676,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public void deleteMember(String instance, Member member) {
+	public void deleteMember(Member member) {
 		try {
-			final HttpDelete delete = requestBuilder.buildDeleteMemberRequest(instance, member);
+			final HttpDelete delete = requestBuilder.buildDeleteMemberRequest(member);
 			addAccessToken(delete);
 			httpFetcher.delete(delete);
 
@@ -688,9 +688,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Member updateMemberProfileImage(String instance, Member member, byte[] image) throws InvalidImageException {	// TODO requires a longer blocking timeout for large image; connection times out before image resize is completed
+	public Member updateMemberProfileImage(Member member, byte[] image) throws InvalidImageException {	// TODO requires a longer blocking timeout for large image; connection times out before image resize is completed
 		try {
-			final HttpPost post = requestBuilder.buildUpdateMemberProfileImageRequest(instance, member, image);
+			final HttpPost post = requestBuilder.buildUpdateMemberProfileImageRequest(member, image);
 			addAccessToken(post);
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
 
