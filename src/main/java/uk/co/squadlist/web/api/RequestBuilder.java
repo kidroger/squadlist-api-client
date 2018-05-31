@@ -124,9 +124,9 @@ public class RequestBuilder {
 		return post;
 	}
 
-	public HttpPost buildSetAvailabilityRequest(String instance, Member member, Outing outing, AvailabilityOption availabilityOption) throws IOException {
+	public HttpPost buildSetAvailabilityRequest(Member member, Outing outing, AvailabilityOption availabilityOption) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(new Availability(member, outing, availabilityOption)), UTF8);
-		final HttpPost post = new HttpPost(apiUrlBuilder.getOutingAvailabilityUrl(instance, outing.getId()));
+		final HttpPost post = new HttpPost(apiUrlBuilder.getOutingAvailabilityUrl(outing.getId()));
 		post.setEntity(entity);
 		return post;
 	}
@@ -135,8 +135,8 @@ public class RequestBuilder {
 		return buildOutingPostTo(outing, apiUrlBuilder.getOutingsUrl(instance), repeats);
 	}
 
-	public HttpPost buildUpdateOutingPost(String instance, Outing outing) throws IOException {
-		return buildOutingPostTo(outing, apiUrlBuilder.getOutingUrl(instance, outing.getId()), null);
+	public HttpPost buildUpdateOutingPost(Outing outing) throws IOException {
+		return buildOutingPostTo(outing, apiUrlBuilder.getOutingUrl(outing.getId()), null);
 	}
 
 	public HttpPost buildResetPasswordRequest(String instance, String username) throws UnsupportedEncodingException {
@@ -161,8 +161,8 @@ public class RequestBuilder {
 		return new HttpDelete(apiUrlBuilder.getInstanceUrl(id));
 	}
 
-	public HttpDelete buildDeleteOutingRequest(String instance, String id) {
-		return new HttpDelete(apiUrlBuilder.getOutingUrl(instance, id));
+	public HttpDelete buildDeleteOutingRequest(String id) {
+		return new HttpDelete(apiUrlBuilder.getOutingUrl(id));
 	}
 
 	public HttpDelete buildDeleteSubscriptionRequestRequest(String id) {

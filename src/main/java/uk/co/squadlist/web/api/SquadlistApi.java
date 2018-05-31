@@ -230,9 +230,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public void deleteOuting(String instance, String id) throws InvalidInstanceException {
+	public void deleteOuting(String id) throws InvalidInstanceException {
 		try {
-			final HttpDelete delete = requestBuilder.buildDeleteOutingRequest(instance, id);
+			final HttpDelete delete = requestBuilder.buildDeleteOutingRequest(id);
 			addAccessToken(delete);
 
 			HttpResponse response = client.execute(delete);
@@ -474,9 +474,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Map<String, AvailabilityOption> getOutingAvailability(String instance, String outingId) throws UnknownOutingException {
+	public Map<String, AvailabilityOption> getOutingAvailability(String outingId) throws UnknownOutingException {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getOutingAvailabilityUrl(instance, outingId), accessTokenHeader());
+			final String json = httpFetcher.get(apiUrlBuilder.getOutingAvailabilityUrl(outingId), accessTokenHeader());
 			return jsonDeserializer.deserializeListOfOutingAvailabilityMap(json);
 
 		} catch (HttpNotFoundException e) {
@@ -530,9 +530,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Outing getOuting(String instance, String outingId) throws UnknownOutingException {
+	public Outing getOuting(String outingId) throws UnknownOutingException {
 		try {
-			final String json = httpFetcher.get(apiUrlBuilder.getOutingUrl(instance, outingId), accessTokenHeader());
+			final String json = httpFetcher.get(apiUrlBuilder.getOutingUrl(outingId), accessTokenHeader());
 			return jsonDeserializer.deserializeOuting(json);
 
 		} catch (HttpNotFoundException e) {
@@ -588,9 +588,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public OutingAvailability setOutingAvailability(String instance, Member member, Outing outing, AvailabilityOption availabilityOption) {
+	public OutingAvailability setOutingAvailability(Member member, Outing outing, AvailabilityOption availabilityOption) {
 		try {
-			final HttpPost post = requestBuilder.buildSetAvailabilityRequest(instance, member, outing, availabilityOption);
+			final HttpPost post = requestBuilder.buildSetAvailabilityRequest(member, outing, availabilityOption);
 			addAccessToken(post);
 			return jsonDeserializer.deserializeOutingAvailability(httpFetcher.post(post));
 
@@ -758,9 +758,9 @@ public class SquadlistApi {
 		}
 	}
 
-	public Outing updateOuting(String instance, Outing outing) throws InvalidOutingException {
+	public Outing updateOuting(Outing outing) throws InvalidOutingException {
 		try {
-			final HttpPost post = requestBuilder.buildUpdateOutingPost(instance, outing);
+			final HttpPost post = requestBuilder.buildUpdateOutingPost(outing);
 			addAccessToken(post);
 
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
