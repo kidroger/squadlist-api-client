@@ -643,9 +643,10 @@ public class SquadlistApi {
 		}
 	}
 
-	public Squad createSquad(String instance, String name) throws InvalidSquadException {
+	public Squad createSquad(Instance instance, String name) throws InvalidSquadException {
 		try {
-			final HttpPost post = requestBuilder.buildCreateSquadRequest(instance, new Squad(name));
+			Squad squad = new Squad(name, instance);
+			final HttpPost post = requestBuilder.buildCreateSquadRequest(squad);
 			addAccessToken(post);
 
 			return jsonDeserializer.deserializeSquadDetails(httpFetcher.post(post));

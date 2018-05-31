@@ -78,9 +78,9 @@ public class RequestBuilder {
 		return post;
 	}
 
-	public HttpPost buildCreateSquadRequest(String instance, Squad squad) throws IOException {
+	public HttpPost buildCreateSquadRequest(Squad squad) throws IOException {
 		final HttpEntity entity = new StringEntity(new ObjectMapper().writeValueAsString(squad), UTF8);
-		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadsUrl(instance));
+		final HttpPost post = new HttpPost(apiUrlBuilder.getSquadsUrl());
 		post.setEntity(entity);
 		return post;
 	}

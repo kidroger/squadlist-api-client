@@ -29,7 +29,7 @@ public class ApiUrlBuilderTest {
 	public void instancesSquadsUrlCorrect() throws Exception {
 		final String url = urlBuilder.getSquadsUrl(INSTANCE);
 		
-		assertEquals("http://api.local/instances/test/squads", url);
+		assertEquals("http://api.local/squads?instance=test", url);
 	}
 	
 	@Test

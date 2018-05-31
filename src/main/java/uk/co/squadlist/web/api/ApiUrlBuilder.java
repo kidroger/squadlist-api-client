@@ -58,8 +58,12 @@ public class ApiUrlBuilder {
 		return getInstancesUrl() + "/" + urlEncode(instance);
 	}
 
+	public String getSquadsUrl() {
+		return apiUrl + "/squads";
+	}
+
 	public String getSquadsUrl(String instance) {
-		return getInstanceUrl(instance) + "/squads";
+		return getSquadsUrl() + "?instance=" + instance;
 	}
 	
 	public String getSquadUrl(String squadId) {
