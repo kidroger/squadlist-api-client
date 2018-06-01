@@ -1,12 +1,14 @@
 package uk.co.squadlist.web.api;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import org.apache.http.client.utils.URIBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -33,9 +35,13 @@ public class ApiUrlBuilder {
 	}
 	
 	public String getMembersAvailabilityUrl(String memberId, Date fromDate, Date toDate) {
-		final StringBuilder url = new StringBuilder(getMemberUrl(memberId) + "/availability");
-		appendDates(url, fromDate, toDate);
-		return url.toString();
+		try {
+			URIBuilder url = new URIBuilder(getMemberUrl(memberId) + "/availability");
+			appendDates(url, fromDate, toDate);
+			return url.build().toString();
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public String getInstancesUrl() {
@@ -71,9 +77,13 @@ public class ApiUrlBuilder {
 	}
 
 	public String getSquadAvailabilityUrl(String squadId, Date fromDate, Date toDate) {
-		final StringBuilder url = new StringBuilder(getSquadUrl(squadId) + "/availability");
-		appendDates(url, fromDate, toDate);
-		return url.toString();
+	  try {
+	  	final URIBuilder url = new URIBuilder(getSquadUrl(squadId) + "/availability");
+		  appendDates(url, fromDate, toDate);
+  		return url.toString();
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
 	}
 
 	public String getSquadMembersUrl(String squadId) {
@@ -81,29 +91,41 @@ public class ApiUrlBuilder {
 	}
 
 	public String getOutingsUrl(String instance, List<Squad> squads, Date fromDate, Date toDate) {
-		final StringBuilder url = new StringBuilder(getOutingsUrl(instance));
-		appendDates(url, fromDate, toDate);
+		try {
+			URIBuilder uriBuilder = new URIBuilder(getOutingsUrl());
+			uriBuilder.addParameter("instance", instance);
 
-		List<String> squadIds = Lists.newArrayList();
-		for(Squad squad: squads) {
-			squadIds.add(squad.getId());
+			appendDates(uriBuilder, fromDate, toDate);
+
+			List<String> squadIds = Lists.newArrayList();
+			for(Squad squad: squads) {
+				squadIds.add(squad.getId());
+			}
+			uriBuilder.addParameter("squads", Joiner.on(",").join(squadIds));
+
+			return uriBuilder.build().toString();
+
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
 		}
-
-		url.append("&squads=" + Joiner.on("%2E").join(squadIds));
-		return url.toString();
 	}
 
 	public String getOutingsMonthsUrl(String instance, List<Squad> squads, Date fromDate, Date toDate) {
-		final StringBuilder url = new StringBuilder(getOutingsUrl(instance) + "/months");
-		appendDates(url, fromDate, toDate);
+		try {
+			URIBuilder url = new URIBuilder(getOutingsUrl(instance) + "/months");
+			appendDates(url, fromDate, toDate);
 
-		List<String> squadIds = Lists.newArrayList();
-		for(Squad squad: squads) {
-			squadIds.add(squad.getId());
+			List<String> squadIds = Lists.newArrayList();
+			for (Squad squad : squads) {
+				squadIds.add(squad.getId());
+			}
+			url.addParameter("squads", Joiner.on(",").join(squadIds));
+
+			return url.toString();
+
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
 		}
-
-		url.append("&squads=" + Joiner.on("%2E").join(squadIds));
-		return url.toString();
 	}
 
 	public String getMembersUrl(String instance) {
@@ -122,7 +144,7 @@ public class ApiUrlBuilder {
 		return getOutingsUrl() + "/" + urlEncode(outingId);
 	}
 
-	private String getOutingsUrl() {
+	public String getOutingsUrl() {
 		return apiUrl + "/outings";
 	}
 
@@ -173,16 +195,13 @@ public class ApiUrlBuilder {
 	public String getRequestTokenUrl() {
 		return apiUrl + "/oauth/token";
 	}
-	
-	private void appendDates(final StringBuilder url, Date fromDate, Date toDate) {
-		String joiner = "?";
+
+	private void appendDates( URIBuilder url, Date fromDate, Date toDate) {
 		if (fromDate != null) {
-			url.append(joiner + "fromDate=" + dateHourMinute.print(new DateTime(fromDate)));
-			joiner = "&";
+			url.addParameter("fromDate", dateHourMinute.print(new DateTime(fromDate)));
 		}
 		if (toDate != null) {
-			url.append(joiner + "toDate=" + dateHourMinute.print(new DateTime(toDate)));
-			joiner = "&";
+			url.addParameter("toDate", dateHourMinute.print(new DateTime(toDate)));
 		}
 	}
 

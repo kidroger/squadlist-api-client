@@ -131,8 +131,8 @@ public class RequestBuilder {
 		return post;
 	}
 
-	public HttpPost buildCreateOutingPost(String instance, Outing outing, int repeats) throws IOException {
-		return buildOutingPostTo(outing, apiUrlBuilder.getOutingsUrl(instance), repeats);
+	public HttpPost buildCreateOutingPost(Outing outing, Integer repeats) throws IOException {
+		return buildOutingPostTo(outing, apiUrlBuilder.getOutingsUrl(), repeats);
 	}
 
 	public HttpPost buildUpdateOutingPost(Outing outing) throws IOException {
@@ -225,7 +225,7 @@ public class RequestBuilder {
 		final HttpPost post = new HttpPost(url);
 		post.setEntity(new StringEntity(new ObjectMapper().writeValueAsString(outing), UTF8));
 		if (repeats != null) {
-			Header header = new BasicHeader("repeats", Integer.toString(repeats));
+			Header header = new BasicHeader("repeats", Integer.toString(repeats));	// TODO move to JSON
 			post.addHeader(header);
 		}
 		return post;
