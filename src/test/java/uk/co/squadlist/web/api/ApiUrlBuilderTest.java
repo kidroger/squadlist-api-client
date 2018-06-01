@@ -26,13 +26,6 @@ public class ApiUrlBuilderTest {
 	}
 
 	@Test
-	public void instancesOutingsUrlCorrect() throws Exception {
-		final String url = urlBuilder.getOutingsUrl(INSTANCE);
-		
-		assertEquals("http://api.local/outings?instance=test", url);
-	}
-	
-	@Test
 	public void instancesSquadsUrlCorrect() throws Exception {
 		final String url = urlBuilder.getSquadsUrl(INSTANCE);
 		

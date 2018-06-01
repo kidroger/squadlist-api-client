@@ -112,8 +112,9 @@ public class ApiUrlBuilder {
 
 	public String getOutingsMonthsUrl(String instance, List<Squad> squads, Date fromDate, Date toDate) {
 		try {
-			URIBuilder url = new URIBuilder(getOutingsUrl(instance) + "/months");
-			appendDates(url, fromDate, toDate);
+			URIBuilder url = new URIBuilder(getOutingsUrl() + "/months");
+      url.addParameter("instance", instance);
+      appendDates(url, fromDate, toDate);
 
 			List<String> squadIds = Lists.newArrayList();
 			for (Squad squad : squads) {
@@ -134,10 +135,6 @@ public class ApiUrlBuilder {
 
 	public String getMemberUrl(String memberId) {
 		return apiUrl + "/members/" + urlEncode(memberId);
-	}
-
-	public String getOutingsUrl(String instance) {
-		return getOutingsUrl() + "?instance=" + urlEncode(instance);
 	}
 
 	public String getOutingUrl(String outingId) {
