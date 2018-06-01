@@ -115,11 +115,15 @@ public class ApiUrlBuilder {
 	}
 
 	public String getOutingsUrl(String instance) {
-		return getInstanceUrl(instance) + "/outings";
+		return getOutingsUrl() + "?instance=" + urlEncode(instance);
 	}
 
 	public String getOutingUrl(String outingId) {
-		return apiUrl  + "/outings/" + urlEncode(outingId);
+		return getOutingsUrl() + "/" + urlEncode(outingId);
+	}
+
+	private String getOutingsUrl() {
+		return apiUrl + "/outings";
 	}
 
 	public String getOutingAvailabilityUrl(String outingId) {
