@@ -855,6 +855,7 @@ public class SquadlistApi {
 		nameValuePairs.add(new BasicNameValuePair("username", instance + "/" + username));
 		nameValuePairs.add(new BasicNameValuePair("password", password));
 		nameValuePairs.add(new BasicNameValuePair("client_id", clientId));
+		nameValuePairs.add(new BasicNameValuePair("client_secret", clientSecret));
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				
 		applyHeadersTo(post, clientAuthHeader(clientId, clientSecret));
