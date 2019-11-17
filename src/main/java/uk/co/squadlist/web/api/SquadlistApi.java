@@ -881,6 +881,7 @@ public class SquadlistApi {
 		nameValuePairs.add(new BasicNameValuePair("instance", instance));
 		nameValuePairs.add(new BasicNameValuePair("token", facebookAccessToken));
 		nameValuePairs.add(new BasicNameValuePair("client_id", clientId));
+		nameValuePairs.add(new BasicNameValuePair("client_secret", clientSecret));
 		post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 		applyHeadersTo(post, clientAuthHeader(clientId, clientSecret));
